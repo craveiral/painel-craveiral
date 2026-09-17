@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Painel Comercial Craveiral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#EDEAE0; --surface:#F8F6EF; --surface-2:#E4DFD0; --border:#D6D0BE;
+    --ink:#21241D; --ink-2:#52564A; --ink-mute:#82806E;
+    --accent:#1B4B4A; --accent-ink:#F3F7F5; --accent-soft:#DCEAE6; --accent-line:#2E6664;
+    --secondary:#8F5420; --secondary-soft:#F0E1CC;
+    --good:#1F7A1F;
+    --series-1:#1baf7a; --series-2:#eda100;
+    --shadow: 0 1px 2px rgba(33,36,29,0.06), 0 6px 20px -8px rgba(33,36,29,0.18);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#131A16; --surface:#1A211C; --surface-2:#232B24; --border:#333F35;
+      --ink:#ECE7DA; --ink-2:#BEBBAB; --ink-mute:#8C8A78;
+      --accent:#6FC2B6; --accent-ink:#0E201E; --accent-soft:#213A36; --accent-line:#4A8B83;
+      --secondary:#D8A768; --secondary-soft:#3A2C18;
+      --good:#3FA648;
+      --series-1:#199e70; --series-2:#c98500;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 26px -10px rgba(0,0,0,0.55);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#131A16; --surface:#1A211C; --surface-2:#232B24; --border:#333F35;
+    --ink:#ECE7DA; --ink-2:#BEBBAB; --ink-mute:#8C8A78;
+    --accent:#6FC2B6; --accent-ink:#0E201E; --accent-soft:#213A36; --accent-line:#4A8B83;
+    --secondary:#D8A768; --secondary-soft:#3A2C18;
+    --good:#3FA648;
+    --series-1:#199e70; --series-2:#c98500;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 26px -10px rgba(0,0,0,0.55);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Work Sans", -apple-system, "Segoe UI", sans-serif;
+    font-size:15px; line-height:1.5;
+  }
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:600; margin:0; text-wrap:balance; }
+  .mono{ font-family:"IBM Plex Mono", "SFMono-Regular", Consolas, monospace; font-variant-numeric:tabular-nums; }
+  a{ color:var(--accent-line); }
+
+  .page{ max-width:1180px; margin:0 auto; padding-inline:20px; padding-block:28px 60px; display:flex; flex-direction:column; gap:34px; }
+
+  .topbar{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px; border-bottom:2px solid var(--accent); padding-bottom:16px; }
+  .topbar .eyebrow{ font-family:"IBM Plex Mono",monospace; font-size:0.72rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--accent-line); margin-bottom:6px; display:block; }
+  .topbar h1{ font-size:1.9rem; }
+  .topbar .meta{ font-size:0.82rem; color:var(--ink-mute); text-align:right; }
+
+  .public-banner{ background:var(--accent-soft); border:1px solid var(--accent-line); border-radius:10px; padding:10px 14px; font-size:0.8rem; color:var(--ink-2); }
+
+  section{ display:flex; flex-direction:column; gap:16px; }
+  .section-head{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:10px; }
+  .section-head h2{ font-size:1.32rem; }
+  .section-head p.sub{ margin:4px 0 0; color:var(--ink-2); font-size:0.88rem; max-width:60ch; }
+
+  /* KPI tiles */
+  .kpi-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
+  .kpi-tile{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:6px; }
+  .kpi-tile .kpi-label{ font-size:0.76rem; color:var(--ink-mute); line-height:1.3; }
+  .kpi-tile .kpi-value{ font-size:1.55rem; font-weight:600; display:flex; align-items:baseline; gap:6px; }
+  .kpi-tile .kpi-delta{ font-size:0.86rem; color:var(--good); font-weight:600; }
+  .kpi-tile .kpi-note{ font-size:0.74rem; color:var(--ink-mute); }
+
+  /* charts */
+  .chart-card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; box-shadow:var(--shadow); }
+  .chart-card h3{ font-size:1rem; margin-bottom:2px; }
+  .chart-card .chart-sub{ font-size:0.78rem; color:var(--ink-mute); margin-bottom:10px; }
+  .charts-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; }
+  .legend-row{ display:flex; gap:16px; margin-bottom:8px; flex-wrap:wrap; }
+  .legend-item{ display:flex; align-items:center; gap:6px; font-size:0.8rem; color:var(--ink-2); }
+  .legend-swatch{ width:11px; height:11px; border-radius:3px; display:inline-block; }
+  .swatch-1{ background:var(--series-1); } .swatch-2{ background:var(--series-2); }
+  svg.chart-svg{ width:100%; height:auto; display:block; }
+  .chart-grid{ stroke:var(--border); stroke-width:1; }
+  .chart-axis-label{ font-family:"IBM Plex Mono",monospace; font-size:9.5px; fill:var(--ink-mute); }
+  .chart-cat-label{ font-family:"Work Sans",sans-serif; font-size:11px; fill:var(--ink-2); }
+  .chart-value-label{ font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600; fill:var(--ink); }
+  .bar-series-1{ fill:var(--series-1); } .bar-series-2{ fill:var(--series-2); }
+  details.table-toggle{ margin-top:10px; }
+  details.table-toggle summary{ cursor:pointer; font-size:0.78rem; color:var(--accent-line); }
+  details.table-toggle table{ margin-top:8px; }
+
+  /* generic data table */
+  table.data-table{ width:100%; border-collapse:collapse; font-size:0.85rem; }
+  table.data-table th, table.data-table td{ text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); }
+  table.data-table th{ font-weight:600; color:var(--ink-2); font-size:0.74rem; text-transform:uppercase; letter-spacing:0.04em; }
+  table.data-table tbody tr:hover{ background:var(--surface-2); }
+  .table-wrap{ overflow-x:auto; background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow); }
+  .table-wrap table{ min-width:640px; }
+  .footnote{ font-size:0.76rem; color:var(--ink-mute); }
+  .empty-note{ cursor:help; border-bottom:1px dotted var(--ink-mute); white-space:nowrap; }
+  .empty-note sup{ font-size:0.72em; color:var(--ink-mute); }
+  .table-legend{ margin:10px 2px 0; }
+  .sources-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:4px; font-size:0.78rem; color:var(--ink-mute); }
+
+  .badge{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:0.7rem; font-weight:600; }
+  .badge-lighthouse{ background:var(--accent-soft); color:var(--accent-line); }
+  .badge-climber{ background:var(--secondary-soft); color:var(--secondary); }
+  .badge-outro{ background:var(--surface-2); color:var(--ink-mute); }
+
+  footer{ border-top:1px solid var(--border); padding-top:18px; display:flex; flex-direction:column; gap:10px; }
+  footer h3{ font-size:0.9rem; }
+
+  @media (max-width:640px){
+    .topbar{ flex-direction:column; align-items:flex-start; }
+    .topbar .meta{ text-align:left; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">Craveiral Farmhouse · São Teotónio, Odemira</span>
+      <h1>Painel de Evolução Comercial</h1>
+    </div>
+    <div class="meta">
+      Fotografia gerada em 17 de setembro de 2026<br>
+      Contexto de mercado: INE / Turismo de Portugal (TravelBI)
+    </div>
+  </header>
+
+  <p class="public-banner">Esta é uma versão pública e estática deste painel — não exige conta nem login para ser vista, mas por isso também não se atualiza sozinha. Os valores refletem o estado do painel interno na data indicada acima.</p>
+
+  <section id="mercado">
+    <div class="section-head">
+      <div>
+        <h2>Contexto de mercado — Alentejo &amp; Portugal</h2>
+        <p class="sub">Indicadores oficiais mais recentes do turismo, para enquadrar a performance do Craveiral com a região onde está inserido (Costa Vicentina / Alentejo Litoral).</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-tile">
+        <span class="kpi-label">Dormidas no Alentejo · julho 2026</span>
+        <span class="kpi-value mono">466,9 mil <span class="kpi-delta">▲ 7,7%</span></span>
+        <span class="kpi-note">Maior crescimento homólogo entre as regiões de Portugal (Portugal: +2,1%)</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">RevPAR no Alentejo · julho 2026</span>
+        <span class="kpi-value mono"><span class="kpi-delta">▲ 14,6%</span></span>
+        <span class="kpi-note">Maior subida de RevPAR entre todas as regiões portuguesas</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Dormidas de residentes · julho 2026</span>
+        <span class="kpi-value mono"><span class="kpi-delta">▲ 11,1%</span></span>
+        <span class="kpi-note">Também a maior subida do país (Portugal: +5,1%)</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Estada média · julho 2026</span>
+        <span class="kpi-value mono">2,38 <span style="font-size:0.95rem;font-weight:500;">noites</span></span>
+        <span class="kpi-note">Alentejo — vs. 4,89 noites de média nacional (estadas mais curtas)</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Proveitos globais · jan–mai 2026</span>
+        <span class="kpi-value mono">100 M€ <span class="kpi-delta">▲ 12,6%</span></span>
+        <span class="kpi-note">Alentejo — crescimento mais do dobro da média nacional (+5,3%)</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">RevPAR absoluto · jan–mai 2026</span>
+        <span class="kpi-value mono">37,2€ <span class="kpi-delta">▲ 9,4%</span></span>
+        <span class="kpi-note">Alentejo — Portugal cresceu apenas +1,0% no período</span>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <h3>Crescimento homólogo — julho 2026</h3>
+        <p class="chart-sub">Alentejo vs. média nacional, variação % face a julho de 2025</p>
+        <div class="legend-row">
+          <span class="legend-item"><span class="legend-swatch swatch-1"></span>Alentejo</span>
+          <span class="legend-item"><span class="legend-swatch swatch-2"></span>Portugal</span>
+        </div>
+        <svg class="chart-svg" viewBox="0 0 520 260" role="img" aria-label="Gráfico de barras: crescimento homólogo de dormidas totais e dormidas de residentes, Alentejo versus Portugal, julho de 2026">
+          <line class="chart-grid" x1="40" y1="210" x2="504" y2="210"/>
+          <line class="chart-grid" x1="40" y1="161.5" x2="504" y2="161.5"/>
+          <line class="chart-grid" x1="40" y1="113" x2="504" y2="113"/>
+          <line class="chart-grid" x1="40" y1="64.5" x2="504" y2="64.5"/>
+          <line class="chart-grid" x1="40" y1="16" x2="504" y2="16"/>
+          <text class="chart-axis-label" x="34" y="214" text-anchor="end">0%</text>
+          <text class="chart-axis-label" x="34" y="165.5" text-anchor="end">3%</text>
+          <text class="chart-axis-label" x="34" y="117" text-anchor="end">6%</text>
+          <text class="chart-axis-label" x="34" y="68.5" text-anchor="end">9%</text>
+          <text class="chart-axis-label" x="34" y="20" text-anchor="end">12%</text>
+
+          <path class="bar-series-1" d="M86,210 L86,89.5 Q86,85.5 90,85.5 L147,85.5 Q151,85.5 151,89.5 L151,210 Z"/>
+          <text class="chart-value-label" x="118.5" y="79.5" text-anchor="middle">+7,7%</text>
+          <path class="bar-series-2" d="M161,210 L161,180 Q161,176 165,176 L222,176 Q226,176 226,180 L226,210 Z"/>
+          <text class="chart-value-label" x="193.5" y="170" text-anchor="middle">+2,1%</text>
+
+          <path class="bar-series-1" d="M318,210 L318,34.5 Q318,30.5 322,30.5 L379,30.5 Q383,30.5 383,34.5 L383,210 Z"/>
+          <text class="chart-value-label" x="350.5" y="24.5" text-anchor="middle">+11,1%</text>
+          <path class="bar-series-2" d="M393,210 L393,131.5 Q393,127.5 397,127.5 L454,127.5 Q458,127.5 458,131.5 L458,210 Z"/>
+          <text class="chart-value-label" x="425.5" y="121.5" text-anchor="middle">+5,1%</text>
+
+          <text class="chart-cat-label" x="156" y="234" text-anchor="middle">Dormidas totais</text>
+          <text class="chart-cat-label" x="388" y="234" text-anchor="middle">Dormidas de residentes</text>
+        </svg>
+        <details class="table-toggle">
+          <summary>Ver tabela de dados</summary>
+          <table class="data-table">
+            <thead><tr><th>Indicador</th><th>Alentejo</th><th>Portugal</th></tr></thead>
+            <tbody>
+              <tr><td>Dormidas totais</td><td class="mono">+7,7%</td><td class="mono">+2,1%</td></tr>
+              <tr><td>Dormidas de residentes</td><td class="mono">+11,1%</td><td class="mono">+5,1%</td></tr>
+            </tbody>
+          </table>
+        </details>
+      </div>
+
+      <div class="chart-card">
+        <h3>Alentejo em 2026 — aceleração ao longo do ano</h3>
+        <p class="chart-sub">Variação homóloga por período, dormidas e RevPAR</p>
+        <div class="legend-row">
+          <span class="legend-item"><span class="legend-swatch swatch-1"></span>Dormidas</span>
+          <span class="legend-item"><span class="legend-swatch swatch-2"></span>RevPAR</span>
+        </div>
+        <svg class="chart-svg" viewBox="0 0 560 280" role="img" aria-label="Gráfico de barras: crescimento de dormidas e RevPAR no Alentejo por período de 2026 — janeiro a maio, segundo trimestre e julho">
+          <line class="chart-grid" x1="40" y1="230" x2="544" y2="230"/>
+          <line class="chart-grid" x1="40" y1="176.5" x2="544" y2="176.5"/>
+          <line class="chart-grid" x1="40" y1="123" x2="544" y2="123"/>
+          <line class="chart-grid" x1="40" y1="69.5" x2="544" y2="69.5"/>
+          <line class="chart-grid" x1="40" y1="16" x2="544" y2="16"/>
+          <text class="chart-axis-label" x="34" y="234" text-anchor="end">0%</text>
+          <text class="chart-axis-label" x="34" y="180.5" text-anchor="end">4%</text>
+          <text class="chart-axis-label" x="34" y="127" text-anchor="end">8%</text>
+          <text class="chart-axis-label" x="34" y="73.5" text-anchor="end">12%</text>
+          <text class="chart-axis-label" x="34" y="20" text-anchor="end">16%</text>
+
+          <path class="bar-series-1" d="M70,230 L70,145.7 Q70,141.7 74,141.7 L116,141.7 Q120,141.7 120,145.7 L120,230 Z"/>
+          <text class="chart-value-label" x="95" y="135.7" text-anchor="middle">+6,6%</text>
+          <path class="bar-series-2" d="M128,230 L128,108.3 Q128,104.3 132,104.3 L174,104.3 Q178,104.3 178,108.3 L178,230 Z"/>
+          <text class="chart-value-label" x="153" y="98.3" text-anchor="middle">+9,4%</text>
+
+          <path class="bar-series-1" d="M238,230 L238,161.8 Q238,157.8 242,157.8 L284,157.8 Q288,157.8 288,161.8 L288,230 Z"/>
+          <text class="chart-value-label" x="263" y="151.8" text-anchor="middle">+5,4%</text>
+          <path class="bar-series-2" d="M296,230 L296,141.8 Q296,137.8 300,137.8 L342,137.8 Q346,137.8 346,141.8 L346,230 Z"/>
+          <text class="chart-value-label" x="321" y="131.8" text-anchor="middle">+6,9%</text>
+
+          <path class="bar-series-1" d="M406,230 L406,131 Q406,127 410,127 L452,127 Q456,127 456,131 L456,230 Z"/>
+          <text class="chart-value-label" x="431" y="121" text-anchor="middle">+7,7%</text>
+          <path class="bar-series-2" d="M464,230 L464,38.7 Q464,34.7 468,34.7 L510,34.7 Q514,34.7 514,38.7 L514,230 Z"/>
+          <text class="chart-value-label" x="489" y="28.7" text-anchor="middle">+14,6%</text>
+
+          <text class="chart-cat-label" x="124" y="250" text-anchor="middle">Jan–Mai</text>
+          <text class="chart-cat-label" x="292" y="250" text-anchor="middle">Abr–Jun (T2)</text>
+          <text class="chart-cat-label" x="460" y="250" text-anchor="middle">Julho</text>
+        </svg>
+        <details class="table-toggle">
+          <summary>Ver tabela de dados</summary>
+          <table class="data-table">
+            <thead><tr><th>Período</th><th>Dormidas</th><th>RevPAR</th></tr></thead>
+            <tbody>
+              <tr><td>Jan–Mai</td><td class="mono">+6,6%</td><td class="mono">+9,4%</td></tr>
+              <tr><td>Abr–Jun (T2)</td><td class="mono">+5,4%</td><td class="mono">+6,9%</td></tr>
+              <tr><td>Julho</td><td class="mono">+7,7%</td><td class="mono">+14,6%</td></tr>
+            </tbody>
+          </table>
+        </details>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Indicador</th><th>Período 2026</th><th>Alentejo</th><th>Portugal</th><th>Fonte</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dormidas</td><td>Jan–Mai</td><td class="mono">1,237 M (+6,6%)</td><td class="mono">+1,4%</td><td>TravelBI / Turismo de Portugal</td></tr>
+          <tr><td>Hóspedes</td><td>Jan–Mai</td><td class="mono">682,2 mil (+3,3%)</td><td class="mono">—</td><td>TravelBI / Turismo de Portugal</td></tr>
+          <tr><td>Proveitos globais</td><td>Jan–Mai</td><td class="mono">100 M€ (+12,6%)</td><td class="mono">+5,3%</td><td>TravelBI / Turismo de Portugal</td></tr>
+          <tr><td>RevPAR</td><td>Jan–Mai</td><td class="mono">37,2€ (+9,4%)</td><td class="mono">+1,0%</td><td>TravelBI / Turismo de Portugal</td></tr>
+          <tr><td>Dormidas</td><td>2.º trimestre</td><td class="mono">+5,4% (líder nacional)</td><td class="mono">9,4 M hóspedes / 23,3 M dormidas</td><td>INE — Destaque trimestral</td></tr>
+          <tr><td>RevPAR</td><td>2.º trimestre</td><td class="mono">+6,9%</td><td class="mono">—</td><td>Turisver</td></tr>
+          <tr><td>Dormidas</td><td>Julho</td><td class="mono">466,9 mil (+7,7%)</td><td class="mono">9,6 M (+2,1%)</td><td>INE — estimativa rápida</td></tr>
+          <tr><td>Dormidas de residentes</td><td>Julho</td><td class="mono">+11,1%</td><td class="mono">+5,1%</td><td>ECO / INE</td></tr>
+          <tr><td>RevPAR</td><td>Julho</td><td class="mono">+14,6% (líder nacional)</td><td class="mono">—</td><td>Presstur / INE</td></tr>
+          <tr><td>Estada média</td><td>Julho</td><td class="mono">2,38 noites</td><td class="mono">4,89 noites</td><td>SAPO / INE</td></tr>
+          <tr><td>Proveitos totais</td><td>Julho</td><td class="mono">—</td><td class="mono">923,7 M€ (+4,9%)</td><td>Jornal Económico / INE</td></tr>
+          <tr><td>Dormidas acumuladas</td><td>Jan–Jul</td><td class="mono">—</td><td class="mono">46,5 M (+1,5%)</td><td>Rádio Campanário / Lusa / INE</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Fontes: Instituto Nacional de Estatística (destaques mensais e trimestrais do alojamento turístico) e Turismo de Portugal — TravelBI, "Turismo em Números". Dados recolhidos em 15/09/2026; a região "Alentejo" no INE/TravelBI inclui a Lezíria do Tejo.</p>
+  </section>
+
+  <section id="comercial">
+    <div class="section-head">
+      <div>
+        <h2>Evolução comercial — Craveiral</h2>
+        <p class="sub">Room nights, receita, ocupação, ADR e RevPAR por mês, a partir do Climber RMS.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Mês</th><th>Room Nights (RN)</th><th>Receita (€)</th><th>Ocupação (%)</th><th>ADR (€)</th><th>RevPAR (€)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">Jun/26</td><td class="mono">590</td><td class="mono">160.966€</td><td class="mono">52,0%</td><td class="mono">272,82€</td><td class="mono">142€</td></tr>
+          <tr><td class="mono">Jul/26</td><td class="mono">774</td><td class="mono">272.409€</td><td class="mono">66,0%</td><td class="mono">351,95€</td><td class="mono">232€</td></tr>
+          <tr><td class="mono">Ago/26</td><td class="mono">977</td><td class="mono">414.219€</td><td class="mono">83,0%</td><td class="mono">423,97€</td><td class="mono">352€</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Apenas junho–agosto de 2026 estavam recolhidos no Climber à data desta fotografia; meses anteriores podem ser adicionados numa próxima atualização.</p>
+  </section>
+
+  <section id="competition">
+    <div class="section-head">
+      <div>
+        <h2>Competition set — Lighthouse &amp; Climber</h2>
+        <p class="sub">Alojamentos acompanhados nas ferramentas de rate intelligence / revenue management do Craveiral. Tarifas para 23/09/2026, 1 noite / 2 pax, Booking.com.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Alojamento</th><th>Fonte</th><th>ADR (€)</th><th>Ocupação (%)</th><th>RevPAR (€)</th><th>Notas</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Areias do Seixo Villas</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>195 km · Esgotado em 23/09/2026 (Booking.com)</td></tr>
+          <tr><td>Herdade da Malhadinha Nova - Relais &amp; Châteaux</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">500€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>71 km · Tarifa 23/09/2026, Booking.com, 1 noite/2 pax</td></tr>
+          <tr><td>Herdade da Matinha Country House &amp; Restaurant</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">170€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>36 km · Tarifa 23/09/2026, Booking.com, 1 noite/2 pax</td></tr>
+          <tr><td>Herdade do Amarelo Nature &amp; Spa</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: restrição de estadia mínima no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>25 km · Restrição LOS2 em 23/09/2026 (Booking.com)</td></tr>
+          <tr><td>Herdade Do Touril</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>13 km · Esgotado em 23/09/2026 (Booking.com)</td></tr>
+          <tr><td>Praia do Canal Nature Retreat - SLH</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">575€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>29 km · Tarifa 23/09/2026, Booking.com, 1 noite/2 pax</td></tr>
+          <tr><td>Quinta Da Comporta - Wellness Boutique Resort</td><td><span class="badge badge-climber">Climber</span></td><td class="mono"><span class="empty-note" title="Tarifa ainda não recolhida nesta fonte.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>Configurado apenas no Climber — recolher tarifa atual</td></tr>
+          <tr><td>Rio do Prado</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">179€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>216 km · Tarifa 23/09/2026, Booking.com, 1 noite/2 pax</td></tr>
+          <tr><td>São Lourenço do Barrocal</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">714€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>153 km · Tarifa 23/09/2026, Booking.com, 1 noite/2 pax</td></tr>
+          <tr><td>Spatia Comporta, a Member of Design Hotels</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">604€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>87 km · Tarifa 23/09/2026, Booking.com, 1 noite/2 pax</td></tr>
+          <tr><td>Sublime Comporta</td><td><span class="badge badge-lighthouse">Lighthouse</span></td><td class="mono">779€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>88 km · Tarifa 23/09/2026, Booking.com, 1 noite/2 pax</td></tr>
+        </tbody>
+      </table>
+      <p class="footnote table-legend">* Passe o cursor sobre o valor para ver o motivo. Ocupação e RevPAR aparecem sempre marcados porque o Lighthouse e o Climber fazem "rate shopping" (leem tarifas públicas) e não têm acesso à ocupação real de outros alojamentos.</p>
+    </div>
+  </section>
+
+  <footer>
+    <h3>Fontes &amp; metodologia</h3>
+    <ul class="sources-list">
+      <li><a href="https://www.ine.pt" target="_blank" rel="noopener">Instituto Nacional de Estatística — Destaques do Alojamento Turístico</a> (mensal/trimestral)</li>
+      <li><a href="https://travelbi.turismodeportugal.pt" target="_blank" rel="noopener">Turismo de Portugal — TravelBI, "Turismo em Números"</a></li>
+      <li><a href="https://www.dianafm.com/alentejo-lidera-crescimento-turistico-nacional-nos-primeiros-cinco-meses-de-2026/" target="_blank" rel="noopener">DianaFM, 03/07/2026 — síntese TravelBI (jan–mai 2026)</a></li>
+      <li><a href="https://planicie.pt/noticias/alentejo-lidera-crescimento-do-turismo-em-portugal" target="_blank" rel="noopener">Jornal A Planície, 03/09/2026 — síntese INE (julho 2026)</a></li>
+      <li><a href="https://eco.sapo.pt" target="_blank" rel="noopener">ECO — dormidas de residentes, julho 2026</a></li>
+      <li><a href="https://turisver.pt" target="_blank" rel="noopener">Turisver — RevPAR regional, 2.º trimestre 2026</a></li>
+    </ul>
+    <p class="footnote">"Lighthouse" e "Climber" são as ferramentas de rate intelligence / revenue management usadas para configurar e acompanhar o competitor set do Craveiral. Esta página é uma fotografia estática, sem ligação à base de dados do painel interno — para voltar a atualizá-la, é preciso gerar e publicar uma nova versão.</p>
+  </footer>
+
+</div>
+</body>
+</html>
