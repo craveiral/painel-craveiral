@@ -20,6 +20,7 @@ most recent obs_date in the dataset), comparing:
 """
 import csv
 import gzip
+import json
 from datetime import date, timedelta
 
 
@@ -160,12 +161,14 @@ def compute_year_data(hist, year, obs_hoje, obs_ontem):
         rec_ontem = (orow or {}).get('receita_quartos') or 0.0
         rn_prior = (pr or {}).get('ocup') or 0.0
         rec_prior = (pr or {}).get('receita_quartos') or 0.0
+        pct_prior = (pr or {}).get('pct_ocup') or 0.0
 
         dow = DOW_PT[date(y, m, dd).weekday()]
         months[m]['days'].append({
             'date': d_str, 'dow': dow,
             'rn_ontem': rn_ontem, 'pct_ontem': pct_ontem, 'rec_ontem': rec_ontem,
             'rn_hoje': rn_hoje, 'pct_hoje': pct_hoje, 'rec_hoje': rec_hoje,
+            'pct_prior': pct_prior,
             'pickup_rn': rn_hoje - rn_ontem, 'pickup_rec': rec_hoje - rec_ontem,
         })
         months[m]['rn_ontem'] += rn_ontem
@@ -234,6 +237,10 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
     </div>"""
 
     rows_html = []
+    chart_months = []
+    chart_rn_hoje, chart_rn_prior = [], []
+    chart_rec_hoje, chart_rec_prior = [], []
+    chart_pct_hoje, chart_pct_prior = [], []
     for m in range(1, 13):
         md = months[m]
         rn_ontem = md['rn_ontem']; rn_hoje = md['rn_hoje']; receita_hoje = md['receita_hoje']
@@ -242,8 +249,13 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
         adr_hoje = receita_hoje / rn_hoje if rn_hoje else 0
         days = md['days']
         avg_pct_hoje = sum(dday['pct_hoje'] for dday in days) / len(days) if days else 0
+        avg_pct_prior = sum(dday['pct_prior'] for dday in days) / len(days) if days else 0
         delta_rn = rn_hoje - rn_prior
         delta_rec = receita_hoje - receita_prior
+        chart_months.append(MONTH_NAMES[m - 1][:3])
+        chart_rn_hoje.append(round(rn_hoje)); chart_rn_prior.append(round(rn_prior))
+        chart_rec_hoje.append(round(receita_hoje)); chart_rec_prior.append(round(receita_prior))
+        chart_pct_hoje.append(round(avg_pct_hoje, 1)); chart_pct_prior.append(round(avg_pct_prior, 1))
         rows_html.append(
             f'<tr><td>{MONTH_NAMES[m - 1]}</td>\n'
             f'<td class="mono">{fmt_int(rn_ontem)}</td>\n'
@@ -269,6 +281,57 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
         </tbody>
       </table>
     </div>"""
+
+    chart_payload = {
+        'categories': chart_months,
+        'metrics': {
+            'rn': {'label': 'Room Nights', 'suffix': '', 'hoje': chart_rn_hoje, 'prior': chart_rn_prior},
+            'receita': {'label': 'Receita', 'suffix': '€', 'hoje': chart_rec_hoje, 'prior': chart_rec_prior},
+            'pct': {'label': 'Ocupação', 'suffix': '%', 'hoje': chart_pct_hoje, 'prior': chart_pct_prior},
+        },
+        'labelHoje': str(year), 'labelPrior': f'{prior_year} (fechado)',
+    }
+    chart_html = f"""    <div class="chart-card">
+      <h3>Evolução mensal — {year} vs. {prior_year}</h3>
+      <p class="chart-sub">Ritmo de reservas por mês; use os botões para trocar a métrica.</p>
+      <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de pick-up" data-toggle-for="pickup-chart">
+        <button type="button" data-metric="rn" aria-pressed="true">Room Nights</button>
+        <button type="button" data-metric="receita" aria-pressed="false">Receita</button>
+        <button type="button" data-metric="pct" aria-pressed="false">Ocupação</button>
+      </div>
+      <div id="pickup-chart"></div>
+    </div>
+    <script>
+    (function(){{
+      var data = {json.dumps(chart_payload, ensure_ascii=False)};
+      function fmt(suffix){{
+        return function(v){{
+          if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
+          if (suffix === '%') return v.toLocaleString('pt-PT', {{minimumFractionDigits:1, maximumFractionDigits:1}}) + '%';
+          return Math.round(v).toLocaleString('pt-PT');
+        }};
+      }}
+      function render(key){{
+        var m = data.metrics[key];
+        window.CraveiralCharts.lineChart(document.getElementById('pickup-chart'), {{
+          categories: data.categories,
+          series: [
+            {{ slot: 1, label: data.labelHoje, values: m.hoje }},
+            {{ slot: 2, label: data.labelPrior, values: m.prior }}
+          ],
+          formatValue: fmt(m.suffix),
+          ariaLabel: 'Evolução mensal de ' + m.label + ', ' + data.labelHoje + ' vs ' + data.labelPrior
+        }});
+      }}
+      var toggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart"]');
+      toggle.addEventListener('click', function(ev){{
+        var btn = ev.target.closest('button'); if (!btn) return;
+        toggle.querySelectorAll('button').forEach(function(b){{ b.setAttribute('aria-pressed', String(b === btn)); }});
+        render(btn.dataset.metric);
+      }});
+      render('rn');
+    }})();
+    </script>"""
 
     blocks = []
     for m in range(1, 13):
@@ -307,6 +370,8 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
     </div>
 
 {kpi_html}
+
+{chart_html}
 
 {monthly_table_html}
 

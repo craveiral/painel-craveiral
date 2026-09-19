@@ -20,6 +20,99 @@ Previsão" na pasta do Google Drive "RELATÓRIOS DIÁRIOS"
   ano anterior.
 - `update_pickup.py` — o script que a tarefa diária corre. Ver `--help`.
 
+## Gráficos interativos (CraveiralCharts)
+
+Desde 19/09/2026 as três secções dinâmicas (Pick-up, Evolução comercial,
+Competition set) têm gráficos interativos (linha com tooltip/crosshair para
+séries temporais, barras com tooltip para o competition set), em vez de só
+tabelas. **Não são um serviço externo** — é uma pequena biblioteca JS/CSS
+própria, sem dependências, já embebida no `<head>` de ambos os ficheiros
+(`index.html` e o HTML do painel privado): a `<style>` principal ganhou um
+bloco de classes (`.line-series-N`, `.dot-series-N`, `.chart-tooltip*`,
+`.metric-toggle`, etc.) e logo a seguir ao `</style>` há um `<script>` que
+define `window.CraveiralCharts` com duas funções, `lineChart(container,
+opts)` e `barChart(container, opts)`. **Este bloco no `<head>` é estável —
+não precisa de ser regenerado nem tocado nas execuções diárias.** Se algum
+dia precisar de ser atualizado, a versão de referência vive em
+`/home/claude/chart_lib/craveiral-charts.{css,js}` na sessão em que foi
+criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
+`index.html` já publicado é a fonte de verdade.
+
+- **Pick-up**: totalmente automático — `pickup_gen.render_pickup_section()`
+  já gera, dentro da própria secção, um `<div class="chart-card">` com um
+  `metric-toggle` (Room Nights / Receita / Ocupação) e o `<script>` que
+  chama `CraveiralCharts.lineChart(...)` com os dados do ano corrente vs.
+  o ano anterior fechado. Correr `update_pickup.py` como sempre já trata
+  disto; não há nenhum passo extra.
+- **Evolução comercial** e **Competition set** no painel **privado**
+  (artifact): também automático — o `<script>` no fim do HTML do painel já
+  lê a base de dados (`window.claude.use('db')`) e chama
+  `CraveiralCharts.lineChart`/`barChart` sozinho quando os dados mudam
+  (ver `renderComercialChart` e o bloco de gráfico dentro de
+  `renderCompetition` nesse ficheiro). Não requer nenhuma ação da tarefa
+  diária além do PASSO 1 já descrito (ler/substituir a secção pickup e
+  publicar de novo com a ferramenta Artifact).
+- **Evolução comercial** e **Competition set** na **página pública**
+  (`index.html`, site estático, sem base de dados ao vivo): aqui os
+  gráficos têm de ser recriados como uma "fotografia" a cada execução, tal
+  como as tabelas já eram. Ao regenerar estas duas secções no PASSO 2
+  (a partir das coleções `comercial` e `competitionset` lidas via
+  ArtifactData), insira, imediatamente antes do `<div class="table-wrap">`
+  de cada secção, um bloco assim (adapte os valores; o resto do padrão é
+  fixo):
+
+  ```html
+  <div class="chart-card">
+    <h3>Evolução mensal</h3>
+    <p class="chart-sub">A partir do Climber RMS. Use os botões para trocar a métrica.</p>
+    <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de evolução comercial" data-toggle-for="comercial-chart">
+      <button type="button" data-metric="receita" aria-pressed="true">Receita</button>
+      <button type="button" data-metric="reservas" aria-pressed="false">Room Nights</button>
+      <button type="button" data-metric="ocupacaoPct" aria-pressed="false">Ocupação</button>
+      <button type="button" data-metric="adr" aria-pressed="false">ADR</button>
+      <button type="button" data-metric="revpar" aria-pressed="false">RevPAR</button>
+    </div>
+    <div id="comercial-chart"></div>
+  </div>
+  <script>
+  (function(){
+    var categories = [/* "Jun/26", ... um por mês, ordem cronológica */];
+    var metrics = { receita:{label:'Receita',suffix:'€',values:[...]}, reservas:{label:'Room Nights',suffix:'',values:[...]}, ocupacaoPct:{label:'Ocupação',suffix:'%',values:[...]}, adr:{label:'ADR',suffix:'€',values:[...]}, revpar:{label:'RevPAR',suffix:'€',values:[/* adr*ocupacaoPct/100 */]} };
+    function fmt(suffix){ return function(v){ if (suffix==='€') return Math.round(v).toLocaleString('pt-PT')+'€'; if (suffix==='%') return v.toLocaleString('pt-PT',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'; return Math.round(v).toLocaleString('pt-PT'); }; }
+    function render(key){ var m=metrics[key]; window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {categories:categories, series:[{slot:1,label:m.label,values:m.values}], formatValue:fmt(m.suffix), ariaLabel:'Evolução mensal de '+m.label+' do Craveiral'}); }
+    var toggle=document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"]');
+    toggle.addEventListener('click', function(ev){ var btn=ev.target.closest('button'); if(!btn) return; toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b===btn)); }); render(btn.dataset.metric); });
+    render('receita');
+  })();
+  </script>
+  ```
+
+  E para o competition set (barras de ADR, só alojamentos com tarifa
+  conhecida, ordenados do maior para o menor):
+
+  ```html
+  <div class="chart-card">
+    <h3>ADR por alojamento</h3>
+    <p class="chart-sub">Tarifas mais recentes recolhidas no Lighthouse / Climber (rate shopping); alojamentos sem tarifa disponível não aparecem no gráfico.</p>
+    <div id="competition-chart"></div>
+  </div>
+  <script>
+  (function(){
+    window.CraveiralCharts.barChart(document.getElementById('competition-chart'), {
+      items: [/* {label:'Nome do alojamento', value: adr}, ... ordenado por value desc, só quem tem adr */],
+      formatValue: function(v){ return Math.round(v).toLocaleString('pt-PT')+'€'; },
+      ariaLabel: 'ADR por alojamento do competition set',
+      labelWidth: 210
+    });
+  })();
+  </script>
+  ```
+
+  O script de exemplo completo que gerou a versão de 19/09/2026 está em
+  `/home/claude/apply_charts_public.py` nessa mesma sessão, caso seja
+  preciso reconstruir tudo do zero; para o uso diário normal, basta seguir
+  os dois blocos acima com os dados frescos das coleções.
+
 ## Ciclo diário
 
 1. Recolher o texto do relatório do dia (o mais recente disponível na pasta
