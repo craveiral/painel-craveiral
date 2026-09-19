@@ -116,7 +116,280 @@
     .topbar{ flex-direction:column; align-items:flex-start; }
     .topbar .meta{ text-align:left; }
   }
+  /* --- CraveiralCharts: shared interactive chart styles --- */
+  .line-series-1{ stroke:var(--series-1); } .line-series-2{ stroke:var(--series-2); }
+  .dot-series-1{ fill:var(--series-1); } .dot-series-2{ fill:var(--series-2); }
+  .tooltip-key-1{ background:var(--series-1); } .tooltip-key-2{ background:var(--series-2); }
+  .chart-tooltip{ position:absolute; z-index:5; background:var(--ink); color:var(--bg); font-size:0.76rem; line-height:1.5; padding:8px 10px; border-radius:8px; box-shadow:var(--shadow); pointer-events:none; max-width:230px; }
+  .chart-tooltip-head{ font-family:"IBM Plex Mono",monospace; font-size:0.66rem; opacity:0.7; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; }
+  .chart-tooltip-row{ display:flex; align-items:baseline; gap:7px; white-space:nowrap; }
+  .chart-tooltip-key{ width:12px; height:2px; border-radius:1px; display:inline-block; flex:0 0 auto; }
+  .chart-tooltip-value{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums; }
+  .chart-tooltip-label{ opacity:0.82; }
+  .chart-crosshair{ stroke:var(--ink-mute); stroke-width:1; stroke-dasharray:3 3; pointer-events:none; }
+  .chart-overlay{ cursor:crosshair; }
+  .metric-toggle{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .metric-toggle button{ appearance:none; border:1px solid var(--border); background:var(--surface); color:var(--ink-2); border-radius:999px; padding:5px 13px; font:inherit; font-size:0.76rem; font-weight:500; cursor:pointer; }
+  .metric-toggle button:hover{ border-color:var(--accent-line); color:var(--ink); }
+  .metric-toggle button[aria-pressed="true"]{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+  .metric-toggle button:focus-visible{ outline:2px solid var(--accent-line); outline-offset:2px; }
+  .chart-bar-row .chart-bar-fill{ transition:opacity 0.1s; }
+  .chart-bar-row:hover .chart-bar-fill, .chart-bar-row:focus .chart-bar-fill{ opacity:0.8; }
+  .chart-bar-row{ outline:none; }
+  .chart-bar-row:focus-visible .chart-bar-fill{ stroke:var(--ink); stroke-width:1.5; }
 </style>
+<script>
+// --- CraveiralCharts: shared interactive SVG chart library (no external deps) ---
+// Used by the Pick-up, Evolucao comercial and Competition set sections, on both
+// the private artifact and the public static mirror. Colors come from the
+// slot-N CSS classes already defined on the page (line-series-N, dot-series-N,
+// bar-series-N, swatch-N, tooltip-key-N) so dark mode "just works".
+window.CraveiralCharts = (function(){
+  var svgNS = 'http://www.w3.org/2000/svg';
+
+  function el(tag, attrs){
+    var n = document.createElementNS(svgNS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function niceCeil(v){
+    if (v <= 0) return 1;
+    var exp = Math.floor(Math.log(v) / Math.LN10);
+    var base = Math.pow(10, exp);
+    var f = v / base;
+    var nf = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
+    return nf * base;
+  }
+  function positionTooltip(container, tooltip, clientX, clientY){
+    var r = container.getBoundingClientRect();
+    var left = clientX - r.left + 14, top = clientY - r.top + 14;
+    if (left + 210 > container.clientWidth) left = clientX - r.left - 210;
+    if (left < 0) left = 4;
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+
+  // ---- Line chart: 1-2 series, shared category axis, crosshair + tooltip ----
+  function lineChart(container, opts){
+    var categories = opts.categories || [];
+    var series = opts.series || [];
+    var formatValue = opts.formatValue || function(v){ return String(Math.round(v)); };
+    var width = Math.max(460, categories.length * 54);
+    var height = opts.height || 250;
+    var mR = 14, mT = 16, mB = 28;
+
+    var allVals = [];
+    series.forEach(function(s){ (s.values||[]).forEach(function(v){ if (v != null) allVals.push(v); }); });
+    var maxV = niceCeil(Math.max.apply(null, allVals.concat([1])) * 1.06);
+    var minRaw = Math.min.apply(null, allVals.concat([0]));
+    var minV = minRaw < 0 ? -niceCeil(-minRaw) : 0;
+    var range = (maxV - minV) || 1;
+
+    // size the left margin to fit the widest y-axis label (avoids clipping
+    // on wide values like "600 000€"), instead of a fixed guess
+    var steps = 4, axisLabels = [];
+    for (var s0 = 0; s0 <= steps; s0++) axisLabels.push(formatValue(minV + range * s0 / steps));
+    var maxLabelLen = axisLabels.reduce(function(m, t){ return Math.max(m, t.length); }, 1);
+    var mL = Math.max(34, 14 + maxLabelLen * 6.2);
+    var plotW = width - mL - mR, plotH = height - mT - mB;
+
+    function xAt(i){ return categories.length <= 1 ? mL + plotW/2 : mL + i * (plotW / (categories.length - 1)); }
+    function yAt(v){ return mT + plotH - ((v - minV) / range) * plotH; }
+
+    container.innerHTML = '';
+    container.style.position = 'relative';
+
+    var svg = el('svg', { viewBox: '0 0 ' + width + ' ' + height, class: 'chart-svg', role: 'img', 'aria-label': opts.ariaLabel || '' });
+
+    // gridlines + axis labels
+    for (var s = 0; s <= steps; s++){
+      var v = minV + range * s / steps;
+      var y = yAt(v);
+      svg.appendChild(el('line', { class: 'chart-grid', x1: mL, x2: width - mR, y1: y, y2: y }));
+      var t = el('text', { class: 'chart-axis-label', x: mL - 8, y: y + 3, 'text-anchor': 'end' });
+      t.textContent = axisLabels[s];
+      svg.appendChild(t);
+    }
+    categories.forEach(function(c, i){
+      var t = el('text', { class: 'chart-cat-label', x: xAt(i), y: height - mB + 18, 'text-anchor': 'middle' });
+      t.textContent = c;
+      svg.appendChild(t);
+    });
+
+    series.forEach(function(ser){
+      var slot = ser.slot || 1;
+      var d = '';
+      (ser.values||[]).forEach(function(v, i){
+        if (v == null) return;
+        d += (d ? 'L' : 'M') + xAt(i) + ',' + yAt(v) + ' ';
+      });
+      svg.appendChild(el('path', { d: d.trim(), fill: 'none', class: 'line-series-' + slot, 'stroke-width': '2', 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+      // direct end-label at the last known value
+      for (var i = (ser.values||[]).length - 1; i >= 0; i--){
+        if (ser.values[i] == null) continue;
+        var x = xAt(i), y = yAt(ser.values[i]);
+        svg.appendChild(el('circle', { cx: x, cy: y, r: 6, fill: 'var(--surface)' }));
+        svg.appendChild(el('circle', { cx: x, cy: y, r: 4, class: 'dot-series-' + slot }));
+        var lbl = el('text', { class: 'chart-value-label', x: Math.min(x + 7, width - mR), y: (y - 9 < mT + 8) ? y + 16 : y - 8, 'text-anchor': (x + 46 > width - mR) ? 'end' : 'start' });
+        lbl.textContent = formatValue(ser.values[i]);
+        svg.appendChild(lbl);
+        break;
+      }
+    });
+
+    container.appendChild(svg);
+
+    if (series.length >= 2){
+      var legend = document.createElement('div');
+      legend.className = 'legend-row';
+      series.forEach(function(ser){
+        var item = document.createElement('span'); item.className = 'legend-item';
+        var sw = document.createElement('span'); sw.className = 'legend-swatch swatch-' + (ser.slot||1);
+        item.appendChild(sw);
+        item.appendChild(document.createTextNode(ser.label || ''));
+        legend.appendChild(item);
+      });
+      container.insertBefore(legend, svg);
+    }
+
+    // crosshair + tooltip (keyboard-focusable overlay; pointer events cover touch)
+    var crosshair = el('line', { class: 'chart-crosshair', y1: mT, y2: mT + plotH, x1: -100, x2: -100 });
+    svg.appendChild(crosshair);
+    var overlay = el('rect', { class: 'chart-overlay', x: mL, y: mT, width: plotW, height: plotH, fill: 'transparent', tabindex: '0' });
+    svg.appendChild(overlay);
+    var tooltip = document.createElement('div');
+    tooltip.className = 'chart-tooltip'; tooltip.hidden = true;
+    container.appendChild(tooltip);
+
+    function nearestIndex(px){
+      var step = plotW / Math.max(categories.length - 1, 1);
+      var rel = (px - mL) / step;
+      return Math.max(0, Math.min(categories.length - 1, Math.round(rel)));
+    }
+    function showAt(i, clientX, clientY){
+      var x = xAt(i);
+      crosshair.setAttribute('x1', x); crosshair.setAttribute('x2', x);
+      tooltip.innerHTML = '';
+      var head = document.createElement('div'); head.className = 'chart-tooltip-head';
+      head.textContent = categories[i] || '';
+      tooltip.appendChild(head);
+      var any = false;
+      series.forEach(function(ser){
+        var v = ser.values[i];
+        if (v == null) return;
+        any = true;
+        var row = document.createElement('div'); row.className = 'chart-tooltip-row';
+        var key = document.createElement('span'); key.className = 'chart-tooltip-key tooltip-key-' + (ser.slot||1);
+        var val = document.createElement('span'); val.className = 'chart-tooltip-value'; val.textContent = formatValue(v);
+        var lab = document.createElement('span'); lab.className = 'chart-tooltip-label'; lab.textContent = ser.label || '';
+        row.appendChild(key); row.appendChild(val); row.appendChild(lab);
+        tooltip.appendChild(row);
+      });
+      if (!any) return;
+      tooltip.hidden = false;
+      positionTooltip(container, tooltip, clientX, clientY);
+    }
+    function hide(){ crosshair.setAttribute('x1', -100); crosshair.setAttribute('x2', -100); tooltip.hidden = true; }
+    overlay.addEventListener('pointermove', function(ev){
+      var r = svg.getBoundingClientRect();
+      var px = (ev.clientX - r.left) * (width / r.width);
+      showAt(nearestIndex(px), ev.clientX, ev.clientY);
+    });
+    overlay.addEventListener('pointerleave', hide);
+    overlay.addEventListener('focus', function(){
+      var r = svg.getBoundingClientRect();
+      showAt(0, r.left + 20, r.top + 20);
+    });
+    overlay.addEventListener('blur', hide);
+    overlay.addEventListener('keydown', function(ev){
+      var cur = parseFloat(crosshair.getAttribute('x1'));
+      var idx = cur < 0 ? 0 : nearestIndex(cur);
+      if (ev.key === 'ArrowRight') idx = Math.min(categories.length - 1, idx + 1);
+      else if (ev.key === 'ArrowLeft') idx = Math.max(0, idx - 1);
+      else return;
+      ev.preventDefault();
+      var r = svg.getBoundingClientRect();
+      showAt(idx, r.left + xAt(idx) * (r.width/width), r.top + 20);
+    });
+  }
+
+  // ---- Horizontal bar chart: one series, per-bar tooltip ----
+  function barChart(container, opts){
+    var items = opts.items || [];
+    var formatValue = opts.formatValue || function(v){ return String(Math.round(v)); };
+    var slot = opts.slot || 1;
+    var barH = 20, gap = 12, mT = 4, mB = 4, mR = 56;
+    var labelW = opts.labelWidth || 168;
+    var rowH = barH + gap;
+    var width = 560;
+    var height = mT + mB + Math.max(items.length, 1) * rowH;
+    var plotW = width - labelW - mR;
+    var maxV = Math.max.apply(null, items.map(function(d){ return d.value; }).concat([1])) * 1.12;
+
+    container.innerHTML = '';
+    container.style.position = 'relative';
+    var svg = el('svg', { viewBox: '0 0 ' + width + ' ' + height, class: 'chart-svg', role: 'img', 'aria-label': opts.ariaLabel || '' });
+    var tooltip = document.createElement('div');
+    tooltip.className = 'chart-tooltip'; tooltip.hidden = true;
+
+    // ~6px/char at the row-label font size; truncate with an ellipsis rather
+    // than letting text run past x=0 and get clipped by the viewBox (the
+    // tooltip and the data table both still carry the full name).
+    var maxChars = Math.max(6, Math.floor((labelW - 10) / 6));
+    function truncateLabel(s){
+      s = s || '';
+      return s.length > maxChars ? s.slice(0, maxChars - 1) + '…' : s;
+    }
+
+    items.forEach(function(d, i){
+      var y = mT + i * rowH;
+      var w = Math.max(plotW * (d.value / maxV), 2);
+      var label = el('text', { class: 'chart-cat-label', x: labelW - 10, y: y + barH/2 + 4, 'text-anchor': 'end' });
+      label.textContent = truncateLabel(d.label);
+      if ((d.label||'').length > maxChars){
+        var titleEl = document.createElementNS(svgNS, 'title');
+        titleEl.textContent = d.label;
+        label.appendChild(titleEl);
+      }
+      svg.appendChild(label);
+
+      var g = el('g', { class: 'chart-bar-row', tabindex: '0' });
+      g.appendChild(el('rect', { x: labelW, y: y - 3, width: plotW + mR, height: barH + 6, fill: 'transparent' }));
+      g.appendChild(el('rect', { class: 'chart-bar-fill bar-series-' + slot, x: labelW, y: y, width: w, height: barH, rx: 4 }));
+      var vlabel = el('text', { class: 'chart-value-label', x: labelW + w + 8, y: y + barH/2 + 4 });
+      vlabel.textContent = formatValue(d.value);
+      g.appendChild(vlabel);
+
+      function show(ev){
+        tooltip.innerHTML = '';
+        var row = document.createElement('div'); row.className = 'chart-tooltip-row';
+        var val = document.createElement('span'); val.className = 'chart-tooltip-value'; val.textContent = formatValue(d.value);
+        var lab = document.createElement('span'); lab.className = 'chart-tooltip-label'; lab.textContent = d.label || '';
+        row.appendChild(val); row.appendChild(lab);
+        tooltip.appendChild(row);
+        tooltip.hidden = false;
+        var r = svg.getBoundingClientRect();
+        var scale = r.width / width;
+        var clientX = ev && ev.clientX != null ? ev.clientX : r.left + (labelW + w/2) * scale;
+        var clientY = ev && ev.clientY != null ? ev.clientY : r.top + y * scale;
+        positionTooltip(container, tooltip, clientX, clientY);
+      }
+      g.addEventListener('pointermove', show);
+      g.addEventListener('pointerenter', show);
+      g.addEventListener('focus', show);
+      g.addEventListener('pointerleave', function(){ tooltip.hidden = true; });
+      g.addEventListener('blur', function(){ tooltip.hidden = true; });
+      svg.appendChild(g);
+    });
+
+    container.appendChild(svg);
+    container.appendChild(tooltip);
+  }
+
+  return { lineChart: lineChart, barChart: barChart };
+})();
+</script>
+
 </head>
 <body>
 <div class="page">
@@ -304,6 +577,48 @@
       </div>
     </div>
 
+    <div class="chart-card">
+      <h3>Evolução mensal</h3>
+      <p class="chart-sub">A partir do Climber RMS. Use os botões para trocar a métrica.</p>
+      <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de evolução comercial" data-toggle-for="comercial-chart">
+        <button type="button" data-metric="receita" aria-pressed="true">Receita</button>
+        <button type="button" data-metric="reservas" aria-pressed="false">Room Nights</button>
+        <button type="button" data-metric="ocupacaoPct" aria-pressed="false">Ocupação</button>
+        <button type="button" data-metric="adr" aria-pressed="false">ADR</button>
+        <button type="button" data-metric="revpar" aria-pressed="false">RevPAR</button>
+      </div>
+      <div id="comercial-chart"></div>
+    </div>
+    <script>
+    (function(){
+      var categories = ["Jun/26", "Jul/26", "Ago/26"];
+      var metrics = {"receita": {"label": "Receita", "suffix": "€", "values": [160966, 272409, 414219]}, "reservas": {"label": "Room Nights", "suffix": "", "values": [590, 774, 977]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "values": [52, 66, 83]}, "adr": {"label": "ADR", "suffix": "€", "values": [272.82, 351.95, 423.97]}, "revpar": {"label": "RevPAR", "suffix": "€", "values": [141.87, 232.29, 351.9]}};
+      function fmt(suffix){
+        return function(v){
+          if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
+          if (suffix === '%') return v.toLocaleString('pt-PT', {minimumFractionDigits:1, maximumFractionDigits:1}) + '%';
+          return Math.round(v).toLocaleString('pt-PT');
+        };
+      }
+      function render(key){
+        var m = metrics[key];
+        window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {
+          categories: categories,
+          series: [{ slot: 1, label: m.label, values: m.values }],
+          formatValue: fmt(m.suffix),
+          ariaLabel: 'Evolução mensal de ' + m.label + ' do Craveiral'
+        });
+      }
+      var toggle = document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"]');
+      toggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button'); if (!btn) return;
+        toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        render(btn.dataset.metric);
+      });
+      render('receita');
+    })();
+    </script>
+
     <div class="table-wrap">
       <table class="data-table">
         <thead>
@@ -326,6 +641,22 @@
         <p class="sub">Alojamentos acompanhados nas ferramentas de rate intelligence / revenue management do Craveiral. Tarifas para 27/09/2026, 1 noite / 2 pax, Booking.com.</p>
       </div>
     </div>
+
+    <div class="chart-card">
+      <h3>ADR por alojamento</h3>
+      <p class="chart-sub">Tarifas mais recentes recolhidas no Lighthouse / Climber (rate shopping); alojamentos sem tarifa disponível não aparecem no gráfico.</p>
+      <div id="competition-chart"></div>
+    </div>
+    <script>
+    (function(){
+      window.CraveiralCharts.barChart(document.getElementById('competition-chart'), {
+        items: [{"label": "Spatia Comporta, a Member of Design Hotels", "value": 761}, {"label": "São Lourenço do Barrocal", "value": 756}, {"label": "Herdade da Malhadinha Nova - Relais & Châteaux", "value": 500}, {"label": "Praia do Canal Nature Retreat - SLH", "value": 466}, {"label": "Herdade da Matinha Country House & Restaurant", "value": 191}, {"label": "Rio do Prado", "value": 179}],
+        formatValue: function(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; },
+        ariaLabel: 'ADR por alojamento do competition set',
+        labelWidth: 210
+      });
+    })();
+    </script>
 
     <div class="table-wrap">
       <table class="data-table">
@@ -386,6 +717,48 @@
         <span class="kpi-note">-13.711€ de receita</span>
       </div>
     </div>
+
+    <div class="chart-card">
+      <h3>Evolução mensal — 2026 vs. 2025</h3>
+      <p class="chart-sub">Ritmo de reservas por mês; use os botões para trocar a métrica.</p>
+      <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de pick-up" data-toggle-for="pickup-chart">
+        <button type="button" data-metric="rn" aria-pressed="true">Room Nights</button>
+        <button type="button" data-metric="receita" aria-pressed="false">Receita</button>
+        <button type="button" data-metric="pct" aria-pressed="false">Ocupação</button>
+      </div>
+      <div id="pickup-chart"></div>
+    </div>
+    <script>
+    (function(){
+      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 611, 490, 99, 51], "prior": [163, 207, 417, 589, 612, 572, 796, 1047, 681, 725, 343, 372]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 192320, 114339, 16960, 11298], "prior": [28525, 33407, 55335, 124592, 149117, 137779, 259639, 420775, 173659, 121998, 44209, 73473]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 54.5, 41.6, 8.7, 4.3], "prior": [15.7, 20.4, 37.7, 54.8, 52.3, 50.7, 68.5, 89.1, 60.2, 61.8, 30.1, 35.0]}}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
+      function fmt(suffix){
+        return function(v){
+          if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
+          if (suffix === '%') return v.toLocaleString('pt-PT', {minimumFractionDigits:1, maximumFractionDigits:1}) + '%';
+          return Math.round(v).toLocaleString('pt-PT');
+        };
+      }
+      function render(key){
+        var m = data.metrics[key];
+        window.CraveiralCharts.lineChart(document.getElementById('pickup-chart'), {
+          categories: data.categories,
+          series: [
+            { slot: 1, label: data.labelHoje, values: m.hoje },
+            { slot: 2, label: data.labelPrior, values: m.prior }
+          ],
+          formatValue: fmt(m.suffix),
+          ariaLabel: 'Evolução mensal de ' + m.label + ', ' + data.labelHoje + ' vs ' + data.labelPrior
+        });
+      }
+      var toggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart"]');
+      toggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button'); if (!btn) return;
+        toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        render(btn.dataset.metric);
+      });
+      render('rn');
+    })();
+    </script>
 
     <h3 style="font-size:1rem;">Pick-up mensal — 2026 vs. 2025 (fechado)</h3>
 
@@ -1775,7 +2148,7 @@
           </div>
         </details>
 
-    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente a partir do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia reconstruído desde Outubro de 2024 (705 leituras diárias validadas), o que permite calcular o pick-up real (Ontem = leitura de 18/09/2026, Hoje = leitura de 19/09/2026) e a comparação com o mesmo dia de 2025 a partir de dados reais — já não de uma fotografia estática de um ficheiro Excel. Esta secção está agora ligada à recolha diária automática (tarefa agendada), pelo que "Ontem" e "Hoje" avançam sozinhos todos os dias.</p>
+    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (705 leituras). Ontem = leitura de 18/09/2026, Hoje = leitura de 19/09/2026. Esta secção é atualizada automaticamente todos os dias.</p>
   </section>
 
   <footer>
