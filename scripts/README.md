@@ -195,3 +195,20 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
   espaços simples entre valores (não preserva o alinhamento de colunas do
   PDF original, mas isso não importa — o parser já lida com espaços
   simples). O único risco real é uma página ser saltada durante o scroll.
+- URL da Climber RMS (login em `https://app.climberrms.com`, redireciona
+  para `/overview` se a sessão do Chrome já estiver autenticada — caso
+  contrário mostra o ecrã de login e a tarefa deve parar em vez de
+  submeter credenciais). A vista "Overview" aceita o mês diretamente pela
+  URL, sem precisar clicar nas setas de navegação:
+  `https://app.climberrms.com/overview?filterBy=month&CalendarDateStart=AAAA-MM-01&CalendarDateEnd=AAAA-MM-DD&label_primary=rn&label_secondary=adr&overviewType=STLY&range=dayLast1&segmentedBy=reservation_segment&tentatives=false`
+  (ajustar `CalendarDateStart`/`CalendarDateEnd` ao mês pretendido). É uma
+  SPA: logo a seguir a navegar, o ecrã fica em branco ou com placeholders
+  cinzentos durante ~3-6s antes dos cartões (RN, Occ, Revenue, ADR,
+  RevPAR) aparecerem — esperar (`wait` de alguns segundos) antes do
+  screenshot, ou pode sair em branco. Os valores (Room Nights = "RN",
+  Receita = "Revenue", Ocupação = "Occ", ADR, RevPAR) leem-se diretamente
+  dos cartões da vista mensal; RevPAR não precisa de ser gravado na
+  coleção `comercial` (é derivado de `adr*ocupacaoPct/100` em todo o
+  lado), mas serve para confirmar visualmente que os números batem certo.
+  Usado em 20/09/2026 para recolher janeiro–maio de 2026 diretamente
+  (antes só junho–setembro estavam na coleção).
