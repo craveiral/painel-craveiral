@@ -191,6 +191,14 @@ window.CraveiralCharts = (function(){
     for (var s0 = 0; s0 <= steps; s0++) axisLabels.push(formatValue(minV + range * s0 / steps));
     var maxLabelLen = axisLabels.reduce(function(m, t){ return Math.max(m, t.length); }, 1);
     var mL = Math.max(34, 14 + maxLabelLen * 6.2);
+    // the first/last category label is centered on the plot's own edge, so
+    // half its width can run past x=0 or x=width and get clipped by the
+    // viewBox (visible on a 12-month axis like "Jan/26"..."Dez/26") -- widen
+    // the right margin (and, defensively, the left) to fit half that label
+    var maxCatLen = categories.reduce(function(m, c){ return Math.max(m, (c||'').length); }, 1);
+    var catHalfW = Math.ceil(maxCatLen * 3.2) + 6;
+    mR = Math.max(mR, catHalfW);
+    mL = Math.max(mL, catHalfW);
     var plotW = width - mL - mR, plotH = height - mT - mB;
 
     function xAt(i){ return categories.length <= 1 ? mL + plotW/2 : mL + i * (plotW / (categories.length - 1)); }
@@ -591,8 +599,8 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var categories = ["Jun/26", "Jul/26", "Ago/26", "Set/26"];
-      var metrics = {"receita": {"label": "Receita", "suffix": "€", "values": [160966, 272409, 414219, 189676]}, "reservas": {"label": "Room Nights", "suffix": "", "values": [590, 774, 977, 612]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "values": [52, 66, 83, 54]}, "adr": {"label": "ADR", "suffix": "€", "values": [272.82, 351.95, 423.97, 309.93]}, "revpar": {"label": "RevPAR", "suffix": "€", "values": [141.87, 232.29, 351.9, 167.36]}};
+      var categories = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26"];
+      var metrics = {"receita": {"label": "Receita", "suffix": "€", "values": [null, null, null, null, null, 160966, 272409, 414219, 189676, null, null, null]}, "reservas": {"label": "Room Nights", "suffix": "", "values": [null, null, null, null, null, 590, 774, 977, 612, null, null, null]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "values": [null, null, null, null, null, 52, 66, 83, 54, null, null, null]}, "adr": {"label": "ADR", "suffix": "€", "values": [null, null, null, null, null, 272.82, 351.95, 423.97, 309.93, null, null, null]}, "revpar": {"label": "RevPAR", "suffix": "€", "values": [null, null, null, null, null, 141.87, 232.29, 351.9, 167.36, null, null, null]}};
       function fmt(suffix){
         return function(v){
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -606,7 +614,7 @@ window.CraveiralCharts = (function(){
           categories: categories,
           series: [{ slot: 1, label: m.label, values: m.values }],
           formatValue: fmt(m.suffix),
-          ariaLabel: 'Evolução mensal de ' + m.label + ' do Craveiral'
+          ariaLabel: 'Evolução mensal de ' + m.label + ' do Craveiral, 2026'
         });
       }
       var toggle = document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"]');
