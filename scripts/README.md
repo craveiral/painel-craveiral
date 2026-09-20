@@ -61,6 +61,15 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
   de cada secção, um bloco assim (adapte os valores; o resto do padrão é
   fixo):
 
+  **Desde 20/09/2026, mostre sempre os 12 meses do ano corrente no eixo**,
+  não só os meses que já têm documento na coleção `comercial` — para os
+  meses ainda sem dados (passados por acaso, ou ainda por vir), passe
+  `null` nesse ponto: `CraveiralCharts.lineChart` já ignora valores `null`
+  ao desenhar a linha (o traço simplesmente não passa por esse mês), por
+  isso o eixo continua a dar o contexto do ano inteiro sem inventar dados.
+  O ano a usar é o mais recente presente nos ids da coleção (`"2026-09"` →
+  `"2026"`), não necessariamente o ano civil corrente.
+
   ```html
   <div class="chart-card">
     <h3>Evolução mensal</h3>
@@ -76,10 +85,10 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
   </div>
   <script>
   (function(){
-    var categories = [/* "Jun/26", ... um por mês, ordem cronológica */];
-    var metrics = { receita:{label:'Receita',suffix:'€',values:[...]}, reservas:{label:'Room Nights',suffix:'',values:[...]}, ocupacaoPct:{label:'Ocupação',suffix:'%',values:[...]}, adr:{label:'ADR',suffix:'€',values:[...]}, revpar:{label:'RevPAR',suffix:'€',values:[/* adr*ocupacaoPct/100 */]} };
+    var categories = [/* "Jan/26", "Fev/26", ..., "Dez/26" -- SEMPRE os 12 meses do ano, ordem cronológica */];
+    var metrics = { receita:{label:'Receita',suffix:'€',values:[/* um valor por mês, null onde não há documento */]}, reservas:{label:'Room Nights',suffix:'',values:[...]}, ocupacaoPct:{label:'Ocupação',suffix:'%',values:[...]}, adr:{label:'ADR',suffix:'€',values:[...]}, revpar:{label:'RevPAR',suffix:'€',values:[/* adr*ocupacaoPct/100, ou null */]} };
     function fmt(suffix){ return function(v){ if (suffix==='€') return Math.round(v).toLocaleString('pt-PT')+'€'; if (suffix==='%') return v.toLocaleString('pt-PT',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'; return Math.round(v).toLocaleString('pt-PT'); }; }
-    function render(key){ var m=metrics[key]; window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {categories:categories, series:[{slot:1,label:m.label,values:m.values}], formatValue:fmt(m.suffix), ariaLabel:'Evolução mensal de '+m.label+' do Craveiral'}); }
+    function render(key){ var m=metrics[key]; window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {categories:categories, series:[{slot:1,label:m.label,values:m.values}], formatValue:fmt(m.suffix), ariaLabel:'Evolução mensal de '+m.label+' do Craveiral, '+ano}); }
     var toggle=document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"]');
     toggle.addEventListener('click', function(ev){ var btn=ev.target.closest('button'); if(!btn) return; toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b===btn)); }); render(btn.dataset.metric); });
     render('receita');
@@ -109,9 +118,18 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
   ```
 
   O script de exemplo completo que gerou a versão de 19/09/2026 está em
-  `/home/claude/apply_charts_public.py` nessa mesma sessão, caso seja
-  preciso reconstruir tudo do zero; para o uso diário normal, basta seguir
-  os dois blocos acima com os dados frescos das coleções.
+  `/home/claude/apply_charts_public.py` nessa mesma sessão (atualizado em
+  20/09/2026 para os 12 meses do ano), caso seja preciso reconstruir tudo
+  do zero; para o uso diário normal, basta seguir os dois blocos acima com
+  os dados frescos das coleções.
+
+  **Correção de 20/09/2026 no `<head>` (bloco `CraveiralCharts`, estável):**
+  num eixo de 12 meses, o rótulo do primeiro/último mês (ex. "Dez/26") podia
+  ficar cortado a meio, porque fica centrado exactamente na borda da área do
+  gráfico. `lineChart` passou a reservar margem suficiente (esquerda e
+  direita) para meio rótulo de categoria, medido pelo texto mais comprido em
+  `categories` — não precisa de nenhuma ação na tarefa diária, só relembra
+  que este bloco no `<head>` já reflete a correção desde essa data.
 
 ## Ciclo diário
 
