@@ -72,6 +72,16 @@
   .kpi-tile .kpi-delta{ font-size:0.86rem; color:var(--good); font-weight:600; }
   .kpi-tile .kpi-note{ font-size:0.74rem; color:var(--ink-mute); }
 
+  /* review cards */
+  .review-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:12px; }
+  .review-card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px; }
+  .review-card .review-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  .review-card .review-who{ font-size:0.82rem; font-weight:600; color:var(--ink); }
+  .review-card .review-meta{ font-size:0.72rem; color:var(--ink-mute); }
+  .review-card .review-score{ font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--accent-line); }
+  .review-card .review-title{ font-size:0.88rem; font-weight:600; color:var(--ink); margin:0; }
+  .review-card .review-text{ font-size:0.85rem; color:var(--ink-2); line-height:1.5; margin:0; }
+
   /* charts */
   .chart-card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px; box-shadow:var(--shadow); }
   .chart-card h3{ font-size:1rem; margin-bottom:2px; }
@@ -695,6 +705,135 @@ window.CraveiralCharts = (function(){
     </div>
   </section>
 
+
+  <section id="feedback">
+    <div class="section-head">
+      <div>
+        <h2>Feedback de estadias</h2>
+        <p class="sub">Pontuações da Booking.com e do Google, e uma amostra de comentários recentes recolhidos na Booking.com e no documento interno "FEEDBACKS" que a equipa vai preenchendo diariamente.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-tile">
+        <span class="kpi-label">Pontuação Booking.com</span>
+        <span class="kpi-value mono">8,9<span style="font-size:0.95rem;font-weight:500;">/10</span></span>
+        <span class="kpi-note">191 comentários · Extranet de Parceiros</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Pontuação Google</span>
+        <span class="kpi-value mono">4,6★</span>
+        <span class="kpi-note">402 avaliações · perfil público do Google Maps</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Categorias mais fortes (Booking)</span>
+        <span class="kpi-value mono">9,4</span>
+        <span class="kpi-note">Staff, Limpeza e Conforto — as três categorias com melhor nota</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Categoria a melhorar (Booking)</span>
+        <span class="kpi-value mono">8,2</span>
+        <span class="kpi-note">Relação qualidade/preço é a categoria com a nota mais baixa</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Booking.com — categorias básicas</h3>
+      <p class="chart-sub">Pontuação média por categoria (escala 0–10), com base nos 191 comentários registados na Extranet de Parceiros.</p>
+      <div id="feedback-chart"></div>
+    </div>
+    <script>
+    (function(){
+      window.CraveiralCharts.barChart(document.getElementById('feedback-chart'), {
+        items: [
+          { label: 'Staff', value: 9.4 },
+          { label: 'Limpeza', value: 9.4 },
+          { label: 'Conforto', value: 9.4 },
+          { label: 'Localização', value: 9.0 },
+          { label: 'Instalações', value: 8.9 },
+          { label: 'Relação qualidade/preço', value: 8.2 }
+        ],
+        formatValue: function(v){ return v.toLocaleString('pt-PT', {minimumFractionDigits:1, maximumFractionDigits:1}); },
+        ariaLabel: 'Pontuação média por categoria básica no Booking.com',
+        labelWidth: 190
+      });
+    })();
+    </script>
+
+    <details class="table-toggle">
+      <summary>Ver categorias adicionais do Booking.com (perguntas bónus)</summary>
+      <table class="data-table">
+        <thead><tr><th>Categoria</th><th>Pontuação</th></tr></thead>
+        <tbody>
+          <tr><td>Piscina</td><td class="mono">8,3</td></tr>
+          <tr><td>Café</td><td class="mono">7,5</td></tr>
+          <tr><td>Cama</td><td class="mono">9,3</td></tr>
+          <tr><td>Vista do quarto</td><td class="mono">8,3</td></tr>
+          <tr><td>Wi-Fi</td><td class="mono">8,8</td></tr>
+          <tr><td>Pequeno-almoço</td><td class="mono">9,0</td></tr>
+          <tr><td>Serviço de quarto</td><td class="mono">9,0</td></tr>
+          <tr><td>Restaurante</td><td class="mono">8,3</td></tr>
+        </tbody>
+      </table>
+      <p class="footnote table-legend">Perguntas bónus feitas a alguns hóspedes; são independentes da pontuação geral.</p>
+    </details>
+
+    <h3 style="font-size:1rem;">Comentários recentes</h3>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-head">
+          <span class="review-who">Vanessa · Angola</span>
+          <span class="badge badge-lighthouse">Booking.com</span>
+        </div>
+        <div class="review-meta">25 jul 2026 · <span class="review-score">9,0/10</span></div>
+        <p class="review-title">"A hidden gem in the Alentejo, perfect for families looking to relax and reconnect."</p>
+        <p class="review-text">This was our third stay here, and once again it was wonderful. It's the perfect place for families, with a peaceful location that feels wonderfully secluded while still being just a short drive from the beaches. The staff are genuinely warm and welcoming, and we loved having access to the vegetable garden, such a thoughtful touch. Breakfast is outstanding, and the freshly baked bread is simply delicious.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <span class="review-who">Laurent · França</span>
+          <span class="badge badge-lighthouse">Booking.com</span>
+        </div>
+        <div class="review-meta">19 ago 2026 · <span class="review-score">7,0/10</span></div>
+        <p class="review-title">"A very nice place. Pay attention to the booking date"</p>
+        <p class="review-text">The setting is magnificent, surrounded by nature, with beautiful open spaces and contact with the elements, vegetation, and animals. In the month of August, the tranquil spirit transforms into holiday camps with screaming children, bikes bumping into you... in short, far from a calm and velvety spirit! <em>(traduzido do francês pelo Google)</em></p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <span class="review-who">Cécile · França</span>
+          <span class="badge badge-lighthouse">Booking.com</span>
+        </div>
+        <div class="review-meta">13 ago 2026 · <span class="review-score">8,0/10</span></div>
+        <p class="review-text">Environnement calme. Très beaux aménagements extérieurs avec une magnifique et immense piscine. Et très belle maisonnette. Le restaurant (petit déjeuner, déjeuner et dîner) est parfait pour un court séjour. — Les transats sont pris d'assaut dès le matin (il y avait beaucoup de familles avec des enfants en bas âge sur notre séjour)... et il n'y en a pas pour tout le monde si l'hôtel affiche complet.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <span class="review-who">Quarto C10</span>
+          <span class="badge badge-outro">Documento interno</span>
+        </div>
+        <div class="review-meta">abr. 2026</div>
+        <p class="review-text">As we get back home, we can't stop talking about Craveiral and the best time we had at this magical place, we actually miss it and we want to be back. The place is so magical, the rooms are so perfect for families, and the kids waking up to the goats and the donkeys was something else. Also the heated pool was the cherry on top. The farm to table food was so yummy, we kept on running for the jams the next day. Thank you for all your friendly staff, you made our stay magical.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <span class="review-who">Quarto M6</span>
+          <span class="badge badge-outro">Documento interno</span>
+        </div>
+        <div class="review-meta">abr. 2026</div>
+        <p class="review-text">Likes everything, specially the food and breakfast.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <span class="review-who">Quarto M5</span>
+          <span class="badge badge-outro">Documento interno</span>
+        </div>
+        <div class="review-meta">abr. 2026</div>
+        <p class="review-text">Gostaram imenso, vieram por recomendação e vão recomendar.</p>
+      </div>
+    </div>
+
+    <p class="footnote">Fontes: Extranet de Parceiros da Booking.com (pontuação, categorias e comentários, recolhidos em 20/09/2026) · Perfil público do Craveiral Farmhouse by Belong Staying &amp; Feeling no Google Maps (pontuação e nº de avaliações; esta conta Google não tem um Google Business Profile associado, pelo que não há acesso a comentários individuais do Google) · Documento interno "FEEDBACKS" preenchido diariamente pela equipa (separador do mês mais recente com registos, abril de 2026). Atualize esta secção quando houver novos destaques.</p>
+  </section>
 
   <section id="pickup">
     <div class="section-head">
@@ -2174,6 +2313,9 @@ window.CraveiralCharts = (function(){
       <li><a href="https://planicie.pt/noticias/alentejo-lidera-crescimento-do-turismo-em-portugal" target="_blank" rel="noopener">Jornal A Planície, 03/09/2026 — síntese INE (julho 2026)</a></li>
       <li><a href="https://eco.sapo.pt" target="_blank" rel="noopener">ECO — dormidas de residentes, julho 2026</a></li>
       <li><a href="https://turisver.pt" target="_blank" rel="noopener">Turisver — RevPAR regional, 2.º trimestre 2026</a></li>
+      <li>Booking.com — Extranet de Parceiros, secção "Guest reviews" (pontuação, categorias e comentários)</li>
+      <li><a href="https://www.google.com/maps/place/Craveiral+Farmhouse+by+Belong+Staying+%26+Feeling/@37.4848067,-8.6687854,17z" target="_blank" rel="noopener">Google Maps — perfil público do Craveiral Farmhouse by Belong Staying &amp; Feeling</a></li>
+      <li>Documento interno "FEEDBACKS" (Google Sheets), preenchido diariamente pela equipa</li>
     </ul>
     <p class="footnote">"Lighthouse" e "Climber" são as ferramentas de rate intelligence / revenue management usadas para configurar e acompanhar o competitor set do Craveiral. Esta página é uma fotografia estática, sem ligação à base de dados do painel interno — para voltar a atualizá-la, é preciso gerar e publicar uma nova versão.</p>
   </footer>
