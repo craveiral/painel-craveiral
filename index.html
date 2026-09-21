@@ -418,7 +418,7 @@ window.CraveiralCharts = (function(){
       <h1>Painel de Evolução Comercial</h1>
     </div>
     <div class="meta">
-      Fotografia gerada em 20 de setembro de 2026<br>
+      Fotografia gerada em 21 de setembro de 2026<br>
       Contexto de mercado: INE / Turismo de Portugal (TravelBI)
     </div>
   </header>
@@ -610,7 +610,7 @@ window.CraveiralCharts = (function(){
     <script>
     (function(){
       var categories = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26"];
-      var metrics = {"receita": {"label": "Receita", "suffix": "€", "values": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 189676, null, null, null]}, "reservas": {"label": "Room Nights", "suffix": "", "values": [205, 309, 374, 653, 649, 590, 774, 977, 612, null, null, null]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "values": [17, 29, 32, 57, 55, 52, 66, 83, 54, null, null, null]}, "adr": {"label": "ADR", "suffix": "€", "values": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 309.93, null, null, null]}, "revpar": {"label": "RevPAR", "suffix": "€", "values": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 167.36, null, null, null]}};
+      var metrics = {"receita": {"label": "Receita", "suffix": "\u20ac", "values": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 189676, null, null, null]}, "reservas": {"label": "Room Nights", "suffix": "", "values": [205, 309, 374, 653, 649, 590, 774, 977, 612, null, null, null]}, "ocupacaoPct": {"label": "Ocupa\u00e7\u00e3o", "suffix": "%", "values": [17, 29, 32, 57, 55, 52, 66, 83, 54, null, null, null]}, "adr": {"label": "ADR", "suffix": "\u20ac", "values": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 309.93, null, null, null]}, "revpar": {"label": "RevPAR", "suffix": "\u20ac", "values": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 167.36, null, null, null]}};
       function fmt(suffix){
         return function(v){
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -643,19 +643,10 @@ window.CraveiralCharts = (function(){
           <tr><th>Mês</th><th>Room Nights (RN)</th><th>Receita (€)</th><th>Ocupação (%)</th><th>ADR (€)</th><th>RevPAR (€)</th></tr>
         </thead>
         <tbody>
-          <tr><td class="mono">Jan/26</td><td class="mono">205</td><td class="mono">32.881€</td><td class="mono">17,0%</td><td class="mono">160,40€</td><td class="mono">27€</td></tr>
-          <tr><td class="mono">Fev/26</td><td class="mono">309</td><td class="mono">33.917€</td><td class="mono">29,0%</td><td class="mono">109,76€</td><td class="mono">32€</td></tr>
-          <tr><td class="mono">Mar/26</td><td class="mono">374</td><td class="mono">55.678€</td><td class="mono">32,0%</td><td class="mono">148,87€</td><td class="mono">48€</td></tr>
-          <tr><td class="mono">Abr/26</td><td class="mono">653</td><td class="mono">137.497€</td><td class="mono">57,0%</td><td class="mono">210,56€</td><td class="mono">120€</td></tr>
-          <tr><td class="mono">Mai/26</td><td class="mono">649</td><td class="mono">107.996€</td><td class="mono">55,0%</td><td class="mono">166,40€</td><td class="mono">92€</td></tr>
-          <tr><td class="mono">Jun/26</td><td class="mono">590</td><td class="mono">160.966€</td><td class="mono">52,0%</td><td class="mono">272,82€</td><td class="mono">142€</td></tr>
-          <tr><td class="mono">Jul/26</td><td class="mono">774</td><td class="mono">272.409€</td><td class="mono">66,0%</td><td class="mono">351,95€</td><td class="mono">232€</td></tr>
-          <tr><td class="mono">Ago/26</td><td class="mono">977</td><td class="mono">414.219€</td><td class="mono">83,0%</td><td class="mono">423,97€</td><td class="mono">352€</td></tr>
-          <tr><td class="mono">Set/26</td><td class="mono">612</td><td class="mono">189.676€</td><td class="mono">54,0%</td><td class="mono">309,93€</td><td class="mono">167€</td></tr>
+          <tr><td class="mono">Jan/26</td><td class="mono">205</td><td class="mono">32 881€</td><td class="mono">17,0%</td><td class="mono">160€</td><td class="mono">27€</td></tr><tr><td class="mono">Fev/26</td><td class="mono">309</td><td class="mono">33 917€</td><td class="mono">29,0%</td><td class="mono">110€</td><td class="mono">32€</td></tr><tr><td class="mono">Mar/26</td><td class="mono">374</td><td class="mono">55 678€</td><td class="mono">32,0%</td><td class="mono">149€</td><td class="mono">48€</td></tr><tr><td class="mono">Abr/26</td><td class="mono">653</td><td class="mono">137 497€</td><td class="mono">57,0%</td><td class="mono">211€</td><td class="mono">120€</td></tr><tr><td class="mono">Mai/26</td><td class="mono">649</td><td class="mono">107 996€</td><td class="mono">55,0%</td><td class="mono">166€</td><td class="mono">92€</td></tr><tr><td class="mono">Jun/26</td><td class="mono">590</td><td class="mono">160 966€</td><td class="mono">52,0%</td><td class="mono">273€</td><td class="mono">142€</td></tr><tr><td class="mono">Jul/26</td><td class="mono">774</td><td class="mono">272 409€</td><td class="mono">66,0%</td><td class="mono">352€</td><td class="mono">232€</td></tr><tr><td class="mono">Ago/26</td><td class="mono">977</td><td class="mono">414 219€</td><td class="mono">83,0%</td><td class="mono">424€</td><td class="mono">352€</td></tr><tr><td class="mono">Set/26</td><td class="mono">612</td><td class="mono">189 676€</td><td class="mono">54,0%</td><td class="mono">310€</td><td class="mono">167€</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="footnote">Dados de janeiro–setembro de 2026 recolhidos no Climber RMS; outubro–dezembro ainda não decorreram à data desta fotografia.</p>
   </section>
 
   <section id="competition">
@@ -688,17 +679,7 @@ window.CraveiralCharts = (function(){
           <tr><th>Alojamento</th><th>Fonte</th><th>ADR (€)</th><th>Ocupação (%)</th><th>RevPAR (€)</th><th>Notas</th></tr>
         </thead>
         <tbody>
-          <tr><td>Areias do Seixo Villas</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>195 km · Esgotado em 27/09/2026 (Booking.com)</td></tr>
-          <tr><td>Herdade da Malhadinha Nova - Relais &amp; Châteaux</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">500€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>71 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
-          <tr><td>Herdade da Matinha Country House &amp; Restaurant</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">191€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>36 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
-          <tr><td>Herdade do Amarelo Nature &amp; Spa</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: restrição de estadia mínima no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>25 km · Restrição LOS2 em 27/09/2026 (Booking.com)</td></tr>
-          <tr><td>Herdade Do Touril</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">188€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>13 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
-          <tr><td>Praia do Canal Nature Retreat - SLH</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">419€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>29 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
-          <tr><td>Quinta Da Comporta - Wellness Boutique Resort</td><td><span class="badge badge-climber">Climber</span></td><td class="mono"><span class="empty-note" title="Tarifa ainda não recolhida nesta fonte.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>Configurado apenas no Climber — recolher tarifa atual</td></tr>
-          <tr><td>Rio do Prado</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">161€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>216 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
-          <tr><td>São Lourenço do Barrocal</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">714€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>153 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
-          <tr><td>Spatia Comporta, a Member of Design Hotels</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">686€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>87 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
-          <tr><td>Sublime Comporta</td><td><span class="badge badge-lighthouse">Lighthouse</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>88 km · Esgotado em 27/09/2026 (Booking.com)</td></tr>
+          <tr><td>Areias do Seixo Villas</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>195 km · Esgotado em 27/09/2026 (Booking.com)</td></tr><tr><td>Herdade Do Touril</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">188€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>13 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Herdade da Malhadinha Nova - Relais &amp; Châteaux</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">500€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>71 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Herdade da Matinha Country House &amp; Restaurant</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">191€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>36 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Herdade do Amarelo Nature &amp; Spa</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: restrição de estadia mínima no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>25 km · Restrição LOS2 em 27/09/2026 (Booking.com)</td></tr><tr><td>Praia do Canal Nature Retreat - SLH</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">419€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>29 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Quinta Da Comporta - Wellness Boutique Resort</td><td><span class="badge badge-climber">Climber</span></td><td class="mono"><span class="empty-note" title="Tarifa ainda não recolhida nesta fonte.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>Configurado apenas no Climber — recolher tarifa atual</td></tr><tr><td>Rio do Prado</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">161€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>216 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Spatia Comporta, a Member of Design Hotels</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">686€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>87 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Sublime Comporta</td><td><span class="badge badge-lighthouse">Lighthouse</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>88 km · Esgotado em 27/09/2026 (Booking.com)</td></tr><tr><td>São Lourenço do Barrocal</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">714€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>153 km · Tarifa 27/09/2026, Booking.com, 1 noite/2 pax</td></tr>
         </tbody>
       </table>
       <p class="footnote table-legend">* Passe o cursor sobre o valor para ver o motivo. Ocupação e RevPAR aparecem sempre marcados porque o Lighthouse e o Climber fazem "rate shopping" (leem tarifas públicas) e não têm acesso à ocupação real de outros alojamentos.</p>
@@ -870,28 +851,28 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Room Nights no ano (2026)</span>
-        <span class="kpi-value mono">5.760</span>
-        <span class="kpi-note">2025 (fechado): 6.524 · Δ -764</span>
+        <span class="kpi-value mono">5.808</span>
+        <span class="kpi-note">2025 (fechado): 6.524 · Δ -716</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita no ano (2026)</span>
-        <span class="kpi-value mono">1.608.292€</span>
-        <span class="kpi-note">2025 (fechado): 1.622.507€ · Δ -14.215€</span>
+        <span class="kpi-value mono">1.610.603€</span>
+        <span class="kpi-note">2025 (fechado): 1.622.507€ · Δ -11.904€</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">ADR médio no ano</span>
-        <span class="kpi-value mono">279,22€</span>
+        <span class="kpi-value mono">277,31€</span>
         <span class="kpi-note">2025 (fechado): 248,70€</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Pick-up desde ontem</span>
-        <span class="kpi-value mono">+2 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
-        <span class="kpi-note">-504€ de receita retirada</span>
+        <span class="kpi-value mono">+48 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
+        <span class="kpi-note">+2.310€ de receita adicionada</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Vs. mesmo período do ano passado (2025, fechado)</span>
-        <span class="kpi-value mono">-764 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
-        <span class="kpi-note">-14.215€ de receita</span>
+        <span class="kpi-value mono">-716 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
+        <span class="kpi-note">-11.904€ de receita</span>
       </div>
     </div>
 
@@ -907,7 +888,7 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 611, 493, 95, 54], "prior": [163, 207, 417, 589, 612, 572, 796, 1047, 681, 725, 343, 372]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 192561, 114606, 15273, 11974], "prior": [28525, 33407, 55335, 124592, 149117, 137779, 259639, 420775, 173659, 121998, 44209, 73473]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 54.5, 41.8, 8.3, 4.6], "prior": [15.7, 20.4, 37.7, 54.8, 52.3, 50.7, 68.5, 89.1, 60.2, 61.8, 30.1, 35.0]}}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
+      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 611, 497, 139, 54], "prior": [163, 207, 417, 589, 612, 572, 796, 1047, 681, 725, 343, 372]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 192773, 115730, 16248, 11974], "prior": [28525, 33407, 55335, 124592, 149117, 137779, 259639, 420775, 173659, 121998, 44209, 73473]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 54.5, 42.2, 12.2, 4.6], "prior": [15.7, 20.4, 37.7, 54.8, 52.3, 50.7, 68.5, 89.1, 60.2, 61.8, 30.1, 35.0]}}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
       function fmt(suffix){
         return function(v){
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -1030,35 +1011,35 @@ window.CraveiralCharts = (function(){
 <td class="mono">611</td>
 <td class="mono">0</td>
 <td class="mono">54,5%</td>
-<td class="mono">192.561€</td>
-<td class="mono">315,16€</td>
+<td class="mono">192.773€</td>
+<td class="mono">315,50€</td>
 <td class="mono">681</td>
 <td class="mono">173.659€</td>
 <td class="mono">-70</td>
-<td class="mono">+18.902€</td></tr><tr><td>Outubro</td>
-<td class="mono">490</td>
+<td class="mono">+19.114€</td></tr><tr><td>Outubro</td>
 <td class="mono">493</td>
-<td class="mono">+3</td>
-<td class="mono">41,8%</td>
-<td class="mono">114.606€</td>
-<td class="mono">232,47€</td>
+<td class="mono">497</td>
+<td class="mono">+4</td>
+<td class="mono">42,2%</td>
+<td class="mono">115.730€</td>
+<td class="mono">232,86€</td>
 <td class="mono">725</td>
 <td class="mono">121.998€</td>
-<td class="mono">-232</td>
-<td class="mono">-7.393€</td></tr><tr><td>Novembro</td>
-<td class="mono">99</td>
+<td class="mono">-228</td>
+<td class="mono">-6.269€</td></tr><tr><td>Novembro</td>
 <td class="mono">95</td>
-<td class="mono">-4</td>
-<td class="mono">8,3%</td>
-<td class="mono">15.273€</td>
-<td class="mono">160,77€</td>
+<td class="mono">139</td>
+<td class="mono">+44</td>
+<td class="mono">12,2%</td>
+<td class="mono">16.248€</td>
+<td class="mono">116,89€</td>
 <td class="mono">343</td>
 <td class="mono">44.209€</td>
-<td class="mono">-248</td>
-<td class="mono">-28.936€</td></tr><tr><td>Dezembro</td>
-<td class="mono">51</td>
+<td class="mono">-204</td>
+<td class="mono">-27.961€</td></tr><tr><td>Dezembro</td>
 <td class="mono">54</td>
-<td class="mono">+3</td>
+<td class="mono">54</td>
+<td class="mono">0</td>
 <td class="mono">4,6%</td>
 <td class="mono">11.974€</td>
 <td class="mono">221,74€</td>
@@ -1969,12 +1950,12 @@ window.CraveiralCharts = (function(){
 <td class="mono">20</td><td class="mono">53%</td><td class="mono">5.642€</td>
 <td class="mono">20</td><td class="mono">53%</td><td class="mono">5.642€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">19/09</td><td>sáb</td>
-<td class="mono">30</td><td class="mono">79%</td><td class="mono">8.554€</td>
 <td class="mono">30</td><td class="mono">79%</td><td class="mono">8.779€</td>
-<td class="mono">0</td><td class="mono">+224€</td></tr><tr><td class="mono">20/09</td><td>dom</td>
-<td class="mono">19</td><td class="mono">50%</td><td class="mono">5.428€</td>
+<td class="mono">30</td><td class="mono">79%</td><td class="mono">8.779€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">20/09</td><td>dom</td>
 <td class="mono">19</td><td class="mono">50%</td><td class="mono">5.445€</td>
-<td class="mono">0</td><td class="mono">+16€</td></tr><tr><td class="mono">21/09</td><td>seg</td>
+<td class="mono">19</td><td class="mono">50%</td><td class="mono">5.657€</td>
+<td class="mono">0</td><td class="mono">+212€</td></tr><tr><td class="mono">21/09</td><td>seg</td>
 <td class="mono">21</td><td class="mono">55%</td><td class="mono">6.303€</td>
 <td class="mono">21</td><td class="mono">55%</td><td class="mono">6.303€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">22/09</td><td>ter</td>
@@ -2025,8 +2006,8 @@ window.CraveiralCharts = (function(){
 <td class="mono">28</td><td class="mono">74%</td><td class="mono">5.917€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">03/10</td><td>sáb</td>
 <td class="mono">29</td><td class="mono">76%</td><td class="mono">5.204€</td>
-<td class="mono">29</td><td class="mono">76%</td><td class="mono">5.204€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">04/10</td><td>dom</td>
+<td class="mono">30</td><td class="mono">79%</td><td class="mono">5.620€</td>
+<td class="mono">+1</td><td class="mono">+416€</td></tr><tr><td class="mono">04/10</td><td>dom</td>
 <td class="mono">38</td><td class="mono">100%</td><td class="mono">9.097€</td>
 <td class="mono">38</td><td class="mono">100%</td><td class="mono">9.097€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">05/10</td><td>seg</td>
@@ -2042,12 +2023,12 @@ window.CraveiralCharts = (function(){
 <td class="mono">33</td><td class="mono">87%</td><td class="mono">9.976€</td>
 <td class="mono">33</td><td class="mono">87%</td><td class="mono">9.976€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">09/10</td><td>sex</td>
-<td class="mono">15</td><td class="mono">39%</td><td class="mono">4.363€</td>
 <td class="mono">16</td><td class="mono">42%</td><td class="mono">4.363€</td>
-<td class="mono">+1</td><td class="mono">0€</td></tr><tr><td class="mono">10/10</td><td>sáb</td>
-<td class="mono">23</td><td class="mono">61%</td><td class="mono">6.183€</td>
+<td class="mono">16</td><td class="mono">42%</td><td class="mono">4.363€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">10/10</td><td>sáb</td>
 <td class="mono">24</td><td class="mono">63%</td><td class="mono">6.183€</td>
-<td class="mono">+1</td><td class="mono">0€</td></tr><tr><td class="mono">11/10</td><td>dom</td>
+<td class="mono">23</td><td class="mono">61%</td><td class="mono">5.804€</td>
+<td class="mono">-1</td><td class="mono">-378€</td></tr><tr><td class="mono">11/10</td><td>dom</td>
 <td class="mono">15</td><td class="mono">39%</td><td class="mono">3.198€</td>
 <td class="mono">15</td><td class="mono">39%</td><td class="mono">3.198€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">12/10</td><td>seg</td>
@@ -2060,9 +2041,9 @@ window.CraveiralCharts = (function(){
 <td class="mono">15</td><td class="mono">39%</td><td class="mono">3.947€</td>
 <td class="mono">15</td><td class="mono">39%</td><td class="mono">3.947€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">15/10</td><td>qui</td>
-<td class="mono">17</td><td class="mono">45%</td><td class="mono">4.200€</td>
 <td class="mono">18</td><td class="mono">47%</td><td class="mono">4.467€</td>
-<td class="mono">+1</td><td class="mono">+266€</td></tr><tr><td class="mono">16/10</td><td>sex</td>
+<td class="mono">18</td><td class="mono">47%</td><td class="mono">4.467€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">16/10</td><td>sex</td>
 <td class="mono">28</td><td class="mono">74%</td><td class="mono">3.633€</td>
 <td class="mono">28</td><td class="mono">74%</td><td class="mono">3.633€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">17/10</td><td>sáb</td>
@@ -2079,17 +2060,17 @@ window.CraveiralCharts = (function(){
 <td class="mono">7</td><td class="mono">18%</td><td class="mono">1.520€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">21/10</td><td>qua</td>
 <td class="mono">6</td><td class="mono">16%</td><td class="mono">1.088€</td>
-<td class="mono">6</td><td class="mono">16%</td><td class="mono">1.088€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">22/10</td><td>qui</td>
+<td class="mono">7</td><td class="mono">18%</td><td class="mono">1.354€</td>
+<td class="mono">+1</td><td class="mono">+266€</td></tr><tr><td class="mono">22/10</td><td>qui</td>
 <td class="mono">7</td><td class="mono">18%</td><td class="mono">1.365€</td>
-<td class="mono">7</td><td class="mono">18%</td><td class="mono">1.365€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">23/10</td><td>sex</td>
+<td class="mono">8</td><td class="mono">21%</td><td class="mono">1.631€</td>
+<td class="mono">+1</td><td class="mono">+266€</td></tr><tr><td class="mono">23/10</td><td>sex</td>
 <td class="mono">6</td><td class="mono">16%</td><td class="mono">1.248€</td>
-<td class="mono">6</td><td class="mono">16%</td><td class="mono">1.248€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">24/10</td><td>sáb</td>
+<td class="mono">7</td><td class="mono">18%</td><td class="mono">1.525€</td>
+<td class="mono">+1</td><td class="mono">+277€</td></tr><tr><td class="mono">24/10</td><td>sáb</td>
 <td class="mono">12</td><td class="mono">32%</td><td class="mono">2.682€</td>
-<td class="mono">12</td><td class="mono">32%</td><td class="mono">2.682€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">25/10</td><td>dom</td>
+<td class="mono">13</td><td class="mono">34%</td><td class="mono">2.959€</td>
+<td class="mono">+1</td><td class="mono">+277€</td></tr><tr><td class="mono">25/10</td><td>dom</td>
 <td class="mono">9</td><td class="mono">24%</td><td class="mono">1.769€</td>
 <td class="mono">9</td><td class="mono">24%</td><td class="mono">1.769€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">26/10</td><td>seg</td>
@@ -2149,11 +2130,11 @@ window.CraveiralCharts = (function(){
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">125€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">09/11</td><td>seg</td>
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">125€</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">125€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">10/11</td><td>ter</td>
+<td class="mono">21</td><td class="mono">55%</td><td class="mono">125€</td>
+<td class="mono">+20</td><td class="mono">0€</td></tr><tr><td class="mono">10/11</td><td>ter</td>
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">116€</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">116€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">11/11</td><td>qua</td>
+<td class="mono">21</td><td class="mono">55%</td><td class="mono">116€</td>
+<td class="mono">+20</td><td class="mono">0€</td></tr><tr><td class="mono">11/11</td><td>qua</td>
 <td class="mono">3</td><td class="mono">8%</td><td class="mono">470€</td>
 <td class="mono">3</td><td class="mono">8%</td><td class="mono">470€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">12/11</td><td>qui</td>
@@ -2202,18 +2183,18 @@ window.CraveiralCharts = (function(){
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">27/11</td><td>sex</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">430€</td>
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
-<td class="mono">-1</td><td class="mono">-430€</td></tr><tr><td class="mono">28/11</td><td>sáb</td>
-<td class="mono">2</td><td class="mono">5%</td><td class="mono">430€</td>
+<td class="mono">1</td><td class="mono">3%</td><td class="mono">244€</td>
+<td class="mono">+1</td><td class="mono">+244€</td></tr><tr><td class="mono">28/11</td><td>sáb</td>
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">0€</td>
-<td class="mono">-1</td><td class="mono">-430€</td></tr><tr><td class="mono">29/11</td><td>dom</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">414€</td>
+<td class="mono">2</td><td class="mono">5%</td><td class="mono">244€</td>
+<td class="mono">+1</td><td class="mono">+244€</td></tr><tr><td class="mono">29/11</td><td>dom</td>
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
-<td class="mono">-1</td><td class="mono">-414€</td></tr><tr><td class="mono">30/11</td><td>seg</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">414€</td>
+<td class="mono">1</td><td class="mono">3%</td><td class="mono">244€</td>
+<td class="mono">+1</td><td class="mono">+244€</td></tr><tr><td class="mono">30/11</td><td>seg</td>
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
-<td class="mono">-1</td><td class="mono">-414€</td></tr>
+<td class="mono">1</td><td class="mono">3%</td><td class="mono">244€</td>
+<td class="mono">+1</td><td class="mono">+244€</td></tr>
               </tbody>
             </table>
           </div>
@@ -2296,15 +2277,15 @@ window.CraveiralCharts = (function(){
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">24/12</td><td>qui</td>
-<td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">213€</td>
-<td class="mono">+1</td><td class="mono">+213€</td></tr><tr><td class="mono">25/12</td><td>sex</td>
-<td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
+<td class="mono">1</td><td class="mono">3%</td><td class="mono">213€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">25/12</td><td>sex</td>
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">232€</td>
-<td class="mono">+1</td><td class="mono">+232€</td></tr><tr><td class="mono">26/12</td><td>sáb</td>
-<td class="mono">2</td><td class="mono">5%</td><td class="mono">850€</td>
+<td class="mono">1</td><td class="mono">3%</td><td class="mono">232€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">26/12</td><td>sáb</td>
 <td class="mono">3</td><td class="mono">8%</td><td class="mono">1.082€</td>
-<td class="mono">+1</td><td class="mono">+232€</td></tr><tr><td class="mono">27/12</td><td>dom</td>
+<td class="mono">3</td><td class="mono">8%</td><td class="mono">1.082€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">27/12</td><td>dom</td>
 <td class="mono">12</td><td class="mono">32%</td><td class="mono">2.679€</td>
 <td class="mono">12</td><td class="mono">32%</td><td class="mono">2.679€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">28/12</td><td>seg</td>
@@ -2325,7 +2306,7 @@ window.CraveiralCharts = (function(){
           </div>
         </details>
 
-    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (706 leituras). Ontem = leitura de 19/09/2026, Hoje = leitura de 20/09/2026. Esta secção é atualizada automaticamente todos os dias.</p>
+    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (707 leituras). Ontem = leitura de 20/09/2026, Hoje = leitura de 21/09/2026. Esta secção é atualizada automaticamente todos os dias.</p>
   </section>
 
   <footer>
