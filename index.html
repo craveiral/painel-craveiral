@@ -12,7 +12,7 @@
     --ink:#21241D; --ink-2:#52564A; --ink-mute:#82806E;
     --accent:#1B4B4A; --accent-ink:#F3F7F5; --accent-soft:#DCEAE6; --accent-line:#2E6664;
     --secondary:#8F5420; --secondary-soft:#F0E1CC;
-    --good:#1F7A1F;
+    --good:#1F7A1F; --bad:#A23F35;
     --series-1:#1baf7a; --series-2:#eda100;
     --shadow: 0 1px 2px rgba(33,36,29,0.06), 0 6px 20px -8px rgba(33,36,29,0.18);
     color-scheme: light;
@@ -23,7 +23,7 @@
       --ink:#ECE7DA; --ink-2:#BEBBAB; --ink-mute:#8C8A78;
       --accent:#6FC2B6; --accent-ink:#0E201E; --accent-soft:#213A36; --accent-line:#4A8B83;
       --secondary:#D8A768; --secondary-soft:#3A2C18;
-      --good:#3FA648;
+      --good:#3FA648; --bad:#E2776B;
       --series-1:#199e70; --series-2:#c98500;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 26px -10px rgba(0,0,0,0.55);
       color-scheme: dark;
@@ -34,7 +34,7 @@
     --ink:#ECE7DA; --ink-2:#BEBBAB; --ink-mute:#8C8A78;
     --accent:#6FC2B6; --accent-ink:#0E201E; --accent-soft:#213A36; --accent-line:#4A8B83;
     --secondary:#D8A768; --secondary-soft:#3A2C18;
-    --good:#3FA648;
+    --good:#3FA648; --bad:#E2776B;
     --series-1:#199e70; --series-2:#c98500;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 26px -10px rgba(0,0,0,0.55);
     color-scheme: dark;
@@ -70,6 +70,12 @@
   .kpi-tile .kpi-label{ font-size:0.76rem; color:var(--ink-mute); line-height:1.3; }
   .kpi-tile .kpi-value{ font-size:1.55rem; font-weight:600; display:flex; align-items:baseline; gap:6px; }
   .kpi-tile .kpi-delta{ font-size:0.86rem; color:var(--good); font-weight:600; }
+  .kpi-delta.bad{ color:var(--bad); }
+  .insight-stack{ display:flex; flex-direction:column; gap:16px; }
+  .chart-card p.insight-text{ font-size:0.92rem; color:var(--ink-2); line-height:1.65; margin:0 0 10px; }
+  .chart-card p.insight-text:last-child{ margin-bottom:0; }
+  .suggestion-list{ margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; }
+  .suggestion-list li{ font-size:0.92rem; color:var(--ink-2); line-height:1.55; }
   .kpi-tile .kpi-note{ font-size:0.74rem; color:var(--ink-mute); }
 
   /* review cards */
@@ -2173,6 +2179,63 @@ window.CraveiralCharts = (function(){
         </details>
 
     <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (706 leituras). Ontem = leitura de 19/09/2026, Hoje = leitura de 20/09/2026. Esta secção é atualizada automaticamente todos os dias.</p>
+  </section>
+
+  <section id="revenue">
+    <div class="section-head">
+      <div>
+        <h2>Análise de revenue management</h2>
+        <p class="sub">Leitura comercial cruzando o pick-up diário, os dados de mercado recolhidos no Climber RMS e no Lighthouse, e a evolução do turismo em Portugal e no Alentejo. Elaborada com apoio de IA — reveja antes de decisões comerciais.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-tile">
+        <span class="kpi-label">ADR médio · ano 2026</span>
+        <span class="kpi-value mono">277,31€ <span class="kpi-delta">▲ 11,5%</span></span>
+        <span class="kpi-note">vs. 248,70€ em 2025 — o crescimento tarifário está a compensar a quebra de room nights</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Room nights · ano 2026</span>
+        <span class="kpi-value mono">5.808 <span class="kpi-delta bad">▼ 11,0%</span></span>
+        <span class="kpi-note">vs. 6.524 RN em 2025 (-716 RN); receita quase estável no ano (-0,7%)</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Hiato de RN · 4.º trimestre</span>
+        <span class="kpi-value mono">-750 <span class="kpi-delta bad">▼ 52,1%</span></span>
+        <span class="kpi-note">Out+Nov+Dez: 690 RN previstas vs. 1.440 RN no mesmo período de 2025</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Hiato de receita · 4.º trimestre</span>
+        <span class="kpi-value mono">-95.728€ <span class="kpi-delta bad">▼ 39,9%</span></span>
+        <span class="kpi-note">Out+Nov+Dez: 143.952€ previstos vs. 239.680€ no mesmo período de 2025</span>
+      </div>
+    </div>
+
+    <div class="insight-stack">
+      <div class="chart-card">
+        <h3>O que está a correr bem</h3>
+        <p class="insight-text">A estratégia de yield está a resultar: o ADR médio do ano subiu de 248,70€ para 277,31€ (+11,5%) e, mês a mês, passou de cerca de 160€ em janeiro para um pico de 424€ em agosto (+164%). Isto permitiu manter a receita do ano praticamente estável — 1.610.603€ em 2026 vs. 1.622.507€ em 2025 (-0,7%) — apesar de uma quebra de 716 room nights (-11,0%). Estamos, no essencial, a vender menos noites a um preço bastante melhor.</p>
+        <p class="insight-text">O posicionamento tarifário também parece saudável: o ADR médio de setembro (309,93€) mantém uma margem folgada sobre os concorrentes rurais mais próximos — Herdade do Touril (188€, a 13 km) e Herdade da Matinha (191€, a 36 km) — sem se aproximar do intervalo dos concorrentes de charme do corredor da Comporta (419€ a 714€), o que sugere ainda haver espaço para explorar esse segmento superior. As pontuações de hóspedes mantêm-se elevadas em todas as fontes (ver secção de Feedback), o que sustenta esta posição premium.</p>
+      </div>
+      <div class="chart-card">
+        <h3>Onde é preciso ter atenção</h3>
+        <p class="insight-text">O sinal mais importante está no 4.º trimestre: o pick-up atual mostra um hiato crescente face a 2025, mês após mês — outubro -228 RN / -6.269€, novembro -204 RN / -27.961€, dezembro -318 RN / -61.499€ — um total acumulado de -750 RN (-52,1%) e -95.728€ (-39,9%) no trimestre. Este hiato está a agravar-se precisamente quando o Alentejo cresce acima da média nacional (dormidas +7,7% em julho, RevPAR +14,6%, a maior subida do país), o que levanta a hipótese de estarmos a perder quota regional e não apenas a sentir uma quebra genérica de procura.</p>
+        <p class="insight-text">Maio é uma segunda anomalia a investigar: o pick-up mostra +29 RN mas -35.828€ de receita face a 2025 — um padrão que normalmente aponta para um canal ou tarifa de grupo com preço baixo a distorcer o ADR desse mês. Vale a pena confirmar a origem dessas reservas.</p>
+      </div>
+      <div class="chart-card">
+        <h3>Sugestões de ação</h3>
+        <ul class="suggestion-list">
+          <li>Confirmar se a tarifa do Craveiral para 27/09 está alinhada com a procura da zona: nessa data há dois concorrentes esgotados (Areias do Seixo, Sublime Comporta) e um com restrição de estadia mínima (Herdade do Amarelo) — sinais de procura forte que podem justificar testar tarifas mais altas nesse fim de semana.</li>
+          <li>Para o 4.º trimestre, considerar pricing mais flexível (tarifas dinâmicas, pacotes de estadias mais longas, ofertas de última hora) enquanto o hiato não fechar — o ritmo de pick-up observado nalguns dias de outubro/novembro (pontualmente +1 RN / +244 a 277€) ainda é insuficiente para recuperar a diferença.</li>
+          <li>Investigar a origem das reservas de maio de 2026, para perceber por que a receita caiu apesar do RN ter subido face a 2025.</li>
+          <li>Rever a visibilidade do Craveiral nos canais de distribuição face ao crescimento do Alentejo, para garantir que a procura regional em alta está também a chegar até nós.</li>
+          <li>Continuar a acompanhar o pick-up diário nas próximas semanas, com atenção redobrada a outubro, novembro e dezembro.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footnote">Fontes: Climber RMS (dados comerciais mensais), relatório diário de pick-up do PMS, competition set Lighthouse/Climber, e INE / Turismo de Portugal — TravelBI (contexto de mercado, secção "Contexto de mercado" acima). Leitura elaborada com apoio de IA a partir dos dados carregados neste painel; deve ser revista pela equipa antes de decisões comerciais. Dados de 21/09/2026.</p>
   </section>
 
   <section id="feedback">
