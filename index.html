@@ -616,7 +616,7 @@ window.CraveiralCharts = (function(){
     <script>
     (function(){
       var categories = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26"];
-      var metrics = {"receita": {"label": "Receita", "suffix": "€", "values": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 189676, null, null, null]}, "reservas": {"label": "Room Nights", "suffix": "", "values": [205, 309, 374, 653, 649, 590, 774, 977, 612, null, null, null]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "values": [17, 29, 32, 57, 55, 52, 66, 83, 54, null, null, null]}, "adr": {"label": "ADR", "suffix": "€", "values": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 309.93, null, null, null]}, "revpar": {"label": "RevPAR", "suffix": "€", "values": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 167.36, null, null, null]}};
+      var metrics = {"receita": {"label": "Receita", "suffix": "€", "values": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 190918, null, null, null]}, "reservas": {"label": "Room Nights", "suffix": "", "values": [205, 309, 374, 653, 649, 590, 774, 977, 626, null, null, null]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "values": [17, 29, 32, 57, 55, 52, 66, 83, 55, null, null, null]}, "adr": {"label": "ADR", "suffix": "€", "values": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 304.98, null, null, null]}, "revpar": {"label": "RevPAR", "suffix": "€", "values": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 167.74, null, null, null]}};
       function fmt(suffix){
         return function(v){
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -649,15 +649,15 @@ window.CraveiralCharts = (function(){
           <tr><th>Mês</th><th>Room Nights (RN)</th><th>Receita (€)</th><th>Ocupação (%)</th><th>ADR (€)</th><th>RevPAR (€)</th></tr>
         </thead>
         <tbody>
-          <tr><td class="mono">Jan/26</td><td class="mono">205</td><td class="mono">32,881€</td><td class="mono">17,0%</td><td class="mono">160,40€</td><td class="mono">27€</td></tr>
-          <tr><td class="mono">Fev/26</td><td class="mono">309</td><td class="mono">33,917€</td><td class="mono">29,0%</td><td class="mono">109,76€</td><td class="mono">32€</td></tr>
-          <tr><td class="mono">Mar/26</td><td class="mono">374</td><td class="mono">55,678€</td><td class="mono">32,0%</td><td class="mono">148,87€</td><td class="mono">48€</td></tr>
-          <tr><td class="mono">Abr/26</td><td class="mono">653</td><td class="mono">137,497€</td><td class="mono">57,0%</td><td class="mono">210,56€</td><td class="mono">120€</td></tr>
-          <tr><td class="mono">Mai/26</td><td class="mono">649</td><td class="mono">107,996€</td><td class="mono">55,0%</td><td class="mono">166,40€</td><td class="mono">92€</td></tr>
-          <tr><td class="mono">Jun/26</td><td class="mono">590</td><td class="mono">160,966€</td><td class="mono">52,0%</td><td class="mono">272,82€</td><td class="mono">142€</td></tr>
-          <tr><td class="mono">Jul/26</td><td class="mono">774</td><td class="mono">272,409€</td><td class="mono">66,0%</td><td class="mono">351,95€</td><td class="mono">232€</td></tr>
-          <tr><td class="mono">Ago/26</td><td class="mono">977</td><td class="mono">414,219€</td><td class="mono">83,0%</td><td class="mono">423,97€</td><td class="mono">352€</td></tr>
-          <tr><td class="mono">Set/26</td><td class="mono">612</td><td class="mono">189,676€</td><td class="mono">54,0%</td><td class="mono">309,93€</td><td class="mono">167€</td></tr>
+          <tr><td class="mono">Jan/26</td><td class="mono">205</td><td class="mono">32.881€</td><td class="mono">17,0%</td><td class="mono">160,40€</td><td class="mono">27€</td></tr>
+          <tr><td class="mono">Fev/26</td><td class="mono">309</td><td class="mono">33.917€</td><td class="mono">29,0%</td><td class="mono">109,76€</td><td class="mono">32€</td></tr>
+          <tr><td class="mono">Mar/26</td><td class="mono">374</td><td class="mono">55.678€</td><td class="mono">32,0%</td><td class="mono">148,87€</td><td class="mono">48€</td></tr>
+          <tr><td class="mono">Abr/26</td><td class="mono">653</td><td class="mono">137.497€</td><td class="mono">57,0%</td><td class="mono">210,56€</td><td class="mono">120€</td></tr>
+          <tr><td class="mono">Mai/26</td><td class="mono">649</td><td class="mono">107.996€</td><td class="mono">55,0%</td><td class="mono">166,40€</td><td class="mono">92€</td></tr>
+          <tr><td class="mono">Jun/26</td><td class="mono">590</td><td class="mono">160.966€</td><td class="mono">52,0%</td><td class="mono">272,82€</td><td class="mono">142€</td></tr>
+          <tr><td class="mono">Jul/26</td><td class="mono">774</td><td class="mono">272.409€</td><td class="mono">66,0%</td><td class="mono">351,95€</td><td class="mono">232€</td></tr>
+          <tr><td class="mono">Ago/26</td><td class="mono">977</td><td class="mono">414.219€</td><td class="mono">83,0%</td><td class="mono">423,97€</td><td class="mono">352€</td></tr>
+          <tr><td class="mono">Set/26</td><td class="mono">626</td><td class="mono">190.918€</td><td class="mono">55,0%</td><td class="mono">304,98€</td><td class="mono">168€</td></tr>
         </tbody>
       </table>
     </div>
