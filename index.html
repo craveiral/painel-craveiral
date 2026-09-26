@@ -602,8 +602,8 @@ window.CraveiralCharts = (function(){
     </div>
 
     <div class="chart-card">
-      <h3>Evolução mensal</h3>
-      <p class="chart-sub">A partir do Climber RMS. Use os botões para trocar a métrica.</p>
+      <h3>Evolução mensal — 2026 vs. 2025</h3>
+      <p class="chart-sub">A partir do Climber RMS (relatório Pickup Year over Year). Use os botões para trocar a métrica.</p>
       <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de evolução comercial" data-toggle-for="comercial-chart">
         <button type="button" data-metric="receita" aria-pressed="true">Receita</button>
         <button type="button" data-metric="reservas" aria-pressed="false">Room Nights</button>
@@ -748,8 +748,13 @@ window.CraveiralCharts = (function(){
     </div>
 
     <div class="chart-card">
-      <h3>Evolução mensal — 2026 vs. 2025</h3>
-      <p class="chart-sub">Ritmo de reservas por mês; use os botões para trocar a métrica.</p>
+      <h3 id="pickup-chart-title">Evolução mensal — 2026 vs. 2025</h3>
+      <p class="chart-sub">Compare o ritmo de reservas por dia, por semana ISO ou por mês; use os botões para trocar a granularidade e a métrica.</p>
+      <div class="metric-toggle" role="group" aria-label="Escolher granularidade do gráfico de pick-up" data-toggle-for="pickup-chart-gran">
+        <button type="button" data-gran="daily" aria-pressed="false">Diário</button>
+        <button type="button" data-gran="weekly" aria-pressed="false">Semanal</button>
+        <button type="button" data-gran="monthly" aria-pressed="true">Mensal</button>
+      </div>
       <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de pick-up" data-toggle-for="pickup-chart">
         <button type="button" data-metric="rn" aria-pressed="true">Room Nights</button>
         <button type="button" data-metric="receita" aria-pressed="false">Receita</button>
@@ -759,7 +764,9 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 625, 503, 145, 56], "prior": [163, 207, 417, 589, 612, 572, 796, 1047, 681, 725, 343, 372]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196207, 117135, 17173, 11974], "prior": [28525, 33407, 55335, 124592, 149117, 137779, 259639, 420775, 173659, 121998, 44209, 73473]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 55.6, 42.7, 12.7, 4.8], "prior": [15.7, 20.4, 37.7, 54.8, 52.3, 50.7, 68.5, 89.1, 60.2, 61.8, 30.1, 35.0]}}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
+      var data = {"granularities": {"monthly": {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 625, 503, 145, 56], "prior": [163, 207, 417, 589, 612, 572, 796, 1047, 681, 725, 343, 372]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196207, 117135, 17173, 11974], "prior": [28525, 33407, 55335, 124592, 149117, 137779, 259639, 420775, 173659, 121998, 44209, 73473]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 55.6, 42.7, 12.7, 4.8], "prior": [15.7, 20.4, 37.7, 54.8, 52.3, 50.7, 68.5, 89.1, 60.2, 61.8, 30.1, 35.0]}}}, "weekly": {"categories": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27", "S28", "S29", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37", "S38", "S39", "S40", "S41", "S42", "S43", "S44", "S45", "S46", "S47", "S48", "S49", "S50", "S51", "S52", "S53"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [61, 29, 28, 47, 48, 63, 65, 96, 78, 56, 101, 69, 88, 224, 185, 74, 130, 172, 155, 123, 157, 120, 163, 148, 88, 171, 103, 154, 161, 223, 219, 245, 247, 248, 158, 147, 173, 130, 151, 147, 186, 103, 64, 44, 47, 79, 7, 4, 9, 3, 13, 18, 14], "prior": [70, 40, 19, 16, 30, 54, 60, 48, 55, 134, 95, 115, 42, 81, 92, 168, 195, 155, 121, 111, 123, 164, 81, 170, 156, 141, 91, 153, 188, 235, 220, 259, 254, 251, 201, 220, 144, 170, 129, 111, 182, 186, 176, 130, 101, 48, 64, 70, 91, 75, 19, 96, 124]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [16247, 1976, 4682, 5774, 7330, 4074, 10365, 13176, 8130, 7348, 11541, 11397, 15588, 55101, 43687, 14505, 21169, 35212, 23484, 27858, 20195, 23121, 45324, 37663, 21554, 57326, 35726, 50448, 62408, 85664, 94174, 104839, 111585, 106045, 73919, 53763, 58819, 36294, 45337, 30984, 50835, 21334, 13039, 9177, 8653, 5917, 635, 731, 707, 0, 1171, 4387, 5953], "prior": [15488, 6743, 2596, 1583, 4112, 8023, 8881, 7793, 11832, 25878, 8084, 7044, 7988, 9910, 16597, 43911, 42086, 39662, 23894, 39435, 37080, 22353, 20702, 36464, 37771, 36979, 22544, 46977, 60023, 81786, 81987, 113435, 102136, 91985, 78933, 65105, 37873, 40323, 30593, 17774, 27480, 31443, 33679, 21062, 8234, 5943, 9889, 13608, 11288, 8419, 1267, 21242, 34592]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [43.8, 10.9, 10.5, 19.2, 19.0, 25.0, 24.9, 38.1, 31.3, 21.1, 38.6, 26.0, 33.1, 84.5, 72.8, 28.2, 48.9, 64.7, 58.3, 47.0, 60.1, 45.1, 61.3, 55.6, 36.9, 66.1, 38.9, 57.9, 60.9, 83.8, 84.3, 92.8, 92.9, 93.9, 60.7, 56.8, 65.5, 49.7, 57.5, 55.3, 69.9, 38.7, 24.1, 16.5, 17.7, 29.7, 2.6, 1.5, 3.4, 1.1, 4.9, 6.8, 9.2], "prior": [59.1, 15.4, 7.3, 6.2, 11.9, 21.8, 23.9, 18.4, 21.6, 56.1, 37.8, 44.2, 16.1, 33.7, 37.0, 67.8, 76.6, 59.2, 46.0, 41.7, 46.2, 61.7, 30.8, 65.2, 58.6, 53.6, 35.3, 59.4, 70.7, 89.7, 82.7, 97.7, 95.5, 94.7, 75.8, 82.7, 56.0, 64.0, 48.5, 43.1, 68.4, 69.9, 66.2, 48.9, 38.0, 18.0, 24.1, 26.6, 34.6, 28.6, 20.7, 36.1, 82.8]}}}, "daily": {"categories": ["27/08", "28/08", "29/08", "30/08", "31/08", "01/09", "02/09", "03/09", "04/09", "05/09", "06/09", "07/09", "08/09", "09/09", "10/09", "11/09", "12/09", "13/09", "14/09", "15/09", "16/09", "17/09", "18/09", "19/09", "20/09", "21/09", "22/09", "23/09", "24/09", "25/09", "26/09", "27/09", "28/09", "29/09", "30/09", "01/10", "02/10", "03/10", "04/10", "05/10", "06/10", "07/10", "08/10", "09/10", "10/10", "11/10", "12/10", "13/10", "14/10", "15/10", "16/10", "17/10", "18/10", "19/10", "20/10", "21/10", "22/10", "23/10", "24/10", "25/10", "26/10"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [22, 24, 17, 10, 10, 21, 19, 17, 26, 38, 16, 13, 37, 37, 38, 16, 22, 10, 13, 13, 14, 21, 20, 30, 19, 21, 23, 25, 22, 24, 19, 17, 13, 11, 10, 15, 28, 32, 38, 34, 33, 32, 33, 16, 23, 15, 9, 9, 15, 18, 28, 15, 9, 11, 8, 8, 8, 7, 13, 9, 7], "prior": [28, 23, 25, 22, 15, 30, 34, 37, 34, 32, 38, 20, 17, 21, 22, 18, 20, 26, 10, 20, 25, 29, 25, 27, 34, 23, 21, 20, 12, 15, 15, 23, 11, 11, 11, 9, 11, 27, 31, 5, 25, 25, 19, 38, 38, 32, 18, 23, 29, 26, 22, 34, 34, 19, 21, 30, 24, 18, 26, 38, 14]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [9672, 58429, 8048, -40411, 5246, 6258, 5946, 5508, 6973, 20245, 3588, 2170, 13451, 13396, 14529, 5635, 6862, 2776, 3239, 4091, 3764, 5122, 5642, 8779, 5657, 6897, 7184, 7767, 6891, 7397, 5124, 4076, 2947, 2327, 1965, 2057, 6110, 6480, 9097, 9167, 9449, 9147, 9976, 4267, 5709, 3119, 1775, 2311, 3947, 4467, 3633, 3394, 1808, 1830, 1746, 1579, 1631, 1525, 2959, 1769, 1255], "prior": [10783, 9279, 9746, 8218, 6474, 9106, 9797, 10625, 9263, 8815, 11024, 5142, 4551, 5507, 5386, 3997, 5912, 7377, 3088, 5468, 5507, 6003, 4952, 6734, 8571, 6013, 5326, 4446, 2802, 2585, 3795, 5627, 2148, 1987, 2104, 1482, 1484, 3963, 4606, 289, 2972, 3088, 2434, 7657, 7048, 3992, 2846, 3163, 4404, 4921, 4072, 5962, 6074, 3614, 3537, 5232, 4314, 3594, 5357, 8030, 2695]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [59.5, 64.9, 44.7, 26.3, 27.8, 56.8, 51.4, 47.2, 72.2, 100.0, 42.1, 34.2, 97.4, 97.4, 100.0, 42.1, 59.5, 27.8, 36.1, 36.1, 38.9, 55.3, 52.6, 79.0, 50.0, 55.3, 62.2, 67.6, 59.5, 63.2, 50.0, 44.7, 34.2, 28.9, 26.3, 39.5, 73.7, 84.2, 100.0, 89.5, 86.8, 84.2, 86.8, 42.1, 60.5, 39.5, 23.7, 23.7, 39.5, 47.4, 73.7, 39.5, 23.7, 28.9, 21.1, 21.1, 21.1, 18.4, 34.2, 23.7, 18.4], "prior": [73.7, 60.5, 67.6, 57.9, 39.5, 79.0, 89.5, 97.4, 89.5, 84.2, 100.0, 57.1, 48.6, 60.0, 57.9, 47.4, 52.6, 68.4, 27.0, 52.6, 65.8, 76.3, 65.8, 71.0, 89.5, 60.5, 55.3, 52.6, 31.6, 39.5, 39.5, 60.5, 28.9, 28.9, 28.9, 23.7, 29.7, 75.0, 86.1, 13.2, 65.8, 65.8, 50.0, 100.0, 100.0, 84.2, 47.4, 60.5, 76.3, 68.4, 57.9, 89.5, 89.5, 50.0, 55.3, 79.0, 63.2, 47.4, 68.4, 100.0, 36.8]}}}}, "granLabels": {"monthly": "Evolução mensal", "weekly": "Evolução semanal (por semana ISO)", "daily": "Evolução diária (últimos 61 dias à volta de hoje)"}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
+      var granTitles = {monthly:'Evolução mensal', weekly:'Evolução semanal (por semana ISO)', daily:'Evolução diária (à volta de hoje)'};
+      var curGran = 'monthly';
       function fmt(suffix){
         return function(v){
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -767,23 +774,33 @@ window.CraveiralCharts = (function(){
           return Math.round(v).toLocaleString('pt-PT');
         };
       }
-      function render(key){
-        var m = data.metrics[key];
+      function render(metricKey){
+        var g = data.granularities[curGran];
+        var m = g.metrics[metricKey];
+        document.getElementById('pickup-chart-title').textContent = data.granLabels[curGran] + ' — ' + data.labelHoje + ' vs. ' + data.labelPrior;
         window.CraveiralCharts.lineChart(document.getElementById('pickup-chart'), {
-          categories: data.categories,
+          categories: g.categories,
           series: [
             { slot: 1, label: data.labelHoje, values: m.hoje },
             { slot: 2, label: data.labelPrior, values: m.prior }
           ],
           formatValue: fmt(m.suffix),
-          ariaLabel: 'Evolução mensal de ' + m.label + ', ' + data.labelHoje + ' vs ' + data.labelPrior
+          ariaLabel: data.granLabels[curGran] + ' de ' + m.label + ', ' + data.labelHoje + ' vs ' + data.labelPrior
         });
       }
-      var toggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart"]');
-      toggle.addEventListener('click', function(ev){
+      var metricToggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart"]');
+      metricToggle.addEventListener('click', function(ev){
         var btn = ev.target.closest('button'); if (!btn) return;
-        toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        metricToggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
         render(btn.dataset.metric);
+      });
+      var granToggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart-gran"]');
+      granToggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button'); if (!btn) return;
+        granToggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        curGran = btn.dataset.gran;
+        var activeMetric = metricToggle.querySelector('button[aria-pressed="true"]');
+        render(activeMetric ? activeMetric.dataset.metric : 'rn');
       });
       render('rn');
     })();
