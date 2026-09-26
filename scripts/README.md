@@ -17,7 +17,23 @@ Previsão" na pasta do Google Drive "RELATÓRIOS DIÁRIOS"
   gerar o HTML completo da secção `<section id="pickup">...</section>` a
   partir dele, para o ano corrente (derivado da data de observação mais
   recente), comparando a leitura de ontem com a de hoje e com o fecho do
-  ano anterior.
+  ano anterior. **Desde 26/09/2026**, `render_pickup_section()` gera um
+  gráfico com DOIS toggles: granularidade (Diário / Semanal / Mensal) e
+  métrica (Room Nights / Receita / Ocupação), cada combinação sempre "este
+  ano vs. ano anterior fechado". Isto é totalmente automático — não requer
+  nenhuma ação extra na tarefa diária, só continuar a correr
+  `update_pickup.py` como sempre. Detalhes:
+  - **Mensal**: os 12 meses do ano, agregados a partir do histórico diário.
+  - **Semanal**: agregado por semana ISO (`aggregate_weekly()`), comparando
+    a mesma semana ISO do ano anterior.
+  - **Diário**: janela de ±30 dias à volta da leitura mais recente
+    (`daily_window()`) — não o ano inteiro, que ficaria ilegível num
+    gráfico de linhas com ~365 pontos.
+- `otb_gen.py` — gera a secção `<section id="otb">...</section>`
+  ("Receita Total & Mix") a partir de um snapshot do relatório interno OTB
+  (ver secção "OTB" mais abaixo). Não deriva do histórico de pick-up; usa
+  os dados que entrarem em `render_otb_section(monthly, snapshot_date,
+  year)`.
 - `update_pickup.py` — o script que a tarefa diária corre. Ver `--help`.
 
 ## Gráficos interativos (CraveiralCharts)
@@ -70,10 +86,21 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
   O ano a usar é o mais recente presente nos ids da coleção (`"2026-09"` →
   `"2026"`), não necessariamente o ano civil corrente.
 
+  **Desde 26/09/2026, o gráfico mostra DUAS séries** (ano corrente vs. ano
+  anterior fechado, slot 1/slot 2, cor `--series-1`/`--series-2`), tal como
+  o Pick-up — porque a coleção `comercial` passou a ter, em cada documento
+  mensal, os campos `reservasPrior`/`receitaPrior`/`ocupacaoPctPrior`/
+  `adrPrior` com o valor do mesmo mês no ano anterior (ver secção "Climber
+  RMS" abaixo, de onde vêm). No painel **privado** isto já é automático
+  (`renderComercialChart` em `private_artifact` lê os campos `*Prior` e
+  adiciona a 2ª série sozinho, sem ação nenhuma da tarefa diária). Na
+  página **pública**, como não há DB ao vivo, regenere o bloco assim
+  (adapte os valores; note `hoje`/`prior` em vez de um único `values`):
+
   ```html
   <div class="chart-card">
-    <h3>Evolução mensal</h3>
-    <p class="chart-sub">A partir do Climber RMS. Use os botões para trocar a métrica.</p>
+    <h3>Evolução mensal — 2026 vs. 2025</h3>
+    <p class="chart-sub">A partir do Climber RMS (relatório Pickup Year over Year). Use os botões para trocar a métrica.</p>
     <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de evolução comercial" data-toggle-for="comercial-chart">
       <button type="button" data-metric="receita" aria-pressed="true">Receita</button>
       <button type="button" data-metric="reservas" aria-pressed="false">Room Nights</button>
@@ -81,14 +108,18 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
       <button type="button" data-metric="adr" aria-pressed="false">ADR</button>
       <button type="button" data-metric="revpar" aria-pressed="false">RevPAR</button>
     </div>
+    <div class="legend-row">
+      <span class="legend-item"><span class="legend-swatch swatch-1"></span>2026</span>
+      <span class="legend-item"><span class="legend-swatch swatch-2"></span>2025 (fechado)</span>
+    </div>
     <div id="comercial-chart"></div>
   </div>
   <script>
   (function(){
-    var categories = [/* "Jan/26", "Fev/26", ..., "Dez/26" -- SEMPRE os 12 meses do ano, ordem cronológica */];
-    var metrics = { receita:{label:'Receita',suffix:'€',values:[/* um valor por mês, null onde não há documento */]}, reservas:{label:'Room Nights',suffix:'',values:[...]}, ocupacaoPct:{label:'Ocupação',suffix:'%',values:[...]}, adr:{label:'ADR',suffix:'€',values:[...]}, revpar:{label:'RevPAR',suffix:'€',values:[/* adr*ocupacaoPct/100, ou null */]} };
+    var categories = [/* "Jan/26", ..., "Dez/26" -- SEMPRE os 12 meses do ano, ordem cronológica */];
+    var metrics = { receita:{label:'Receita',suffix:'€',hoje:[/* 12 valores */],prior:[/* 12 valores do ano anterior, mesmo mês */]}, reservas:{...}, ocupacaoPct:{...}, adr:{...}, revpar:{suffix:'€',hoje:[/* adr*ocupacaoPct/100 */],prior:[/* idem com os campos *Prior */]} };
     function fmt(suffix){ return function(v){ if (suffix==='€') return Math.round(v).toLocaleString('pt-PT')+'€'; if (suffix==='%') return v.toLocaleString('pt-PT',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'; return Math.round(v).toLocaleString('pt-PT'); }; }
-    function render(key){ var m=metrics[key]; window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {categories:categories, series:[{slot:1,label:m.label,values:m.values}], formatValue:fmt(m.suffix), ariaLabel:'Evolução mensal de '+m.label+' do Craveiral, '+ano}); }
+    function render(key){ var m=metrics[key]; window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {categories:categories, series:[{slot:1,label:'2026',values:m.hoje},{slot:2,label:'2025 (fechado)',values:m.prior}], formatValue:fmt(m.suffix), ariaLabel:'Evolução mensal de '+m.label+' do Craveiral, 2026 comparado com 2025'}); }
     var toggle=document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"]');
     toggle.addEventListener('click', function(ev){ var btn=ev.target.closest('button'); if(!btn) return; toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b===btn)); }); render(btn.dataset.metric); });
     render('receita');
@@ -130,6 +161,94 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
   direita) para meio rótulo de categoria, medido pelo texto mais comprido em
   `categories` — não precisa de nenhuma ação na tarefa diária, só relembra
   que este bloco no `<head>` já reflete a correção desde essa data.
+
+## Climber RMS — recolha mensal (Evolução comercial)
+
+Fonte: `https://app.climberrms.com`, relatório **Pickup → Year over Year**
+(`/pickup/pickup-yoy`). Esta vista dá, numa única consulta, os 12 meses do
+ano corrente vs. o ano anterior (RN/Ocupação/Receita/ADR), incluindo os
+meses futuros do ano corrente como pick-up/pace à data da consulta (não
+só o passado fechado) — é a forma mais eficiente de manter a coleção
+`comercial` atualizada, melhor do que navegar mês a mês na vista
+"Overview" (ainda válida para confirmar um valor pontual, ver secção
+"Coisas já resolvidas" abaixo).
+
+Ao ler este relatório, escrever em cada documento `comercial/AAAA-MM` os
+campos do ano corrente (`reservas`, `receita`, `ocupacaoPct`, `adr`) e os
+do mesmo mês no ano anterior (`reservasPrior`, `receitaPrior`,
+`ocupacaoPctPrior`, `adrPrior`) — é esta segunda dupla de campos que
+alimenta a 2ª série (ano anterior) nos gráficos, tanto no painel privado
+como, regenerada à mão, na página pública.
+
+**Limitação confirmada (26/09/2026, não repetir a investigação): o
+Climber não tem, hoje, nenhuma forma nativa de obter granularidade diária
+ou semanal "este ano vs. ano anterior" numa janela larga.** Testado
+diretamente por manipulação de URL (`groupBy=week`/`day` com um intervalo
+de datas largo) tanto na vista Overview como na Pickup-YoY — a aplicação
+reescreve sempre a URL de volta para `filterBy=month`. Os relatórios
+Pickup → Week over Week e Month over Month têm granularidade diária mas
+comparam com a semana/mês anterior, não com o ano anterior. Não existe
+exportação em bloco nos relatórios de Competitors/Forecast/Multi
+Property/Segments. Conclusão: **por agora, a Evolução comercial só tem
+comparação ano-a-ano ao nível mensal** (como já implementado); diário/
+semanal ficaria para uma futura sessão que construa um histórico próprio
+(ficheiro tipo `pickup_history.csv.gz`, mas para o Climber), acumulado
+dia a dia a partir daqui — não tentar simular isto só com URLs.
+
+## Lighthouse — sem alterações
+
+O Lighthouse (rate shopping do competition set) não tem relatório de
+pick-up/pace próprio — só tarifas públicas pontuais por data de estadia.
+Não há, por isso, nenhuma granularidade diária/semanal/mensal a
+implementar aqui; a secção "Competition set" mantém-se como está (ADR
+mais recente por alojamento, recolhido manualmente do Lighthouse e/ou
+Climber).
+
+## OTB — Receita Total & Mix
+
+Nova secção (`<section id="otb">`, 26/09/2026), gerada por `otb_gen.py`.
+Fonte: pasta do Google Drive "OTB e RELATÓRIOS DIÁRIOS" › "OTB" ›
+"OTB's <ano>"
+(`https://drive.google.com/drive/u/0/folders/1gjVWecOxEJKOUsOfjwB62D5_X-1upRWN`),
+ficheiros `OTB_Craveiral_<ano>-DD.MM.YYYY.xlsx` (Google Sheets). Cadência
+real observada: cerca de 2x por semana, **segunda e quinta-feira** (não
+quarta/domingo, apesar de ser essa a cadência inicialmente descrita) —
+**não é diário**, por isso o passo de OTB não faz parte do ciclo diário
+normal: só correr quando houver um ficheiro mais recente do que o último
+usado (comparar o nome do ficheiro/data na pasta com `snapshotDate` do
+documento `otb/<ano>` já guardado).
+
+Cada workbook tem várias abas de data; a mais recente tem uma tabela "ON
+THE BOOKS <data> vs SAME DATE LAST YEAR" com, por mês, Taxa de Ocupação,
+Noites Vendidas, Receita Total, Receita Quartos, Receita F&B, Receita
+Outros, Receita SPA (colunas 2026/2025/Var./Var.%). **`get_page_text` não
+funciona em Google Sheets** (renderiza em canvas) — navegar pela Name Box
+(célula ~52,130 no ecrã, escrever a referência tipo `AS16` e Enter) e
+tirar screenshot para ler os valores; scroll normal não repõe a vista de
+forma fiável, usar sempre a Name Box.
+
+Room nights/ocupação desta fonte duplicam o Pick-up (mesmo PMS) — por
+isso `otb_gen.render_otb_section()` só usa a receita por departamento
+(Quartos, F&B, Outros+SPA; SPA aparece sempre a zero nesta fonte até
+à data). ADR/RevPAR e TRevPOR do OTB ficam de fora de propósito: ADR/
+RevPAR já vêm do Climber (metodologia diferente, misturar as duas fontes
+geraria números contraditórios no painel) e TRevPOR mostrou-se ruidoso/
+poucofiável na fonte.
+
+Ao processar um novo ficheiro OTB:
+1. Extrair, por mês (1–12), `quartos`/`fb`/`outros`/`spa` (Receita
+   Quartos/F&B/Outros/SPA da coluna do ano corrente). Confirmar por soma
+   (`quartos+fb+outros+spa` deve bater, a arredondamento, com a "Receita
+   Total" da própria folha).
+2. Guardar em `ArtifactData`, coleção `otb`, documento `<ano>` (ex.
+   `"2026"`): `{"year": <ano>, "snapshotDate": "<DD.MM.AAAA da folha>",
+   "months": {"1": {"quartos":…, "fb":…, "outros":…, "spa":…}, …, "12":
+   {…}}, "updatedAt": "<ISO>"}` — isto já basta para o painel privado
+   (secção DB-driven, lê `otb` sozinha via `db.collection('otb')`, sem
+   mais ação).
+3. Regenerar a secção estática da página pública com
+   `otb_gen.render_otb_section(monthly, snapshot_date, year)` e substituir
+   `<section id="otb">...</section>` em `index.html`.
 
 ## Ciclo diário
 
@@ -181,6 +300,18 @@ criada (19/09/2026); caso essa sessão já não exista, o próprio `<head>` do
    (`https://claude.ai/artifact/AZZXSg1y3y4Yt31w2TeYkW`) com a ferramenta
    Artifact, substituir a mesma secção pickup no seu HTML, e publicar de
    novo (`url` = o link acima).
+5. Periodicamente (não precisa de ser diário — os valores do Climber só
+   mudam de forma relevante ao longo de dias, não de hora a hora), repetir
+   a recolha do Climber (ver secção "Climber RMS" acima) e atualizar a
+   coleção `comercial` com os campos `*Prior`; regenerar o bloco de
+   gráfico/tabela da página pública (ver secção "Gráficos interativos"
+   acima) sempre que os números mudarem. O painel privado não precisa de
+   nenhuma ação extra (lê a coleção ao vivo).
+6. Verificar a pasta do Drive "OTB" (ver secção "OTB" acima); só quando
+   houver um ficheiro mais recente do que o último processado (não é
+   diário, tipicamente 2x/semana), extrair os valores, atualizar a
+   coleção `otb` e regenerar a secção estática `<section id="otb">` na
+   página pública.
 
 ## Coisas já resolvidas, não repetir a investigação
 

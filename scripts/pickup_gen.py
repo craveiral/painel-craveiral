@@ -168,7 +168,7 @@ def compute_year_data(hist, year, obs_hoje, obs_ontem):
             'date': d_str, 'dow': dow,
             'rn_ontem': rn_ontem, 'pct_ontem': pct_ontem, 'rec_ontem': rec_ontem,
             'rn_hoje': rn_hoje, 'pct_hoje': pct_hoje, 'rec_hoje': rec_hoje,
-            'pct_prior': pct_prior,
+            'rn_prior': rn_prior, 'rec_prior': rec_prior, 'pct_prior': pct_prior,
             'pickup_rn': rn_hoje - rn_ontem, 'pickup_rec': rec_hoje - rec_ontem,
         })
         months[m]['rn_ontem'] += rn_ontem
@@ -185,6 +185,56 @@ def compute_year_data(hist, year, obs_hoje, obs_ontem):
         totals['receita_prior'] += rec_prior
 
     return months, totals, all_days
+
+
+def aggregate_weekly(months, year):
+    """Groups the per-day records already computed by compute_year_data into
+    ISO weeks (this year vs prior year, same ISO week number). Returns a
+    sorted list of week dicts: {iso_week, start_date, rn_hoje, rec_hoje,
+    pct_hoje (avg), rn_prior, rec_prior, pct_prior (avg)}."""
+    weeks = {}
+    for m in range(1, 13):
+        for d in months[m]['days']:
+            y, mo, dd = [int(x) for x in d['date'].split('-')]
+            iso_year, iso_week, _ = date(y, mo, dd).isocalendar()
+            if iso_year != year:
+                continue  # trim the stray days ISO assigns to the adjacent year
+            key = iso_week
+            w = weeks.setdefault(key, {
+                'iso_week': iso_week, 'start_date': d['date'],
+                'rn_hoje': 0.0, 'rec_hoje': 0.0, 'pct_hoje_sum': 0.0,
+                'rn_prior': 0.0, 'rec_prior': 0.0, 'pct_prior_sum': 0.0, 'n': 0,
+            })
+            if d['date'] < w['start_date']:
+                w['start_date'] = d['date']
+            w['rn_hoje'] += d['rn_hoje']; w['rec_hoje'] += d['rec_hoje']; w['pct_hoje_sum'] += d['pct_hoje']
+            w['rn_prior'] += d['rn_prior']; w['rec_prior'] += d['rec_prior']; w['pct_prior_sum'] += d['pct_prior']
+            w['n'] += 1
+    out = []
+    for key in sorted(weeks.keys()):
+        w = weeks[key]
+        w['pct_hoje'] = w['pct_hoje_sum'] / w['n'] if w['n'] else 0
+        w['pct_prior'] = w['pct_prior_sum'] / w['n'] if w['n'] else 0
+        out.append(w)
+    return out
+
+
+def daily_window(months, obs_hoje, back_days=30, fwd_days=30):
+    """Flat chronological list of per-day records (as built by
+    compute_year_data) trimmed to a window of `back_days` before and
+    `fwd_days` after obs_hoje (today's PMS reading date) -- a full year at
+    daily resolution is too dense for a line chart to read, so the daily
+    view focuses on the near pace window instead, exactly where day-by-day
+    detail actually matters."""
+    flat = [d for m in range(1, 13) for d in months[m]['days']]
+    idx = next((i for i, d in enumerate(flat) if d['date'] == obs_hoje), None)
+    if idx is None:
+        # obs_hoje isn't in this year's own day list (e.g. year rollover) --
+        # fall back to the last days with any hoje data
+        idx = max((i for i, d in enumerate(flat) if d['rn_hoje']), default=len(flat) - 1)
+    lo = max(0, idx - back_days)
+    hi = min(len(flat), idx + fwd_days + 1)
+    return flat[lo:hi]
 
 
 def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
@@ -282,18 +332,63 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
       </table>
     </div>"""
 
-    chart_payload = {
+    monthly_payload = {
         'categories': chart_months,
         'metrics': {
             'rn': {'label': 'Room Nights', 'suffix': '', 'hoje': chart_rn_hoje, 'prior': chart_rn_prior},
             'receita': {'label': 'Receita', 'suffix': '€', 'hoje': chart_rec_hoje, 'prior': chart_rec_prior},
             'pct': {'label': 'Ocupação', 'suffix': '%', 'hoje': chart_pct_hoje, 'prior': chart_pct_prior},
         },
+    }
+
+    # ---- weekly granularity: ISO week, this year vs same ISO week last year ----
+    weeks = aggregate_weekly(months, year)
+    wk_cat, wk_rn_h, wk_rn_p, wk_rec_h, wk_rec_p, wk_pct_h, wk_pct_p = [], [], [], [], [], [], []
+    for w in weeks:
+        wk_cat.append(f"S{w['iso_week']:02d}")
+        wk_rn_h.append(round(w['rn_hoje'])); wk_rn_p.append(round(w['rn_prior']))
+        wk_rec_h.append(round(w['rec_hoje'])); wk_rec_p.append(round(w['rec_prior']))
+        wk_pct_h.append(round(w['pct_hoje'], 1)); wk_pct_p.append(round(w['pct_prior'], 1))
+    weekly_payload = {
+        'categories': wk_cat,
+        'metrics': {
+            'rn': {'label': 'Room Nights', 'suffix': '', 'hoje': wk_rn_h, 'prior': wk_rn_p},
+            'receita': {'label': 'Receita', 'suffix': '€', 'hoje': wk_rec_h, 'prior': wk_rec_p},
+            'pct': {'label': 'Ocupação', 'suffix': '%', 'hoje': wk_pct_h, 'prior': wk_pct_p},
+        },
+    }
+
+    # ---- daily granularity: trailing/leading window around today's reading ----
+    dwin = daily_window(months, obs_hoje)
+    dy_cat, dy_rn_h, dy_rn_p, dy_rec_h, dy_rec_p, dy_pct_h, dy_pct_p = [], [], [], [], [], [], []
+    for dday in dwin:
+        dy_cat.append(dday['date'][8:10] + '/' + dday['date'][5:7])
+        dy_rn_h.append(round(dday['rn_hoje'])); dy_rn_p.append(round(dday['rn_prior']))
+        dy_rec_h.append(round(dday['rec_hoje'])); dy_rec_p.append(round(dday['rec_prior']))
+        dy_pct_h.append(round(dday['pct_hoje'], 1)); dy_pct_p.append(round(dday['pct_prior'], 1))
+    daily_payload = {
+        'categories': dy_cat,
+        'metrics': {
+            'rn': {'label': 'Room Nights', 'suffix': '', 'hoje': dy_rn_h, 'prior': dy_rn_p},
+            'receita': {'label': 'Receita', 'suffix': '€', 'hoje': dy_rec_h, 'prior': dy_rec_p},
+            'pct': {'label': 'Ocupação', 'suffix': '%', 'hoje': dy_pct_h, 'prior': dy_pct_p},
+        },
+    }
+
+    chart_payload = {
+        'granularities': {'monthly': monthly_payload, 'weekly': weekly_payload, 'daily': daily_payload},
+        'granLabels': {'monthly': 'Evolução mensal', 'weekly': 'Evolução semanal (por semana ISO)',
+                        'daily': f'Evolução diária (últimos {len(dwin)} dias à volta de hoje)'},
         'labelHoje': str(year), 'labelPrior': f'{prior_year} (fechado)',
     }
     chart_html = f"""    <div class="chart-card">
-      <h3>Evolução mensal — {year} vs. {prior_year}</h3>
-      <p class="chart-sub">Ritmo de reservas por mês; use os botões para trocar a métrica.</p>
+      <h3 id="pickup-chart-title">Evolução mensal — {year} vs. {prior_year}</h3>
+      <p class="chart-sub">Compare o ritmo de reservas por dia, por semana ISO ou por mês; use os botões para trocar a granularidade e a métrica.</p>
+      <div class="metric-toggle" role="group" aria-label="Escolher granularidade do gráfico de pick-up" data-toggle-for="pickup-chart-gran">
+        <button type="button" data-gran="daily" aria-pressed="false">Diário</button>
+        <button type="button" data-gran="weekly" aria-pressed="false">Semanal</button>
+        <button type="button" data-gran="monthly" aria-pressed="true">Mensal</button>
+      </div>
       <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de pick-up" data-toggle-for="pickup-chart">
         <button type="button" data-metric="rn" aria-pressed="true">Room Nights</button>
         <button type="button" data-metric="receita" aria-pressed="false">Receita</button>
@@ -304,6 +399,8 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
     <script>
     (function(){{
       var data = {json.dumps(chart_payload, ensure_ascii=False)};
+      var granTitles = {{monthly:'Evolução mensal', weekly:'Evolução semanal (por semana ISO)', daily:'Evolução diária (à volta de hoje)'}};
+      var curGran = 'monthly';
       function fmt(suffix){{
         return function(v){{
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -311,23 +408,33 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
           return Math.round(v).toLocaleString('pt-PT');
         }};
       }}
-      function render(key){{
-        var m = data.metrics[key];
+      function render(metricKey){{
+        var g = data.granularities[curGran];
+        var m = g.metrics[metricKey];
+        document.getElementById('pickup-chart-title').textContent = data.granLabels[curGran] + ' — ' + data.labelHoje + ' vs. ' + data.labelPrior;
         window.CraveiralCharts.lineChart(document.getElementById('pickup-chart'), {{
-          categories: data.categories,
+          categories: g.categories,
           series: [
             {{ slot: 1, label: data.labelHoje, values: m.hoje }},
             {{ slot: 2, label: data.labelPrior, values: m.prior }}
           ],
           formatValue: fmt(m.suffix),
-          ariaLabel: 'Evolução mensal de ' + m.label + ', ' + data.labelHoje + ' vs ' + data.labelPrior
+          ariaLabel: data.granLabels[curGran] + ' de ' + m.label + ', ' + data.labelHoje + ' vs ' + data.labelPrior
         }});
       }}
-      var toggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart"]');
-      toggle.addEventListener('click', function(ev){{
+      var metricToggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart"]');
+      metricToggle.addEventListener('click', function(ev){{
         var btn = ev.target.closest('button'); if (!btn) return;
-        toggle.querySelectorAll('button').forEach(function(b){{ b.setAttribute('aria-pressed', String(b === btn)); }});
+        metricToggle.querySelectorAll('button').forEach(function(b){{ b.setAttribute('aria-pressed', String(b === btn)); }});
         render(btn.dataset.metric);
+      }});
+      var granToggle = document.querySelector('.metric-toggle[data-toggle-for="pickup-chart-gran"]');
+      granToggle.addEventListener('click', function(ev){{
+        var btn = ev.target.closest('button'); if (!btn) return;
+        granToggle.querySelectorAll('button').forEach(function(b){{ b.setAttribute('aria-pressed', String(b === btn)); }});
+        curGran = btn.dataset.gran;
+        var activeMetric = metricToggle.querySelector('button[aria-pressed="true"]');
+        render(activeMetric ? activeMetric.dataset.metric : 'rn');
       }});
       render('rn');
     }})();
