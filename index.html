@@ -424,7 +424,7 @@ window.CraveiralCharts = (function(){
       <h1>Painel de Evolução Comercial</h1>
     </div>
     <div class="meta">
-      Fotografia gerada em 28 de setembro de 2026<br>
+      Fotografia gerada em 29 de setembro de 2026<br>
       Contexto de mercado: INE / Turismo de Portugal (TravelBI)
     </div>
   </header>
@@ -593,7 +593,7 @@ window.CraveiralCharts = (function(){
     <p class="footnote">Fontes: Instituto Nacional de Estatística (destaques mensais e trimestrais do alojamento turístico) e Turismo de Portugal — TravelBI, "Turismo em Números". Dados recolhidos em 15/09/2026; a região "Alentejo" no INE/TravelBI inclui a Lezíria do Tejo.</p>
   </section>
 
-    <section id="comercial">
+  <section id="comercial">
     <div class="section-head">
       <div>
         <h2>Evolução comercial — Craveiral</h2>
@@ -632,17 +632,15 @@ window.CraveiralCharts = (function(){
         var m = metrics[key];
         window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {
           categories: categories,
-          series: [
-            { slot: 1, label: '2026', values: m.hoje },
-            { slot: 2, label: '2025 (fechado)', values: m.prior }
-          ],
+          series: [{slot:1, label:'2026', values:m.hoje}, {slot:2, label:'2025 (fechado)', values:m.prior}],
           formatValue: fmt(m.suffix),
           ariaLabel: 'Evolução mensal de ' + m.label + ' do Craveiral, 2026 comparado com 2025'
         });
       }
       var toggle = document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"]');
       toggle.addEventListener('click', function(ev){
-        var btn = ev.target.closest('button'); if (!btn) return;
+        var btn = ev.target.closest('button');
+        if (!btn) return;
         toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
         render(btn.dataset.metric);
       });
@@ -656,11 +654,22 @@ window.CraveiralCharts = (function(){
           <tr><th>Mês</th><th>Room Nights (RN)</th><th>Receita (€)</th><th>Ocupação (%)</th><th>ADR (€)</th><th>RevPAR (€)</th></tr>
         </thead>
         <tbody>
-          <tr><td class="mono">Jan/26</td><td class="mono">205</td><td class="mono">32.881€</td><td class="mono">17,0%</td><td class="mono">160,40€</td><td class="mono">27€</td></tr><tr><td class="mono">Fev/26</td><td class="mono">309</td><td class="mono">33.917€</td><td class="mono">29,0%</td><td class="mono">109,76€</td><td class="mono">32€</td></tr><tr><td class="mono">Mar/26</td><td class="mono">374</td><td class="mono">55.678€</td><td class="mono">32,0%</td><td class="mono">148,87€</td><td class="mono">48€</td></tr><tr><td class="mono">Abr/26</td><td class="mono">653</td><td class="mono">137.497€</td><td class="mono">57,0%</td><td class="mono">210,56€</td><td class="mono">120€</td></tr><tr><td class="mono">Mai/26</td><td class="mono">649</td><td class="mono">107.996€</td><td class="mono">55,0%</td><td class="mono">166,40€</td><td class="mono">92€</td></tr><tr><td class="mono">Jun/26</td><td class="mono">590</td><td class="mono">160.966€</td><td class="mono">52,0%</td><td class="mono">272,82€</td><td class="mono">142€</td></tr><tr><td class="mono">Jul/26</td><td class="mono">774</td><td class="mono">272.409€</td><td class="mono">66,0%</td><td class="mono">351,95€</td><td class="mono">232€</td></tr><tr><td class="mono">Ago/26</td><td class="mono">977</td><td class="mono">414.219€</td><td class="mono">83,0%</td><td class="mono">423,97€</td><td class="mono">352€</td></tr><tr><td class="mono">Set/26</td><td class="mono">626</td><td class="mono">190.918€</td><td class="mono">55,0%</td><td class="mono">304,98€</td><td class="mono">168€</td></tr><tr><td class="mono">Out/26</td><td class="mono">527</td><td class="mono">121.973€</td><td class="mono">45,0%</td><td class="mono">231,45€</td><td class="mono">104€</td></tr><tr><td class="mono">Nov/26</td><td class="mono">128</td><td class="mono">14.782€</td><td class="mono">11,0%</td><td class="mono">115,49€</td><td class="mono">13€</td></tr><tr><td class="mono">Dez/26</td><td class="mono">55</td><td class="mono">12.203€</td><td class="mono">5,0%</td><td class="mono">221,87€</td><td class="mono">11€</td></tr>
+          <tr><td>Jan/26</td><td class="mono">205 <span class="footnote">(163)</span></td><td class="mono">32.881€ <span class="footnote">(26.496€)</span></td><td class="mono">17% <span class="footnote">(14%)</span></td><td class="mono">160,40€ <span class="footnote">(162,55€)</span></td><td class="mono">27,27€ <span class="footnote">(22,76€)</span></td></tr>
+          <tr><td>Fev/26</td><td class="mono">309 <span class="footnote">(207)</span></td><td class="mono">33.917€ <span class="footnote">(32.104€)</span></td><td class="mono">29% <span class="footnote">(19%)</span></td><td class="mono">109,76€ <span class="footnote">(155,09€)</span></td><td class="mono">31,83€ <span class="footnote">(29,47€)</span></td></tr>
+          <tr><td>Mar/26</td><td class="mono">374 <span class="footnote">(416)</span></td><td class="mono">55.678€ <span class="footnote">(51.003€)</span></td><td class="mono">32% <span class="footnote">(35%)</span></td><td class="mono">148,87€ <span class="footnote">(122,60€)</span></td><td class="mono">47,64€ <span class="footnote">(42,91€)</span></td></tr>
+          <tr><td>Abr/26</td><td class="mono">653 <span class="footnote">(591)</span></td><td class="mono">137.497€ <span class="footnote">(123.750€)</span></td><td class="mono">57% <span class="footnote">(52%)</span></td><td class="mono">210,56€ <span class="footnote">(209,39€)</span></td><td class="mono">120,02€ <span class="footnote">(108,88€)</span></td></tr>
+          <tr><td>Mai/26</td><td class="mono">649 <span class="footnote">(608)</span></td><td class="mono">107.996€ <span class="footnote">(149.828€)</span></td><td class="mono">55% <span class="footnote">(52%)</span></td><td class="mono">166,40€ <span class="footnote">(246,43€)</span></td><td class="mono">91,52€ <span class="footnote">(128,14€)</span></td></tr>
+          <tr><td>Jun/26</td><td class="mono">590 <span class="footnote">(584)</span></td><td class="mono">160.966€ <span class="footnote">(136.739€)</span></td><td class="mono">52% <span class="footnote">(51%)</span></td><td class="mono">272,82€ <span class="footnote">(234,14€)</span></td><td class="mono">141,87€ <span class="footnote">(119,41€)</span></td></tr>
+          <tr><td>Jul/26</td><td class="mono">774 <span class="footnote">(795)</span></td><td class="mono">272.409€ <span class="footnote">(255.089€)</span></td><td class="mono">66% <span class="footnote">(67%)</span></td><td class="mono">351,95€ <span class="footnote">(320,87€)</span></td><td class="mono">232,29€ <span class="footnote">(214,98€)</span></td></tr>
+          <tr><td>Ago/26</td><td class="mono">977 <span class="footnote">(1.049)</span></td><td class="mono">414.219€ <span class="footnote">(417.986€)</span></td><td class="mono">83% <span class="footnote">(89%)</span></td><td class="mono">423,97€ <span class="footnote">(398,46€)</span></td><td class="mono">351,90€ <span class="footnote">(354,63€)</span></td></tr>
+          <tr><td>Set/26</td><td class="mono">626 <span class="footnote">(684)</span></td><td class="mono">190.918€ <span class="footnote">(172.615€)</span></td><td class="mono">55% <span class="footnote">(60%)</span></td><td class="mono">304,98€ <span class="footnote">(252,36€)</span></td><td class="mono">167,74€ <span class="footnote">(151,42€)</span></td></tr>
+          <tr><td>Out/26</td><td class="mono">527 <span class="footnote">(729)</span></td><td class="mono">121.973€ <span class="footnote">(123.556€)</span></td><td class="mono">45% <span class="footnote">(62%)</span></td><td class="mono">231,45€ <span class="footnote">(169,49€)</span></td><td class="mono">104,15€ <span class="footnote">(105,08€)</span></td></tr>
+          <tr><td>Nov/26</td><td class="mono">128 <span class="footnote">(356)</span></td><td class="mono">14.782€ <span class="footnote">(44.487€)</span></td><td class="mono">11% <span class="footnote">(31%)</span></td><td class="mono">115,49€ <span class="footnote">(124,96€)</span></td><td class="mono">12,70€ <span class="footnote">(38,74€)</span></td></tr>
+          <tr><td>Dez/26</td><td class="mono">55 <span class="footnote">(371)</span></td><td class="mono">12.203€ <span class="footnote">(73.052€)</span></td><td class="mono">5% <span class="footnote">(31%)</span></td><td class="mono">221,87€ <span class="footnote">(196,90€)</span></td><td class="mono">11,09€ <span class="footnote">(61,04€)</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="footnote">Dados de 2026 recolhidos no Climber RMS (relatório "Pickup — Year over Year"); janeiro–setembro são valores fechados, outubro–dezembro são o pick-up/pace à data de 29/09/2026 e vão mudando até ao fecho de cada mês. Comparação com o fecho definitivo de 2025.</p>
+    <p class="footnote">Valores entre parêntesis: mesmo mês do ano anterior (2025), a partir do Climber RMS (relatório Pickup Year over Year).</p>
   </section>
 
   <section id="competition">
