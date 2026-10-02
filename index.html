@@ -2196,7 +2196,7 @@ window.CraveiralCharts = (function(){
     <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (713 leituras). Ontem = leitura de 30/09/2026, Hoje = leitura de 02/10/2026. Esta secção é atualizada automaticamente todos os dias.</p>
   </section>
 
-  <section id="otb">
+    <section id="otb">
     <div class="section-head">
       <div>
         <h2>Receita Total &amp; Mix — OTB</h2>
@@ -2207,22 +2207,22 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Receita total do ano (2026)</span>
-        <span class="kpi-value mono">0€</span>
+        <span class="kpi-value mono">2.125.717€</span>
         <span class="kpi-note">Quartos + F&amp;B + Outros, a partir do OTB de 01.10.2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita extra (não-quartos)</span>
-        <span class="kpi-value mono">0€</span>
-        <span class="kpi-note">0,0% da receita total do ano</span>
+        <span class="kpi-value mono">497.371€</span>
+        <span class="kpi-note">23,4% da receita total do ano</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita F&amp;B no ano</span>
-        <span class="kpi-value mono">0€</span>
+        <span class="kpi-value mono">489.958€</span>
         <span class="kpi-note">Restaurante e bar, acumulado 2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita Outros/SPA no ano</span>
-        <span class="kpi-value mono">0€</span>
+        <span class="kpi-value mono">7.412€</span>
         <span class="kpi-note">SPA ainda sem receita registada nesta fonte</span>
       </div>
     </div>
@@ -2239,7 +2239,7 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"slot": 2, "label": "F&B", "values": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}, {"slot": 3, "label": "Outros + SPA", "values": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}]};
+      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 129822, 16153, 12187]}, {"slot": 2, "label": "F&B", "values": [14063, 18736, 25949, 51580, 63624, 57127, 81678, 114946, 55406, 5113, 1306, 429]}, {"slot": 3, "label": "Outros + SPA", "values": [196, 124, 882, 148, 366, 1782, 812, 656, 2447, 0, 0, 0]}]};
       function fmt(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; }
       window.CraveiralCharts.lineChart(document.getElementById('otb-chart'), {
         categories: data.categories,
@@ -2256,7 +2256,7 @@ window.CraveiralCharts = (function(){
           <tr><th>Mês</th><th>Receita Quartos</th><th>Receita F&amp;B</th><th>Receita Outros + SPA</th><th>Receita Total</th><th>% Receita Extra</th></tr>
         </thead>
         <tbody>
-          <tr><td>Janeiro</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Fevereiro</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Março</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Abril</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Maio</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Junho</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Julho</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Agosto</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Setembro</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Outubro</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Novembro</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr><tr><td>Dezembro</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0€</td><td class="mono">0,0%</td></tr>
+          <tr><td>Janeiro</td><td class="mono">34.737€</td><td class="mono">14.063€</td><td class="mono">196€</td><td class="mono">48.995€</td><td class="mono">29,1%</td></tr><tr><td>Fevereiro</td><td class="mono">36.531€</td><td class="mono">18.736€</td><td class="mono">124€</td><td class="mono">55.391€</td><td class="mono">34,0%</td></tr><tr><td>Março</td><td class="mono">58.853€</td><td class="mono">25.949€</td><td class="mono">882€</td><td class="mono">85.684€</td><td class="mono">31,3%</td></tr><tr><td>Abril</td><td class="mono">138.549€</td><td class="mono">51.580€</td><td class="mono">148€</td><td class="mono">190.277€</td><td class="mono">27,2%</td></tr><tr><td>Maio</td><td class="mono">113.288€</td><td class="mono">63.624€</td><td class="mono">366€</td><td class="mono">177.278€</td><td class="mono">36,1%</td></tr><tr><td>Junho</td><td class="mono">166.893€</td><td class="mono">57.127€</td><td class="mono">1.782€</td><td class="mono">225.802€</td><td class="mono">26,1%</td></tr><tr><td>Julho</td><td class="mono">294.733€</td><td class="mono">81.678€</td><td class="mono">812€</td><td class="mono">377.223€</td><td class="mono">21,9%</td></tr><tr><td>Agosto</td><td class="mono">430.294€</td><td class="mono">114.946€</td><td class="mono">656€</td><td class="mono">545.896€</td><td class="mono">21,2%</td></tr><tr><td>Setembro</td><td class="mono">196.306€</td><td class="mono">55.406€</td><td class="mono">2.447€</td><td class="mono">254.159€</td><td class="mono">22,8%</td></tr><tr><td>Outubro</td><td class="mono">129.822€</td><td class="mono">5.113€</td><td class="mono">0€</td><td class="mono">134.935€</td><td class="mono">3,8%</td></tr><tr><td>Novembro</td><td class="mono">16.153€</td><td class="mono">1.306€</td><td class="mono">0€</td><td class="mono">17.459€</td><td class="mono">7,5%</td></tr><tr><td>Dezembro</td><td class="mono">12.187€</td><td class="mono">429€</td><td class="mono">0€</td><td class="mono">12.616€</td><td class="mono">3,4%</td></tr>
         </tbody>
       </table>
     </div>
