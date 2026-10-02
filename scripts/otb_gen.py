@@ -38,6 +38,15 @@ def fmt_pct1(n):
 def render_otb_section(monthly, snapshot_date, year):
     """monthly: {month_num: {'quartos','fb','outros','spa'}}. Returns the
     full '<section id="otb">...</section>' HTML string."""
+    # Normalize keys to int: data read straight from ArtifactData/JSON (e.g.
+    # the otb/<year> document's "months" field) always has STRING month keys
+    # ("1".."12"), since JSON object keys are never integers. The lookup
+    # below uses an int m (range(1, 13)), so without this normalization every
+    # monthly.get(m) silently misses and falls back to the all-zero default
+    # -- which is exactly what produced an all-€0 OTB section on 02/10/2026
+    # despite otb/2026 holding real figures. Accept either key shape.
+    monthly = {int(k): v for k, v in monthly.items()}
+
     rows_html = []
     cats, qs, fbs, others, totals = [], [], [], [], []
     tot_quartos = tot_fb = tot_outros = tot_spa = 0.0
