@@ -470,6 +470,26 @@ window.CraveiralCharts = (function(){
         <span class="kpi-value mono">37,2€ <span class="kpi-delta">▲ 9,4%</span></span>
         <span class="kpi-note">Alentejo — Portugal cresceu apenas +1,0% no período</span>
       </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">RevPAR Portugal · agosto 2026</span>
+        <span class="kpi-value mono">119,1€ <span class="kpi-delta">▲ 1,5%</span></span>
+        <span class="kpi-note">Dado nacional mais recente disponível (INE, destaque mensal)</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">ADR Portugal · agosto 2026</span>
+        <span class="kpi-value mono">163,2€ <span class="kpi-delta">▲ 3,0%</span></span>
+        <span class="kpi-note">Preço médio por quarto, Portugal — INE, destaque mensal</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Dormidas Portugal · agosto 2026</span>
+        <span class="kpi-value mono">10,9 M <span class="kpi-delta">▲ 1,7%</span></span>
+        <span class="kpi-note">3,9 M hóspedes (+1,9%) — INE, destaque mensal</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Crescimento regional · agosto 2026</span>
+        <span class="kpi-value mono" style="font-size:1.1rem;">Norte <span class="kpi-delta">▲ 4,5%</span></span>
+        <span class="kpi-note">Alentejo +2,6% — Norte passa a liderar o crescimento nacional (Alentejo liderava até julho)</span>
+      </div>
     </div>
 
     <div class="charts-row">
@@ -587,10 +607,17 @@ window.CraveiralCharts = (function(){
           <tr><td>Estada média</td><td>Julho</td><td class="mono">2,38 noites</td><td class="mono">4,89 noites</td><td>SAPO / INE</td></tr>
           <tr><td>Proveitos totais</td><td>Julho</td><td class="mono">—</td><td class="mono">923,7 M€ (+4,9%)</td><td>Jornal Económico / INE</td></tr>
           <tr><td>Dormidas acumuladas</td><td>Jan–Jul</td><td class="mono">—</td><td class="mono">46,5 M (+1,5%)</td><td>Rádio Campanário / Lusa / INE</td></tr>
+          <tr><td>RevPAR</td><td>Agosto</td><td class="mono">—</td><td class="mono">119,1€ (+1,5%)</td><td>INE — destaque mensal</td></tr>
+          <tr><td>ADR</td><td>Agosto</td><td class="mono">—</td><td class="mono">163,2€ (+3,0%)</td><td>INE — destaque mensal</td></tr>
+          <tr><td>Proveitos totais</td><td>Agosto</td><td class="mono">—</td><td class="mono">1,1 mil M€ (+4,6%)</td><td>INE — destaque mensal</td></tr>
+          <tr><td>Proveitos de aposento</td><td>Agosto</td><td class="mono">—</td><td class="mono">846,6 M€ (+4,6%)</td><td>INE — destaque mensal</td></tr>
+          <tr><td>Hóspedes</td><td>Agosto</td><td class="mono">—</td><td class="mono">3,9 M (+1,9%)</td><td>INE — destaque mensal</td></tr>
+          <tr><td>Dormidas</td><td>Agosto</td><td class="mono">—</td><td class="mono">10,9 M (+1,7%)</td><td>INE — destaque mensal</td></tr>
+          <tr><td>Crescimento de dormidas por região</td><td>Agosto</td><td class="mono">+2,6%</td><td class="mono">Norte +4,5% (líder nacional)</td><td>TravelBI / Turismo de Portugal</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="footnote">Fontes: Instituto Nacional de Estatística (destaques mensais e trimestrais do alojamento turístico) e Turismo de Portugal — TravelBI, "Turismo em Números". Dados recolhidos em 15/09/2026; a região "Alentejo" no INE/TravelBI inclui a Lezíria do Tejo.</p>
+    <p class="footnote">Fontes: Instituto Nacional de Estatística — destaques mensais e trimestrais do alojamento turístico (julho e agosto de 2026) — e Turismo de Portugal — TravelBI, "Turismo em Números". Dados recolhidos em 05/10/2026; a região "Alentejo" no INE/TravelBI inclui a Lezíria do Tejo. Os indicadores regionais do Alentejo (RevPAR, estada média, proveitos) mantêm a leitura de julho por não existir, até à data, um detalhe regional mais recente nestes indicadores específicos — os indicadores nacionais acima já refletem agosto. Nota: em agosto, o Norte ultrapassou o Alentejo como região com maior crescimento homólogo de dormidas, pela primeira vez em 2026. Atualize esta secção quando saírem novos destaques mensais.</p>
   </section>
 
   <section id="comercial">
@@ -601,9 +628,9 @@ window.CraveiralCharts = (function(){
       </div>
     </div>
 
-    <div class="chart-card">
-      <h3>Evolução mensal — 2026 vs. 2025</h3>
-      <p class="chart-sub">A partir do Climber RMS (relatório Pickup Year over Year). Use os botões para trocar a métrica.</p>
+    <div class="chart-card" id="comercial-chart-card">
+      <h3>Evolução mensal — 2025 · 2026 · 2027</h3>
+      <p class="chart-sub">A partir do Climber RMS (relatório Pickup Year over Year). Use os botões para trocar a métrica e escolher que anos comparar.</p>
       <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de evolução comercial" data-toggle-for="comercial-chart">
         <button type="button" data-metric="receita" aria-pressed="true">Receita</button>
         <button type="button" data-metric="reservas" aria-pressed="false">Room Nights</button>
@@ -611,16 +638,44 @@ window.CraveiralCharts = (function(){
         <button type="button" data-metric="adr" aria-pressed="false">ADR</button>
         <button type="button" data-metric="revpar" aria-pressed="false">RevPAR</button>
       </div>
+      <div class="metric-toggle" role="group" aria-label="Escolher anos a comparar" id="comercial-year-toggle">
+        <button type="button" data-year="2025" aria-pressed="true">2025</button>
+        <button type="button" data-year="2026" aria-pressed="true">2026</button>
+        <button type="button" data-year="2027" aria-pressed="false">2027</button>
+      </div>
       <div class="legend-row">
-        <span class="legend-item"><span class="legend-swatch swatch-1"></span>2026</span>
         <span class="legend-item"><span class="legend-swatch swatch-2"></span>2025 (fechado)</span>
+        <span class="legend-item"><span class="legend-swatch swatch-1"></span>2026</span>
+        <span class="legend-item"><span class="legend-swatch swatch-3"></span>2027 (pace)</span>
       </div>
       <div id="comercial-chart"></div>
     </div>
         <script>
     (function(){
-      var categories = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26"];
-      var metrics = {"receita": {"label": "Receita", "suffix": "€", "hoje": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 193084, 132575, 16615, 13059], "prior": [26496, 32104, 51003, 123750, 149828, 136739, 255089, 417986, 172615, 123556, 44487, 73052]}, "reservas": {"label": "Room Nights", "suffix": "", "hoje": [205, 309, 374, 653, 649, 590, 774, 977, 626, 548, 140, 58], "prior": [163, 207, 416, 591, 608, 584, 795, 1049, 684, 729, 356, 371]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "hoje": [17, 29, 32, 57, 55, 52, 66, 83, 55, 47, 12, 5], "prior": [14, 19, 35, 52, 52, 51, 67, 89, 60, 62, 31, 31]}, "adr": {"label": "ADR", "suffix": "€", "hoje": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 308.44, 241.93, 118.68, 225.16], "prior": [162.55, 155.09, 122.6, 209.39, 246.43, 234.14, 320.87, 398.46, 252.36, 169.49, 124.96, 196.9]}, "revpar": {"label": "RevPAR", "suffix": "€", "hoje": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 169.64, 113.71, 14.24, 11.26], "prior": [22.76, 29.47, 42.91, 108.88, 128.14, 119.41, 214.98, 354.63, 151.42, 105.08, 38.74, 61.04]}};
+      var MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+      var metrics = {
+        "receita": {"label": "Receita", "suffix": "€",
+          "y2026": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 193084, 132575, 16615, 13059],
+          "y2025": [26496, 32104, 51003, 123750, 149828, 136739, 255089, 417986, 172615, 123556, 44487, 73052],
+          "y2027": [14634, 14263, 8231, 2399, 52615, 6730, 8456, 12359, 108747, 0, 0, 0]},
+        "reservas": {"label": "Room Nights", "suffix": "",
+          "y2026": [205, 309, 374, 653, 649, 590, 774, 977, 626, 548, 140, 58],
+          "y2025": [163, 207, 416, 591, 608, 584, 795, 1049, 684, 729, 356, 371],
+          "y2027": [253, 308, 110, 17, 175, 53, 18, 24, 228, 0, 0, 0]},
+        "ocupacaoPct": {"label": "Ocupação", "suffix": "%",
+          "y2026": [17, 29, 32, 57, 55, 52, 66, 83, 55, 47, 12, 5],
+          "y2025": [14, 19, 35, 52, 52, 51, 67, 89, 60, 62, 31, 31],
+          "y2027": [21, 29, 9, 1, 15, 5, 2, 2, 20, 0, 0, 0]},
+        "adr": {"label": "ADR", "suffix": "€",
+          "y2026": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 308.44, 241.93, 118.68, 225.16],
+          "y2025": [162.55, 155.09, 122.6, 209.39, 246.43, 234.14, 320.87, 398.46, 252.36, 169.49, 124.96, 196.9],
+          "y2027": [57.84, 46.31, 74.82, 141.12, 300.66, 126.97, 469.76, 514.97, 476.96, 0, 0, 0]},
+        "revpar": {"label": "RevPAR", "suffix": "€",
+          "y2026": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 169.64, 113.71, 14.24, 11.26],
+          "y2025": [22.76, 29.47, 42.91, 108.88, 128.14, 119.41, 214.98, 354.63, 151.42, 105.08, 38.74, 61.04],
+          "y2027": [12.15, 13.43, 6.73, 1.41, 45.1, 6.35, 9.4, 10.3, 95.39, 0, 0, 0]}
+      };
+      var YEAR_SELECTION = {"2025": true, "2026": true, "2027": false};
       function fmt(suffix){
         return function(v){
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -630,11 +685,15 @@ window.CraveiralCharts = (function(){
       }
       function render(key){
         var m = metrics[key];
+        var series = [];
+        if (YEAR_SELECTION['2025']) series.push({slot:2, label:'2025 (fechado)', values:m.y2025});
+        if (YEAR_SELECTION['2026']) series.push({slot:1, label:'2026', values:m.y2026});
+        if (YEAR_SELECTION['2027']) series.push({slot:3, label:'2027 (pace)', values:m.y2027});
         window.CraveiralCharts.lineChart(document.getElementById('comercial-chart'), {
-          categories: categories,
-          series: [{slot:1, label:'2026', values:m.hoje}, {slot:2, label:'2025 (fechado)', values:m.prior}],
+          categories: MONTHS,
+          series: series,
           formatValue: fmt(m.suffix),
-          ariaLabel: 'Evolução mensal de ' + m.label + ' do Craveiral, 2026 comparado com 2025'
+          ariaLabel: 'Evolução mensal de ' + m.label + ' do Craveiral, anos selecionados: ' + Object.keys(YEAR_SELECTION).filter(function(y){return YEAR_SELECTION[y];}).join(', ')
         });
       }
       var toggle = document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"]');
@@ -643,6 +702,19 @@ window.CraveiralCharts = (function(){
         if (!btn) return;
         toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
         render(btn.dataset.metric);
+      });
+      var yearToggle = document.getElementById('comercial-year-toggle');
+      yearToggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button');
+        if (!btn) return;
+        var year = btn.dataset.year;
+        var selectedCount = Object.keys(YEAR_SELECTION).filter(function(y){return YEAR_SELECTION[y];}).length;
+        var willSelect = btn.getAttribute('aria-pressed') !== 'true';
+        if (!willSelect && selectedCount <= 1) return;
+        YEAR_SELECTION[year] = willSelect;
+        btn.setAttribute('aria-pressed', String(willSelect));
+        var activeMetric = document.querySelector('.metric-toggle[data-toggle-for="comercial-chart"] button[aria-pressed="true"]');
+        render(activeMetric ? activeMetric.dataset.metric : 'receita');
       });
       render('receita');
     })();
@@ -776,22 +848,22 @@ window.CraveiralCharts = (function(){
   <section id="competition">
     <div class="section-head">
       <div>
-        <h2>Competition set — Lighthouse &amp; Climber</h2>
-        <p class="sub">Alojamentos acompanhados nas ferramentas de rate intelligence / revenue management do Craveiral. Tarifas para 11/10/2026, 1 noite / 2 pax, Booking.com.</p>
+        <h2>Competition set</h2>
+        <p class="sub">Alojamentos comparáveis na região. Tarifas para 16/10/2026, 1 noite / 2 pax, recolhidas diretamente no site oficial e no Booking.com de cada alojamento.</p>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>ADR por alojamento</h3>
-      <p class="chart-sub">Tarifas mais recentes recolhidas no Lighthouse / Climber (rate shopping); alojamentos sem tarifa disponível não aparecem no gráfico.</p>
+      <p class="chart-sub">Menor tarifa publicada por alojamento (site oficial ou Booking.com, a que for mais barata); alojamentos sem nenhuma tarifa disponível não aparecem no gráfico.</p>
       <div id="competition-chart"></div>
     </div>
     <script>
     (function(){
       window.CraveiralCharts.barChart(document.getElementById('competition-chart'), {
-        items: [{"label": "Spatia Comporta, a Member of Design Hotels", "value": 404}, {"label": "Herdade da Matinha Country House & Restaurant", "value": 161}],
+        items: [{"label": "São Lourenço do Barrocal", "value": 882}, {"label": "Quinta Da Comporta - Wellness Boutique Resort", "value": 539}, {"label": "Spatia Comporta, a Member of Design Hotels", "value": 449}, {"label": "Praia do Canal Nature Retreat - SLH", "value": 383}, {"label": "Rio do Prado", "value": 200}, {"label": "Herdade da Matinha Country House & Restaurant", "value": 171}, {"label": "Herdade Do Touril", "value": 140}],
         formatValue: function(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; },
-        ariaLabel: 'ADR por alojamento do competition set',
+        ariaLabel: 'ADR por alojamento do competition set (menor tarifa entre site oficial e Booking.com)',
         labelWidth: 210
       });
     })();
@@ -800,13 +872,23 @@ window.CraveiralCharts = (function(){
     <div class="table-wrap">
       <table class="data-table">
         <thead>
-          <tr><th>Alojamento</th><th>Fonte</th><th>ADR (€)</th><th>Ocupação (%)</th><th>RevPAR (€)</th><th>Notas</th></tr>
+          <tr><th>Alojamento</th><th>Site oficial (€)</th><th>Booking.com (€)</th><th>Notas</th></tr>
         </thead>
         <tbody>
-<tr><td>Areias do Seixo Villas</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>195 km · Esgotado em 11/10/2026 (Booking.com)</td></tr><tr><td>Herdade Do Touril</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Tarifa não disponível no dia consultado.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>13 km · Sem tarifa flexível disponível em 11/10/2026 (Booking.com)</td></tr><tr><td>Herdade da Malhadinha Nova - Relais &amp; Châteaux</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Tarifa não disponível no dia consultado.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>71 km · Sem tarifa flexível disponível em 11/10/2026 (Booking.com)</td></tr><tr><td>Herdade da Matinha Country House &amp; Restaurant</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">161€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>36 km · Tarifa 11/10/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Herdade do Amarelo Nature &amp; Spa</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>25 km · Esgotado em 11/10/2026 (Booking.com)</td></tr><tr><td>Praia do Canal Nature Retreat - SLH</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Tarifa não disponível no dia consultado.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>29 km · Sem tarifa flexível disponível em 11/10/2026 (Booking.com)</td></tr><tr><td>Quinta Da Comporta - Wellness Boutique Resort</td><td><span class="badge badge-climber">Climber</span></td><td class="mono"><span class="empty-note" title="Tarifa não disponível no dia consultado.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>Sem dados de tarifa no Climber — coluna devolve &quot;-&quot; em todos os dias de outubro/2026 (verificado 29/09/2026); pode precisar de reconfiguração da fonte no Climber</td></tr><tr><td>Rio do Prado</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Tarifa não disponível no dia consultado.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>216 km · Sem tarifa flexível disponível em 11/10/2026 (Booking.com)</td></tr><tr><td>Spatia Comporta, a Member of Design Hotels</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono">404€</td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>87 km · Tarifa 11/10/2026, Booking.com, 1 noite/2 pax</td></tr><tr><td>Sublime Comporta</td><td><span class="badge badge-lighthouse">Lighthouse</span></td><td class="mono"><span class="empty-note" title="Tarifa não disponível no dia consultado.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>88 km · Sem tarifa flexível disponível em 11/10/2026 (Booking.com)</td></tr><tr><td>São Lourenço do Barrocal</td><td><span class="badge badge-outro">Ambos</span></td><td class="mono"><span class="empty-note" title="Tarifa não disponível no dia consultado.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="O Lighthouse e o Climber não têm acesso à ocupação real de outros alojamentos — só recolhem tarifas públicas (rate shopping), nunca ocupação de concorrentes.">—<sup>*</sup></span></td><td>153 km · Sem tarifa flexível disponível em 11/10/2026 (Booking.com)</td></tr>
+<tr><td>Areias do Seixo Villas</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td>195 km · Esgotado no Booking.com (16/10/2026, 1 noite/2 pax); tarifa de site oficial não disponível</td></tr>
+<tr><td>Herdade do Amarelo Nature &amp; Spa</td><td class="mono">150€</td><td class="mono"><span class="empty-note" title="Alojamento não identificado de forma inequívoca nesta fonte.">—<sup>*</sup></span></td><td>25 km · Site oficial: desde 150€/noite; alojamento não identificado de forma inequívoca no Booking.com</td></tr>
+<tr><td>Herdade Do Touril</td><td class="mono">140€</td><td class="mono">162€</td><td>13 km · Tarifas 16/10/2026, 1 noite/2 pax (site oficial: Quarto Duplo/Twin Vista Piscina; Booking.com: Quarto Duplo/Twin Económico)</td></tr>
+<tr><td>Herdade da Malhadinha Nova - Relais &amp; Châteaux</td><td class="mono">400€</td><td class="mono"><span class="empty-note" title="Sem tarifa flexível disponível no dia consultado (ver Notas).">—<sup>*</sup></span></td><td>71 km · Site oficial: Quarto Duplo desde 400€/noite (época média); sem tarifa flexível no Booking.com em 16/10/2026</td></tr>
+<tr><td>Herdade da Matinha Country House &amp; Restaurant</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">171€</td><td>36 km · Tarifa 16/10/2026, Booking.com, 1 noite/2 pax; site oficial não publica tarifário</td></tr>
+<tr><td>Praia do Canal Nature Retreat - SLH</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">383€</td><td>29 km · Tarifa 16/10/2026, Booking.com, 1 noite/2 pax; site oficial não publica tarifário</td></tr>
+<tr><td>Quinta Da Comporta - Wellness Boutique Resort</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">539€</td><td>Tarifa 16/10/2026, Booking.com, 1 noite/2 pax; site oficial não publica tarifário</td></tr>
+<tr><td>Rio do Prado</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">200€</td><td>216 km · Tarifa 16/10/2026, Booking.com, 1 noite/2 pax; site oficial não publica tarifário</td></tr>
+<tr><td>São Lourenço do Barrocal</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">882€</td><td>153 km · Tarifa 16/10/2026, Booking.com, 1 noite/2 pax; site oficial não publica tarifário</td></tr>
+<tr><td>Spatia Comporta, a Member of Design Hotels</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">449€</td><td>87 km · Tarifa 16/10/2026, Booking.com, 1 noite/2 pax; site oficial não publica tarifário</td></tr>
+<tr><td>Sublime Comporta</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td>88 km · Esgotado no Booking.com (16/10/2026, 1 noite/2 pax); site oficial não publica tarifário de quarto base</td></tr>
         </tbody>
       </table>
-      <p class="footnote table-legend">* Passe o cursor sobre o valor para ver o motivo. Ocupação e RevPAR aparecem sempre marcados porque o Lighthouse e o Climber fazem "rate shopping" (leem tarifas públicas) e não têm acesso à ocupação real de outros alojamentos.</p>
+      <p class="footnote table-legend">* Passe o cursor sobre o valor para ver o motivo. Tarifas de 1 noite, 2 adultos, recolhidas diretamente no site oficial e no Booking.com de cada alojamento para a mesma data de referência (ver Notas em cada linha); quando o site oficial publica apenas um tarifário indicativo ("desde X€"), isso fica assinalado na nota.</p>
     </div>
   </section>
 
@@ -2587,7 +2669,7 @@ window.CraveiralCharts = (function(){
       <li><a href="https://www.google.com/maps/place/Craveiral+Farmhouse+by+Belong+Staying+%26+Feeling/@37.4848067,-8.6687854,17z" target="_blank" rel="noopener">Google Maps — perfil público do Craveiral Farmhouse by Belong Staying &amp; Feeling</a></li>
       <li>Documento interno "FEEDBACKS" (Google Sheets), preenchido diariamente pela equipa</li>
     </ul>
-    <p class="footnote">"Lighthouse" e "Climber" são as ferramentas de rate intelligence / revenue management usadas para configurar e acompanhar o competitor set do Craveiral. Esta página é uma fotografia estática, sem ligação à base de dados do painel interno — para voltar a atualizá-la, é preciso gerar e publicar uma nova versão.</p>
+    <p class="footnote">Competition set: tarifas recolhidas diretamente nos sites oficiais e no Booking.com de cada alojamento (1 noite, 2 adultos, mesma data de referência). Esta página é uma fotografia estática, sem ligação à base de dados do painel interno — para voltar a atualizá-la, é preciso gerar e publicar uma nova versão.</p>
   </footer>
 
 </div>
