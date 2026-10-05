@@ -620,7 +620,7 @@ window.CraveiralCharts = (function(){
         <script>
     (function(){
       var categories = ["Jan/26", "Fev/26", "Mar/26", "Abr/26", "Mai/26", "Jun/26", "Jul/26", "Ago/26", "Set/26", "Out/26", "Nov/26", "Dez/26"];
-      var metrics = {"receita": {"label": "Receita", "suffix": "€", "hoje": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 193084, 130439, 16182, 13059], "prior": [26496, 32104, 51003, 123750, 149828, 136739, 255089, 417986, 172615, 123556, 44487, 73052]}, "reservas": {"label": "Room Nights", "suffix": "", "hoje": [205, 309, 374, 653, 649, 590, 774, 977, 626, 548, 137, 58], "prior": [163, 207, 416, 591, 608, 584, 795, 1049, 684, 729, 356, 371]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "hoje": [17, 29, 32, 57, 55, 52, 66, 83, 55, 48, 12, 5], "prior": [14, 19, 35, 52, 52, 51, 67, 89, 60, 62, 31, 31]}, "adr": {"label": "ADR", "suffix": "€", "hoje": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 308.44, 238.03, 118.12, 225.16], "prior": [162.55, 155.09, 122.6, 209.39, 246.43, 234.14, 320.87, 398.46, 252.36, 169.49, 124.96, 196.9]}, "revpar": {"label": "RevPAR", "suffix": "€", "hoje": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 169.64, 114.25, 14.17, 11.26], "prior": [22.76, 29.47, 42.91, 108.88, 128.14, 119.41, 214.98, 354.63, 151.42, 105.08, 38.74, 61.04]}};
+      var metrics = {"receita": {"label": "Receita", "suffix": "€", "hoje": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 193084, 132575, 16615, 13059], "prior": [26496, 32104, 51003, 123750, 149828, 136739, 255089, 417986, 172615, 123556, 44487, 73052]}, "reservas": {"label": "Room Nights", "suffix": "", "hoje": [205, 309, 374, 653, 649, 590, 774, 977, 626, 548, 140, 58], "prior": [163, 207, 416, 591, 608, 584, 795, 1049, 684, 729, 356, 371]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "hoje": [17, 29, 32, 57, 55, 52, 66, 83, 55, 47, 12, 5], "prior": [14, 19, 35, 52, 52, 51, 67, 89, 60, 62, 31, 31]}, "adr": {"label": "ADR", "suffix": "€", "hoje": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 308.44, 241.93, 118.68, 225.16], "prior": [162.55, 155.09, 122.6, 209.39, 246.43, 234.14, 320.87, 398.46, 252.36, 169.49, 124.96, 196.9]}, "revpar": {"label": "RevPAR", "suffix": "€", "hoje": [27.27, 31.83, 47.64, 120.02, 91.52, 141.87, 232.29, 351.9, 169.64, 113.71, 14.24, 11.26], "prior": [22.76, 29.47, 42.91, 108.88, 128.14, 119.41, 214.98, 354.63, 151.42, 105.08, 38.74, 61.04]}};
       function fmt(suffix){
         return function(v){
           if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
@@ -663,13 +663,114 @@ window.CraveiralCharts = (function(){
           <tr><td>Jul/26</td><td class="mono">774 <span class="footnote">(795)</span></td><td class="mono">272.409€ <span class="footnote">(255.089€)</span></td><td class="mono">66% <span class="footnote">(67%)</span></td><td class="mono">351,95€ <span class="footnote">(320,87€)</span></td><td class="mono">232,29€ <span class="footnote">(214,98€)</span></td></tr>
           <tr><td>Ago/26</td><td class="mono">977 <span class="footnote">(1.049)</span></td><td class="mono">414.219€ <span class="footnote">(417.986€)</span></td><td class="mono">83% <span class="footnote">(89%)</span></td><td class="mono">423,97€ <span class="footnote">(398,46€)</span></td><td class="mono">351,90€ <span class="footnote">(354,63€)</span></td></tr>
           <tr><td>Set/26</td><td class="mono">626 <span class="footnote">(684)</span></td><td class="mono">193.084€ <span class="footnote">(172.615€)</span></td><td class="mono">55% <span class="footnote">(60%)</span></td><td class="mono">308,44€ <span class="footnote">(252,36€)</span></td><td class="mono">169,64€ <span class="footnote">(151,42€)</span></td></tr>
-          <tr><td>Out/26</td><td class="mono">548 <span class="footnote">(729)</span></td><td class="mono">130.439€ <span class="footnote">(123.556€)</span></td><td class="mono">48% <span class="footnote">(62%)</span></td><td class="mono">238,03€ <span class="footnote">(169,49€)</span></td><td class="mono">114,25€ <span class="footnote">(105,08€)</span></td></tr>
-          <tr><td>Nov/26</td><td class="mono">137 <span class="footnote">(356)</span></td><td class="mono">16.182€ <span class="footnote">(44.487€)</span></td><td class="mono">12% <span class="footnote">(31%)</span></td><td class="mono">118,12€ <span class="footnote">(124,96€)</span></td><td class="mono">14,17€ <span class="footnote">(38,74€)</span></td></tr>
+          <tr><td>Out/26</td><td class="mono">548 <span class="footnote">(729)</span></td><td class="mono">132.575€ <span class="footnote">(123.556€)</span></td><td class="mono">47% <span class="footnote">(62%)</span></td><td class="mono">241,93€ <span class="footnote">(169,49€)</span></td><td class="mono">113,71€ <span class="footnote">(105,08€)</span></td></tr>
+          <tr><td>Nov/26</td><td class="mono">140 <span class="footnote">(356)</span></td><td class="mono">16.615€ <span class="footnote">(44.487€)</span></td><td class="mono">12% <span class="footnote">(31%)</span></td><td class="mono">118,68€ <span class="footnote">(124,96€)</span></td><td class="mono">14,24€ <span class="footnote">(38,74€)</span></td></tr>
           <tr><td>Dez/26</td><td class="mono">58 <span class="footnote">(371)</span></td><td class="mono">13.059€ <span class="footnote">(73.052€)</span></td><td class="mono">5% <span class="footnote">(31%)</span></td><td class="mono">225,16€ <span class="footnote">(196,90€)</span></td><td class="mono">11,26€ <span class="footnote">(61,04€)</span></td></tr>
         </tbody>
       </table>
     </div>
     <p class="footnote">Valores entre parêntesis: mesmo mês do ano anterior (2025), a partir do Climber RMS (relatório Pickup Year over Year).</p>
+  </section>
+
+  <section id="reservas2027">
+    <div class="section-head">
+      <div>
+        <h2>Reservas antecipadas — 2027</h2>
+        <p class="sub">Pace de reservas já confirmadas para 2027, por mês, a partir do Climber RMS (relatório Pickup Year over Year). Secção nova, complementar à "Evolução comercial" acima, para acompanhar o próximo ano assim que há dados.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-tile">
+        <span class="kpi-label">Room Nights reservadas para 2027</span>
+        <span class="kpi-value mono">1.186</span>
+        <span class="kpi-note">Já confirmadas no Climber, a 05/10/2026</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Receita já confirmada para 2027</span>
+        <span class="kpi-value mono">228.434€</span>
+        <span class="kpi-note">Soma dos 12 meses, a preços atuais</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">ADR médio das reservas já feitas</span>
+        <span class="kpi-value mono">192,61€</span>
+        <span class="kpi-note">Receita ÷ Room Nights, meses com reservas</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Meses com reservas</span>
+        <span class="kpi-value mono">9</span>
+        <span class="kpi-note">de 12 meses do ano</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Pace de reservas por mês — 2027</h3>
+      <p class="chart-sub">2027 (reservas já no sistema) comparado com o que 2026 já tinha reservado no mesmo mês, para referência. Como 2027 está ainda a abrir, a maioria dos meses mostra pouca ou nenhuma reserva — isto é esperado.</p>
+      <div class="metric-toggle" role="group" aria-label="Escolher métrica do gráfico de reservas antecipadas 2027" data-toggle-for="reservas2027-chart">
+        <button type="button" data-metric="receita" aria-pressed="true">Receita</button>
+        <button type="button" data-metric="reservas" aria-pressed="false">Room Nights</button>
+        <button type="button" data-metric="ocupacaoPct" aria-pressed="false">Ocupação</button>
+        <button type="button" data-metric="adr" aria-pressed="false">ADR</button>
+      </div>
+      <div class="legend-row">
+        <span class="legend-item"><span class="legend-swatch swatch-1"></span>2027</span>
+        <span class="legend-item"><span class="legend-swatch swatch-2"></span>2026 (ref.)</span>
+      </div>
+      <div id="reservas2027-chart"></div>
+    </div>
+        <script>
+    (function(){
+      var categories = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+      var metrics = {"receita": {"label": "Receita", "suffix": "€", "hoje": [14634, 14263, 8231, 2399, 52615, 6730, 8456, 12359, 108747, 0, 0, 0], "prior": [32881, 33917, 55678, 137497, 107996, 160966, 272409, 414219, 193084, 132575, 16615, 13059]}, "reservas": {"label": "Room Nights", "suffix": "", "hoje": [253, 308, 110, 17, 175, 53, 18, 24, 228, 0, 0, 0], "prior": [205, 309, 374, 653, 649, 590, 774, 977, 626, 548, 140, 58]}, "ocupacaoPct": {"label": "Ocupação", "suffix": "%", "hoje": [21, 29, 9, 1, 15, 5, 2, 2, 20, 0, 0, 0], "prior": [17, 29, 32, 57, 55, 52, 66, 83, 55, 47, 12, 5]}, "adr": {"label": "ADR", "suffix": "€", "hoje": [57.84, 46.31, 74.82, 141.12, 300.66, 126.97, 469.76, 514.97, 476.96, 0, 0, 0], "prior": [160.4, 109.76, 148.87, 210.56, 166.4, 272.82, 351.95, 423.97, 308.44, 241.93, 118.68, 225.16]}};
+      function fmt(suffix){
+        return function(v){
+          if (suffix === '€') return Math.round(v).toLocaleString('pt-PT') + '€';
+          if (suffix === '%') return v.toLocaleString('pt-PT', {minimumFractionDigits:1, maximumFractionDigits:1}) + '%';
+          return Math.round(v).toLocaleString('pt-PT');
+        };
+      }
+      function render(key){
+        var m = metrics[key];
+        window.CraveiralCharts.lineChart(document.getElementById('reservas2027-chart'), {
+          categories: categories,
+          series: [{slot:1, label:'2027', values:m.hoje}, {slot:2, label:'2026 (ref.)', values:m.prior}],
+          formatValue: fmt(m.suffix),
+          ariaLabel: 'Pace de reservas 2027 por mês, comparado com 2026 como referência'
+        });
+      }
+      var toggle = document.querySelector('.metric-toggle[data-toggle-for="reservas2027-chart"]');
+      toggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button');
+        if (!btn) return;
+        toggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        render(btn.dataset.metric);
+      });
+      render('receita');
+    })();
+    </script>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Mês</th><th>Room Nights 2027</th><th>Receita 2027 (€)</th><th>Ocupação 2027 (%)</th><th>ADR 2027 (€)</th><th>Room Nights 2026 (ref.)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Jan</td><td class="mono">253</td><td class="mono">14.634€</td><td class="mono">21%</td><td class="mono">57,84€</td><td class="mono">205</td></tr>
+          <tr><td>Fev</td><td class="mono">308</td><td class="mono">14.263€</td><td class="mono">29%</td><td class="mono">46,31€</td><td class="mono">309</td></tr>
+          <tr><td>Mar</td><td class="mono">110</td><td class="mono">8.231€</td><td class="mono">9%</td><td class="mono">74,82€</td><td class="mono">374</td></tr>
+          <tr><td>Abr</td><td class="mono">17</td><td class="mono">2.399€</td><td class="mono">1%</td><td class="mono">141,12€</td><td class="mono">653</td></tr>
+          <tr><td>Mai</td><td class="mono">175</td><td class="mono">52.615€</td><td class="mono">15%</td><td class="mono">300,66€</td><td class="mono">649</td></tr>
+          <tr><td>Jun</td><td class="mono">53</td><td class="mono">6.730€</td><td class="mono">5%</td><td class="mono">126,97€</td><td class="mono">590</td></tr>
+          <tr><td>Jul</td><td class="mono">18</td><td class="mono">8.456€</td><td class="mono">2%</td><td class="mono">469,76€</td><td class="mono">774</td></tr>
+          <tr><td>Ago</td><td class="mono">24</td><td class="mono">12.359€</td><td class="mono">2%</td><td class="mono">514,97€</td><td class="mono">977</td></tr>
+          <tr><td>Set</td><td class="mono">228</td><td class="mono">108.747€</td><td class="mono">20%</td><td class="mono">476,96€</td><td class="mono">626</td></tr>
+          <tr><td>Out</td><td class="mono">0</td><td class="mono">0€</td><td class="mono">0%</td><td class="mono">—</td><td class="mono">548</td></tr>
+          <tr><td>Nov</td><td class="mono">0</td><td class="mono">0€</td><td class="mono">0%</td><td class="mono">—</td><td class="mono">140</td></tr>
+          <tr><td>Dez</td><td class="mono">0</td><td class="mono">0€</td><td class="mono">0%</td><td class="mono">—</td><td class="mono">58</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">Fonte: Climber RMS, relatório Pickup Year over Year, filtrado para o ano 2027. Dados recolhidos em 05/10/2026. Secção criada para começar a acompanhar o pace de reservas do próximo ano assim que há dados.</p>
   </section>
 
   <section id="competition">
@@ -721,28 +822,28 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Room Nights no ano (2026)</span>
-        <span class="kpi-value mono">5.875</span>
-        <span class="kpi-note">2025 (fechado): 6.524 · Δ -649</span>
+        <span class="kpi-value mono">5.876</span>
+        <span class="kpi-note">2025 (fechado): 6.524 · Δ -648</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita no ano (2026)</span>
-        <span class="kpi-value mono">1.631.305€</span>
-        <span class="kpi-note">2025 (fechado): 1.622.507€ · Δ +8.798€</span>
+        <span class="kpi-value mono">1.630.102€</span>
+        <span class="kpi-note">2025 (fechado): 1.622.507€ · Δ +7.595€</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">ADR médio no ano</span>
-        <span class="kpi-value mono">277,67€</span>
+        <span class="kpi-value mono">277,42€</span>
         <span class="kpi-note">2025 (fechado): 248,70€</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Pick-up desde ontem</span>
-        <span class="kpi-value mono">0 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
-        <span class="kpi-note">+1.195€ de receita adicionada</span>
+        <span class="kpi-value mono">+1 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
+        <span class="kpi-note">-1.203€ de receita retirada</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Vs. mesmo período do ano passado (2025, fechado)</span>
-        <span class="kpi-value mono">-649 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
-        <span class="kpi-note">+8.798€ de receita</span>
+        <span class="kpi-value mono">-648 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
+        <span class="kpi-note">+7.595€ de receita</span>
       </div>
     </div>
 
@@ -763,7 +864,7 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"granularities": {"monthly": {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 625, 545, 140, 58], "prior": [163, 207, 417, 589, 612, 572, 796, 1047, 681, 725, 343, 372]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 131499, 16586, 13036], "prior": [28525, 33407, 55335, 124592, 149117, 137779, 259639, 420775, 173659, 121998, 44209, 73473]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 55.6, 46.4, 12.3, 4.9], "prior": [15.7, 20.4, 37.7, 54.8, 52.3, 50.7, 68.5, 89.1, 60.2, 61.8, 30.1, 35.0]}}}, "weekly": {"categories": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27", "S28", "S29", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37", "S38", "S39", "S40", "S41", "S42", "S43", "S44", "S45", "S46", "S47", "S48", "S49", "S50", "S51", "S52", "S53"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [61, 29, 28, 47, 48, 63, 65, 96, 78, 56, 101, 69, 88, 224, 185, 74, 130, 172, 155, 123, 157, 120, 163, 148, 88, 171, 103, 154, 161, 223, 219, 245, 247, 248, 158, 147, 173, 130, 151, 148, 190, 112, 80, 57, 52, 65, 7, 7, 9, 3, 12, 21, 14], "prior": [70, 40, 19, 16, 30, 54, 60, 48, 55, 134, 95, 115, 42, 81, 92, 168, 195, 155, 121, 111, 123, 164, 81, 170, 156, 141, 91, 153, 188, 235, 220, 259, 254, 251, 201, 220, 144, 170, 129, 111, 182, 186, 176, 130, 101, 48, 64, 70, 91, 75, 19, 96, 124]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [16247, 1976, 4682, 5774, 7330, 4074, 10365, 13176, 8130, 7348, 11541, 11397, 15588, 55101, 43687, 14505, 21169, 35212, 23484, 27858, 20195, 23121, 45324, 37663, 21554, 57326, 35726, 50448, 62408, 85664, 94174, 104839, 111585, 106045, 73919, 53763, 58819, 36294, 45036, 33756, 52801, 24592, 16813, 12393, 9166, 4163, 635, 1164, 707, 0, 1384, 5236, 5953], "prior": [15488, 6743, 2596, 1583, 4112, 8023, 8881, 7793, 11832, 25878, 8084, 7044, 7988, 9910, 16597, 43911, 42086, 39662, 23894, 39435, 37080, 22353, 20702, 36464, 37771, 36979, 22544, 46977, 60023, 81786, 81987, 113435, 102136, 91985, 78933, 65105, 37873, 40323, 30593, 17774, 27480, 31443, 33679, 21062, 8234, 5943, 9889, 13608, 11288, 8419, 1267, 21242, 34592]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [43.8, 10.9, 10.5, 19.2, 19.0, 25.0, 24.9, 38.1, 31.3, 21.1, 38.6, 26.0, 33.1, 84.5, 72.8, 28.2, 48.9, 64.7, 58.3, 47.0, 60.1, 45.1, 61.3, 55.6, 36.9, 66.1, 38.9, 57.9, 60.9, 83.8, 84.3, 92.8, 92.9, 93.9, 60.7, 56.8, 65.5, 49.7, 57.5, 56.3, 71.4, 42.1, 30.1, 21.4, 19.5, 24.4, 2.6, 2.6, 3.4, 1.1, 4.5, 7.9, 9.2], "prior": [59.1, 15.4, 7.3, 6.2, 11.9, 21.8, 23.9, 18.4, 21.6, 56.1, 37.8, 44.2, 16.1, 33.7, 37.0, 67.8, 76.6, 59.2, 46.0, 41.7, 46.2, 61.7, 30.8, 65.2, 58.6, 53.6, 35.3, 59.4, 70.7, 89.7, 82.7, 97.7, 95.5, 94.7, 75.8, 82.7, 56.0, 64.0, 48.5, 43.1, 68.4, 69.9, 66.2, 48.9, 38.0, 18.0, 24.1, 26.6, 34.6, 28.6, 20.7, 36.1, 82.8]}}}, "daily": {"categories": ["04/09", "05/09", "06/09", "07/09", "08/09", "09/09", "10/09", "11/09", "12/09", "13/09", "14/09", "15/09", "16/09", "17/09", "18/09", "19/09", "20/09", "21/09", "22/09", "23/09", "24/09", "25/09", "26/09", "27/09", "28/09", "29/09", "30/09", "01/10", "02/10", "03/10", "04/10", "05/10", "06/10", "07/10", "08/10", "09/10", "10/10", "11/10", "12/10", "13/10", "14/10", "15/10", "16/10", "17/10", "18/10", "19/10", "20/10", "21/10", "22/10", "23/10", "24/10", "25/10", "26/10", "27/10", "28/10", "29/10", "30/10", "31/10", "01/11", "02/11", "03/11"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [26, 38, 16, 13, 37, 37, 38, 16, 22, 10, 13, 13, 14, 21, 20, 30, 19, 21, 23, 25, 22, 24, 19, 17, 13, 11, 10, 15, 30, 33, 36, 36, 34, 33, 34, 16, 22, 15, 11, 13, 19, 20, 24, 16, 9, 11, 9, 9, 10, 11, 17, 13, 9, 8, 8, 7, 7, 10, 8, 9, 10], "prior": [34, 32, 38, 20, 17, 21, 22, 18, 20, 26, 10, 20, 25, 29, 25, 27, 34, 23, 21, 20, 12, 15, 15, 23, 11, 11, 11, 9, 11, 27, 31, 5, 25, 25, 19, 38, 38, 32, 18, 23, 29, 26, 22, 34, 34, 19, 21, 30, 24, 18, 26, 38, 14, 13, 12, 15, 20, 29, 27, 14, 13]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [6973, 20245, 3588, 2170, 13451, 13396, 14529, 5635, 6862, 2776, 3239, 4091, 3764, 5122, 5642, 8779, 5657, 6897, 7184, 7767, 6891, 7397, 4675, 4224, 3110, 2397, 2132, 2154, 6106, 7619, 10238, 9769, 10050, 9749, 10577, 4267, 5265, 3123, 2348, 3252, 4900, 4807, 3859, 3619, 1808, 1830, 1997, 1831, 1995, 2578, 4013, 2569, 1521, 1796, 1796, 1796, 1924, 2343, 1216, 1766, 1766], "prior": [9263, 8815, 11024, 5142, 4551, 5507, 5386, 3997, 5912, 7377, 3088, 5468, 5507, 6003, 4952, 6734, 8571, 6013, 5326, 4446, 2802, 2585, 3795, 5627, 2148, 1987, 2104, 1482, 1484, 3963, 4606, 289, 2972, 3088, 2434, 7657, 7048, 3992, 2846, 3163, 4404, 4921, 4072, 5962, 6074, 3614, 3537, 5232, 4314, 3594, 5357, 8030, 2695, 2925, 2105, 2937, 3703, 3498, 3199, 1554, 1058]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [72.2, 100.0, 42.1, 34.2, 97.4, 97.4, 100.0, 42.1, 59.5, 27.8, 36.1, 36.1, 38.9, 55.3, 52.6, 79.0, 50.0, 55.3, 62.2, 67.6, 59.5, 63.2, 50.0, 44.7, 34.2, 28.9, 26.3, 39.5, 81.1, 89.2, 94.7, 94.7, 89.5, 86.8, 89.5, 42.1, 57.9, 39.5, 28.9, 34.2, 50.0, 52.6, 63.2, 42.1, 23.7, 28.9, 23.7, 23.7, 26.3, 28.9, 44.7, 34.2, 23.7, 21.1, 21.1, 18.4, 18.4, 26.3, 21.1, 23.7, 26.3], "prior": [89.5, 84.2, 100.0, 57.1, 48.6, 60.0, 57.9, 47.4, 52.6, 68.4, 27.0, 52.6, 65.8, 76.3, 65.8, 71.0, 89.5, 60.5, 55.3, 52.6, 31.6, 39.5, 39.5, 60.5, 28.9, 28.9, 28.9, 23.7, 29.7, 75.0, 86.1, 13.2, 65.8, 65.8, 50.0, 100.0, 100.0, 84.2, 47.4, 60.5, 76.3, 68.4, 57.9, 89.5, 89.5, 50.0, 55.3, 79.0, 63.2, 47.4, 68.4, 100.0, 36.8, 34.2, 31.6, 39.5, 52.6, 76.3, 71.0, 36.8, 34.2]}}}}, "granLabels": {"monthly": "Evolução mensal", "weekly": "Evolução semanal (por semana ISO)", "daily": "Evolução diária (últimos 61 dias à volta de hoje)"}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
+      var data = {"granularities": {"monthly": {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 625, 546, 140, 58], "prior": [163, 207, 417, 589, 612, 572, 796, 1047, 681, 725, 343, 372]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 130296, 16586, 13036], "prior": [28525, 33407, 55335, 124592, 149117, 137779, 259639, 420775, 173659, 121998, 44209, 73473]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 55.6, 46.5, 12.3, 4.9], "prior": [15.7, 20.4, 37.7, 54.8, 52.3, 50.7, 68.5, 89.1, 60.2, 61.8, 30.1, 35.0]}}}, "weekly": {"categories": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27", "S28", "S29", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37", "S38", "S39", "S40", "S41", "S42", "S43", "S44", "S45", "S46", "S47", "S48", "S49", "S50", "S51", "S52", "S53"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [61, 29, 28, 47, 48, 63, 65, 96, 78, 56, 101, 69, 88, 224, 185, 74, 130, 172, 155, 123, 157, 120, 163, 148, 88, 171, 103, 154, 161, 223, 219, 245, 247, 248, 158, 147, 173, 130, 151, 148, 188, 114, 81, 57, 52, 65, 7, 7, 9, 3, 12, 21, 14], "prior": [70, 40, 19, 16, 30, 54, 60, 48, 55, 134, 95, 115, 42, 81, 92, 168, 195, 155, 121, 111, 123, 164, 81, 170, 156, 141, 91, 153, 188, 235, 220, 259, 254, 251, 201, 220, 144, 170, 129, 111, 182, 186, 176, 130, 101, 48, 64, 70, 91, 75, 19, 96, 124]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [16247, 1976, 4682, 5774, 7330, 4074, 10365, 13176, 8130, 7348, 11541, 11397, 15588, 55101, 43687, 14505, 21169, 35212, 23484, 27858, 20195, 23121, 45324, 37663, 21554, 57326, 35726, 50448, 62408, 85664, 94174, 104839, 111585, 106045, 73919, 53763, 58819, 36294, 45036, 33455, 52571, 24592, 16140, 12393, 9166, 4163, 635, 1164, 707, 0, 1384, 5236, 5953], "prior": [15488, 6743, 2596, 1583, 4112, 8023, 8881, 7793, 11832, 25878, 8084, 7044, 7988, 9910, 16597, 43911, 42086, 39662, 23894, 39435, 37080, 22353, 20702, 36464, 37771, 36979, 22544, 46977, 60023, 81786, 81987, 113435, 102136, 91985, 78933, 65105, 37873, 40323, 30593, 17774, 27480, 31443, 33679, 21062, 8234, 5943, 9889, 13608, 11288, 8419, 1267, 21242, 34592]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [43.8, 10.9, 10.5, 19.2, 19.0, 25.0, 24.9, 38.1, 31.3, 21.1, 38.6, 26.0, 33.1, 84.5, 72.8, 28.2, 48.9, 64.7, 58.3, 47.0, 60.1, 45.1, 61.3, 55.6, 36.9, 66.1, 38.9, 57.9, 60.9, 83.8, 84.3, 92.8, 92.9, 93.9, 60.7, 56.8, 65.5, 49.7, 57.5, 56.3, 70.7, 42.9, 30.5, 21.4, 19.5, 24.4, 2.6, 2.6, 3.4, 1.1, 4.5, 7.9, 9.2], "prior": [59.1, 15.4, 7.3, 6.2, 11.9, 21.8, 23.9, 18.4, 21.6, 56.1, 37.8, 44.2, 16.1, 33.7, 37.0, 67.8, 76.6, 59.2, 46.0, 41.7, 46.2, 61.7, 30.8, 65.2, 58.6, 53.6, 35.3, 59.4, 70.7, 89.7, 82.7, 97.7, 95.5, 94.7, 75.8, 82.7, 56.0, 64.0, 48.5, 43.1, 68.4, 69.9, 66.2, 48.9, 38.0, 18.0, 24.1, 26.6, 34.6, 28.6, 20.7, 36.1, 82.8]}}}, "daily": {"categories": ["05/09", "06/09", "07/09", "08/09", "09/09", "10/09", "11/09", "12/09", "13/09", "14/09", "15/09", "16/09", "17/09", "18/09", "19/09", "20/09", "21/09", "22/09", "23/09", "24/09", "25/09", "26/09", "27/09", "28/09", "29/09", "30/09", "01/10", "02/10", "03/10", "04/10", "05/10", "06/10", "07/10", "08/10", "09/10", "10/10", "11/10", "12/10", "13/10", "14/10", "15/10", "16/10", "17/10", "18/10", "19/10", "20/10", "21/10", "22/10", "23/10", "24/10", "25/10", "26/10", "27/10", "28/10", "29/10", "30/10", "31/10", "01/11", "02/11", "03/11", "04/11"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [38, 16, 13, 37, 37, 38, 16, 22, 10, 13, 13, 14, 21, 20, 30, 19, 21, 23, 25, 22, 24, 19, 17, 13, 11, 10, 15, 30, 33, 36, 35, 34, 33, 35, 15, 21, 15, 11, 14, 20, 20, 24, 16, 9, 11, 9, 9, 11, 12, 17, 12, 9, 8, 8, 7, 7, 10, 8, 9, 10, 11], "prior": [32, 38, 20, 17, 21, 22, 18, 20, 26, 10, 20, 25, 29, 25, 27, 34, 23, 21, 20, 12, 15, 15, 23, 11, 11, 11, 9, 11, 27, 31, 5, 25, 25, 19, 38, 38, 32, 18, 23, 29, 26, 22, 34, 34, 19, 21, 30, 24, 18, 26, 38, 14, 13, 12, 15, 20, 29, 27, 14, 13, 11]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [20245, 3588, 2170, 13451, 13396, 14529, 5635, 6862, 2776, 3239, 4091, 3764, 5122, 5642, 8779, 5657, 6897, 7184, 7767, 6891, 7397, 4675, 4224, 3110, 2397, 2132, 2154, 6106, 7619, 9937, 9769, 10050, 9749, 10883, 3999, 4997, 3123, 2348, 3252, 4900, 4807, 3859, 3619, 1808, 1830, 1997, 1831, 1995, 2578, 3668, 2241, 1521, 1796, 1796, 1796, 1924, 2343, 1216, 1766, 1766, 2171], "prior": [8815, 11024, 5142, 4551, 5507, 5386, 3997, 5912, 7377, 3088, 5468, 5507, 6003, 4952, 6734, 8571, 6013, 5326, 4446, 2802, 2585, 3795, 5627, 2148, 1987, 2104, 1482, 1484, 3963, 4606, 289, 2972, 3088, 2434, 7657, 7048, 3992, 2846, 3163, 4404, 4921, 4072, 5962, 6074, 3614, 3537, 5232, 4314, 3594, 5357, 8030, 2695, 2925, 2105, 2937, 3703, 3498, 3199, 1554, 1058, 815]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [100.0, 42.1, 34.2, 97.4, 97.4, 100.0, 42.1, 59.5, 27.8, 36.1, 36.1, 38.9, 55.3, 52.6, 79.0, 50.0, 55.3, 62.2, 67.6, 59.5, 63.2, 50.0, 44.7, 34.2, 28.9, 26.3, 39.5, 81.1, 89.2, 94.7, 92.1, 89.5, 86.8, 92.1, 39.5, 55.3, 39.5, 28.9, 36.8, 52.6, 52.6, 63.2, 42.1, 23.7, 28.9, 23.7, 23.7, 28.9, 31.6, 44.7, 31.6, 23.7, 21.1, 21.1, 18.4, 18.4, 26.3, 21.1, 23.7, 26.3, 28.9], "prior": [84.2, 100.0, 57.1, 48.6, 60.0, 57.9, 47.4, 52.6, 68.4, 27.0, 52.6, 65.8, 76.3, 65.8, 71.0, 89.5, 60.5, 55.3, 52.6, 31.6, 39.5, 39.5, 60.5, 28.9, 28.9, 28.9, 23.7, 29.7, 75.0, 86.1, 13.2, 65.8, 65.8, 50.0, 100.0, 100.0, 84.2, 47.4, 60.5, 76.3, 68.4, 57.9, 89.5, 89.5, 50.0, 55.3, 79.0, 63.2, 47.4, 68.4, 100.0, 36.8, 34.2, 31.6, 39.5, 52.6, 76.3, 71.0, 36.8, 34.2, 28.9]}}}}, "granLabels": {"monthly": "Evolução mensal", "weekly": "Evolução semanal (por semana ISO)", "daily": "Evolução diária (últimos 61 dias à volta de hoje)"}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
       var granTitles = {monthly:'Evolução mensal', weekly:'Evolução semanal (por semana ISO)', daily:'Evolução diária (à volta de hoje)'};
       var curGran = 'monthly';
       function fmt(suffix){
@@ -904,19 +1005,19 @@ window.CraveiralCharts = (function(){
 <td class="mono">173.659€</td>
 <td class="mono">-56</td>
 <td class="mono">+22.646€</td></tr><tr><td>Outubro</td>
-<td class="mono">548</td>
 <td class="mono">545</td>
-<td class="mono">-3</td>
-<td class="mono">46,4%</td>
-<td class="mono">131.499€</td>
-<td class="mono">241,28€</td>
+<td class="mono">546</td>
+<td class="mono">+1</td>
+<td class="mono">46,5%</td>
+<td class="mono">130.296€</td>
+<td class="mono">238,64€</td>
 <td class="mono">725</td>
 <td class="mono">121.998€</td>
-<td class="mono">-180</td>
-<td class="mono">+9.501€</td></tr><tr><td>Novembro</td>
-<td class="mono">137</td>
+<td class="mono">-179</td>
+<td class="mono">+8.298€</td></tr><tr><td>Novembro</td>
 <td class="mono">140</td>
-<td class="mono">+3</td>
+<td class="mono">140</td>
+<td class="mono">0</td>
 <td class="mono">12,3%</td>
 <td class="mono">16.586€</td>
 <td class="mono">118,47€</td>
@@ -1892,15 +1993,15 @@ window.CraveiralCharts = (function(){
 <td class="mono">30</td><td class="mono">81%</td><td class="mono">6.106€</td>
 <td class="mono">30</td><td class="mono">81%</td><td class="mono">6.106€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">03/10</td><td>sáb</td>
-<td class="mono">35</td><td class="mono">95%</td><td class="mono">7.999€</td>
 <td class="mono">33</td><td class="mono">89%</td><td class="mono">7.619€</td>
-<td class="mono">-2</td><td class="mono">-380€</td></tr><tr><td class="mono">04/10</td><td>dom</td>
-<td class="mono">38</td><td class="mono">100%</td><td class="mono">9.097€</td>
+<td class="mono">33</td><td class="mono">89%</td><td class="mono">7.619€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">04/10</td><td>dom</td>
 <td class="mono">36</td><td class="mono">95%</td><td class="mono">10.238€</td>
-<td class="mono">-2</td><td class="mono">+1.141€</td></tr><tr><td class="mono">05/10</td><td>seg</td>
-<td class="mono">35</td><td class="mono">92%</td><td class="mono">9.769€</td>
+<td class="mono">36</td><td class="mono">95%</td><td class="mono">9.937€</td>
+<td class="mono">0</td><td class="mono">-301€</td></tr><tr><td class="mono">05/10</td><td>seg</td>
 <td class="mono">36</td><td class="mono">95%</td><td class="mono">9.769€</td>
-<td class="mono">+1</td><td class="mono">0€</td></tr><tr><td class="mono">06/10</td><td>ter</td>
+<td class="mono">35</td><td class="mono">92%</td><td class="mono">9.769€</td>
+<td class="mono">-1</td><td class="mono">0€</td></tr><tr><td class="mono">06/10</td><td>ter</td>
 <td class="mono">34</td><td class="mono">89%</td><td class="mono">10.050€</td>
 <td class="mono">34</td><td class="mono">89%</td><td class="mono">10.050€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">07/10</td><td>qua</td>
@@ -1908,14 +2009,14 @@ window.CraveiralCharts = (function(){
 <td class="mono">33</td><td class="mono">87%</td><td class="mono">9.749€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">08/10</td><td>qui</td>
 <td class="mono">34</td><td class="mono">89%</td><td class="mono">10.577€</td>
-<td class="mono">34</td><td class="mono">89%</td><td class="mono">10.577€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">09/10</td><td>sex</td>
+<td class="mono">35</td><td class="mono">92%</td><td class="mono">10.883€</td>
+<td class="mono">+1</td><td class="mono">+306€</td></tr><tr><td class="mono">09/10</td><td>sex</td>
 <td class="mono">16</td><td class="mono">42%</td><td class="mono">4.267€</td>
-<td class="mono">16</td><td class="mono">42%</td><td class="mono">4.267€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">10/10</td><td>sáb</td>
+<td class="mono">15</td><td class="mono">39%</td><td class="mono">3.999€</td>
+<td class="mono">-1</td><td class="mono">-268€</td></tr><tr><td class="mono">10/10</td><td>sáb</td>
 <td class="mono">22</td><td class="mono">58%</td><td class="mono">5.265€</td>
-<td class="mono">22</td><td class="mono">58%</td><td class="mono">5.265€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">11/10</td><td>dom</td>
+<td class="mono">21</td><td class="mono">55%</td><td class="mono">4.997€</td>
+<td class="mono">-1</td><td class="mono">-268€</td></tr><tr><td class="mono">11/10</td><td>dom</td>
 <td class="mono">15</td><td class="mono">39%</td><td class="mono">3.123€</td>
 <td class="mono">15</td><td class="mono">39%</td><td class="mono">3.123€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">12/10</td><td>seg</td>
@@ -1923,11 +2024,11 @@ window.CraveiralCharts = (function(){
 <td class="mono">11</td><td class="mono">29%</td><td class="mono">2.348€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">13/10</td><td>ter</td>
 <td class="mono">13</td><td class="mono">34%</td><td class="mono">3.252€</td>
-<td class="mono">13</td><td class="mono">34%</td><td class="mono">3.252€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">14/10</td><td>qua</td>
+<td class="mono">14</td><td class="mono">37%</td><td class="mono">3.252€</td>
+<td class="mono">+1</td><td class="mono">0€</td></tr><tr><td class="mono">14/10</td><td>qua</td>
 <td class="mono">19</td><td class="mono">50%</td><td class="mono">4.900€</td>
-<td class="mono">19</td><td class="mono">50%</td><td class="mono">4.900€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">15/10</td><td>qui</td>
+<td class="mono">20</td><td class="mono">53%</td><td class="mono">4.900€</td>
+<td class="mono">+1</td><td class="mono">0€</td></tr><tr><td class="mono">15/10</td><td>qui</td>
 <td class="mono">20</td><td class="mono">53%</td><td class="mono">4.807€</td>
 <td class="mono">20</td><td class="mono">53%</td><td class="mono">4.807€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">16/10</td><td>sex</td>
@@ -1950,17 +2051,17 @@ window.CraveiralCharts = (function(){
 <td class="mono">9</td><td class="mono">24%</td><td class="mono">1.831€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">22/10</td><td>qui</td>
 <td class="mono">10</td><td class="mono">26%</td><td class="mono">1.995€</td>
-<td class="mono">10</td><td class="mono">26%</td><td class="mono">1.995€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">23/10</td><td>sex</td>
+<td class="mono">11</td><td class="mono">29%</td><td class="mono">1.995€</td>
+<td class="mono">+1</td><td class="mono">0€</td></tr><tr><td class="mono">23/10</td><td>sex</td>
 <td class="mono">11</td><td class="mono">29%</td><td class="mono">2.578€</td>
-<td class="mono">11</td><td class="mono">29%</td><td class="mono">2.578€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">24/10</td><td>sáb</td>
+<td class="mono">12</td><td class="mono">32%</td><td class="mono">2.578€</td>
+<td class="mono">+1</td><td class="mono">0€</td></tr><tr><td class="mono">24/10</td><td>sáb</td>
 <td class="mono">17</td><td class="mono">45%</td><td class="mono">4.013€</td>
-<td class="mono">17</td><td class="mono">45%</td><td class="mono">4.013€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">25/10</td><td>dom</td>
+<td class="mono">17</td><td class="mono">45%</td><td class="mono">3.668€</td>
+<td class="mono">0</td><td class="mono">-345€</td></tr><tr><td class="mono">25/10</td><td>dom</td>
 <td class="mono">13</td><td class="mono">34%</td><td class="mono">2.569€</td>
-<td class="mono">13</td><td class="mono">34%</td><td class="mono">2.569€</td>
-<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">26/10</td><td>seg</td>
+<td class="mono">12</td><td class="mono">32%</td><td class="mono">2.241€</td>
+<td class="mono">-1</td><td class="mono">-328€</td></tr><tr><td class="mono">26/10</td><td>seg</td>
 <td class="mono">9</td><td class="mono">24%</td><td class="mono">1.521€</td>
 <td class="mono">9</td><td class="mono">24%</td><td class="mono">1.521€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">27/10</td><td>ter</td>
@@ -2064,15 +2165,15 @@ window.CraveiralCharts = (function(){
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">25/11</td><td>qua</td>
-<td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">140€</td>
-<td class="mono">+1</td><td class="mono">+140€</td></tr><tr><td class="mono">26/11</td><td>qui</td>
-<td class="mono">0</td><td class="mono">0%</td><td class="mono">0€</td>
 <td class="mono">1</td><td class="mono">3%</td><td class="mono">140€</td>
-<td class="mono">+1</td><td class="mono">+140€</td></tr><tr><td class="mono">27/11</td><td>sex</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">244€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">26/11</td><td>qui</td>
+<td class="mono">1</td><td class="mono">3%</td><td class="mono">140€</td>
+<td class="mono">1</td><td class="mono">3%</td><td class="mono">140€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">27/11</td><td>sex</td>
 <td class="mono">2</td><td class="mono">5%</td><td class="mono">396€</td>
-<td class="mono">+1</td><td class="mono">+153€</td></tr><tr><td class="mono">28/11</td><td>sáb</td>
+<td class="mono">2</td><td class="mono">5%</td><td class="mono">396€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">28/11</td><td>sáb</td>
 <td class="mono">2</td><td class="mono">5%</td><td class="mono">244€</td>
 <td class="mono">2</td><td class="mono">5%</td><td class="mono">244€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">29/11</td><td>dom</td>
@@ -2193,7 +2294,7 @@ window.CraveiralCharts = (function(){
           </div>
         </details>
 
-    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (715 leituras). Ontem = leitura de 03/10/2026, Hoje = leitura de 04/10/2026. Esta secção é atualizada automaticamente todos os dias.</p>
+    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (716 leituras). Ontem = leitura de 04/10/2026, Hoje = leitura de 05/10/2026. Esta secção é atualizada automaticamente todos os dias.</p>
   </section>
 
     <section id="otb">
