@@ -87,12 +87,24 @@ def get_row(hist, obs_date, stay_date):
 
 
 def get_prior_year_actual(hist, stay_date_prior_year):
-    """First obs_date on/after stay_date_prior_year that has a row for it
-    (the earliest snapshot taken after the date happened == settled actual)."""
+    """Most recent (latest) obs_date that has a row for stay_date_prior_year
+    == the most mature/corrected snapshot available == the true settled actual.
+
+    NOTE: this used to take the FIRST obs_date on/after the stay date (the
+    earliest snapshot taken right after the date happened), on the assumption
+    that revenue was already settled by then. That assumption was wrong: a
+    same-day or next-day pull can miss late postings/corrections (extras,
+    F&B adjustments, cancellations applied retroactively) that only show up
+    in later snapshots, including the year-end closing report. Using the
+    LATEST available observation instead matches the official closing
+    "Histórico e Previsão" / Manager's Report totals (confirmed against the
+    31-dez-2025 closing reports: 1.669.944,68€ total 2025 accommodation
+    revenue, vs. 1.622.507,16€ previously computed here from first-available
+    snapshots)."""
     candidates = sorted(k[0] for k in hist.keys() if k[1] == stay_date_prior_year and k[0] >= stay_date_prior_year)
     if not candidates:
         return None
-    return hist[(candidates[0], stay_date_prior_year)]
+    return hist[(candidates[-1], stay_date_prior_year)]
 
 
 # ---------- number formatting (pt-PT locale) ----------
