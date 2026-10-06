@@ -107,6 +107,57 @@ def get_prior_year_actual(hist, stay_date_prior_year):
     return hist[(candidates[-1], stay_date_prior_year)]
 
 
+def nearest_obs_date(hist, target_date_str):
+    """Returns the available obs_date closest to target_date_str: an exact
+    match if one exists, otherwise whichever recorded obs_date (earlier or
+    later) is fewest calendar days away. Returns None if hist is empty."""
+    dates = all_obs_dates(hist)
+    if not dates:
+        return None
+    if target_date_str in dates:
+        return target_date_str
+    target = date.fromisoformat(target_date_str)
+    return min(dates, key=lambda ds: abs((date.fromisoformat(ds) - target).days))
+
+
+def same_day_prior_year_totals(hist, obs_hoje):
+    """'Mesmo dia do ano passado' comparison (suggested by Pedro): instead of
+    comparing the running year-to-date totals against the prior year's fully
+    CLOSED total (which mixes a partial year against a complete one), this
+    takes the PMS snapshot recorded ~1 year before `obs_hoje` and totals that
+    snapshot's on-the-books room nights/revenue for its own full calendar
+    year -- i.e. "where did the books stand on this same date last year",
+    matching the daily management report's own YoY comparison.
+
+    Returns (rn_total, receita_total, obs_date_used) using whichever
+    recorded obs_date is closest to exactly one year before `obs_hoje`
+    (falls back gracefully if that exact date has no snapshot, e.g. due to a
+    missing reading), or (None, None, None) if there is no historical data
+    far enough back to compare against.
+    """
+    y, m, dd = [int(x) for x in obs_hoje.split('-')]
+    try:
+        target = date(y - 1, m, dd).isoformat()
+    except ValueError:
+        target = date(y - 1, 2, 28).isoformat()  # Feb 29 fallback
+    obs_prior = nearest_obs_date(hist, target)
+    if obs_prior is None:
+        return None, None, None
+    prior_year = y - 1
+    d0 = date(prior_year, 1, 1)
+    d1 = date(prior_year, 12, 31)
+    rn_total = 0.0
+    rec_total = 0.0
+    d = d0
+    while d <= d1:
+        row = get_row(hist, obs_prior, d.isoformat())
+        if row:
+            rn_total += row.get('ocup') or 0.0
+            rec_total += row.get('receita_quartos') or 0.0
+        d += timedelta(days=1)
+    return rn_total, rec_total, obs_prior
+
+
 # ---------- number formatting (pt-PT locale) ----------
 
 def fmt_int(n):
@@ -266,6 +317,16 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
     delta_rn_prior = totals['rn_hoje'] - totals['rn_prior']
     delta_rec_prior = totals['receita_hoje'] - totals['receita_prior']
 
+    # "Mesmo dia do ano passado" (sugestão do Pedro): onde estávamos no ano
+    # (todo o ano, incluindo reservas futuras na altura) na leitura mais
+    # próxima de há exatamente um ano, em vez do ano passado já fechado.
+    rn_prior_sameday, rec_prior_sameday, obs_prior_sameday = same_day_prior_year_totals(hist, obs_hoje)
+    if obs_prior_sameday is not None:
+        delta_rn_sameday = totals['rn_hoje'] - rn_prior_sameday
+        delta_rec_sameday = totals['receita_hoje'] - rec_prior_sameday
+    else:
+        delta_rn_sameday = delta_rec_sameday = None
+
     def dmy(iso):
         y, m, d = iso.split('-')
         return f"{d}/{m}/{y}"
@@ -292,9 +353,14 @@ def render_pickup_section(hist, year=None, obs_hoje=None, obs_ontem=None):
         <span class="kpi-note">{fmt_signed_eur(pickup_rec_total)} de receita {'adicionada' if pickup_rec_total >= 0 else 'retirada'}</span>
       </div>
       <div class="kpi-tile">
-        <span class="kpi-label">Vs. mesmo período do ano passado ({prior_year}, fechado)</span>
+        <span class="kpi-label">Vs. {prior_year} (ano fechado)</span>
         <span class="kpi-value mono">{fmt_signed_int(delta_rn_prior)} <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
         <span class="kpi-note">{fmt_signed_eur(delta_rec_prior)} de receita</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Vs. mesmo dia do ano passado</span>
+        <span class="kpi-value mono">{fmt_signed_int(delta_rn_sameday) if obs_prior_sameday else 's/ dados'} <span style="font-size:0.95rem;font-weight:500;">{'RN' if obs_prior_sameday else ''}</span></span>
+        <span class="kpi-note">{(fmt_signed_eur(delta_rec_sameday) + ' de receita · leitura de ' + dmy(obs_prior_sameday)) if obs_prior_sameday else 'sem leitura próxima o suficiente de há um ano'}</span>
       </div>
     </div>"""
 
