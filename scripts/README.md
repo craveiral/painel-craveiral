@@ -34,6 +34,11 @@ Previsão" na pasta do Google Drive "RELATÓRIOS DIÁRIOS"
   (ver secção "OTB" mais abaixo). Não deriva do histórico de pick-up; usa
   os dados que entrarem em `render_otb_section(monthly, snapshot_date,
   year)`.
+- `competition_gen.py` — gera a secção `<section id="competition">...</section>`
+  ("Competition set") a partir das tarifas recolhidas no site oficial e no
+  Booking.com de cada alojamento (ver secção "Competition set" mais abaixo).
+  Não deriva do histórico de pick-up; usa os dados que entrarem em
+  `render_competition_section(rows)`.
 - `update_pickup.py` — o script que a tarefa diária corre. Ver `--help`.
 
 ## Gráficos interativos (CraveiralCharts)
@@ -195,14 +200,61 @@ semanal ficaria para uma futura sessão que construa um histórico próprio
 (ficheiro tipo `pickup_history.csv.gz`, mas para o Climber), acumulado
 dia a dia a partir daqui — não tentar simular isto só com URLs.
 
-## Lighthouse — sem alterações
+## Competition set — site oficial + Booking.com (substituiu Climber/Lighthouse)
 
-O Lighthouse (rate shopping do competition set) não tem relatório de
-pick-up/pace próprio — só tarifas públicas pontuais por data de estadia.
-Não há, por isso, nenhuma granularidade diária/semanal/mensal a
-implementar aqui; a secção "Competition set" mantém-se como está (ADR
-mais recente por alojamento, recolhido manualmente do Lighthouse e/ou
-Climber).
+**Alterado em 21/10/2026, por instrução explícita**: em vez de recolher o
+ADR do competition set via Climber ou Lighthouse, vai-se diretamente (a)
+ao **site oficial** de cada alojamento e (b) a uma **pesquisa no
+Booking.com**, para a mesma janela de estadia (1 noite / 2 pax) em todos
+os alojamentos de uma mesma corrida. O Lighthouse não tinha relatório de
+pick-up/pace próprio (só tarifas pontuais por data de estadia), por isso
+esta mudança não perde granularidade nenhuma — ganha-se, já agora, uma
+segunda fonte (site oficial) que o Lighthouse/Climber não davam.
+
+**Schema do documento** (coleção `competitionset`, um documento por
+alojamento, `doc_id` em slug minúsculo do nome):
+`{"nome": "<nome do alojamento>", "adrSite": <número|null>, "adrBooking":
+<número|null>, "notas": "<texto livre>", "updatedAt": "<ISO>"}`. Os campos
+antigos (um único ADR vindo do Climber/Lighthouse) foram substituídos por
+este par `adrSite`/`adrBooking`; não há mais nenhum campo de fonte única.
+
+**Booking.com, na prática**: a pesquisa genérica por destino
+(`ss=<nome>&dest_type=latlong`) é pouco fiável — cai facilmente numa
+listagem de área em vez do alojamento específico. É mais robusto resolver
+o URL exato `/hotel/pt/<slug>.html` de cada propriedade via uma pesquisa
+no Google (`site:booking.com hotel <nome do alojamento>`) e navegar
+diretamente para esse URL com os parâmetros de query
+`?checkin=AAAA-MM-DD&checkout=AAAA-MM-DD&group_adults=2&no_rooms=1&group_children=0&selected_currency=EUR`.
+Usar o `find` tool com uma pergunta em linguagem natural (não
+`get_page_text`) para extrair só o preço/disponibilidade da página — é
+muito mais barato em tokens do que ler a página toda. Casos a tratar:
+- **Esgotado / sem disponibilidade real** (incluindo "não aceita reservas
+  no momento"): `adrBooking: null`, nota deve conter a palavra
+  **"Esgotado"** (o `competitionGapReason()` do dashboard privado e o
+  `scripts/competition_gen.py` da página pública usam esta palavra-chave
+  para escolher o texto do tooltip sobre a célula vazia).
+- **Só tarifas não-reembolsáveis/sem flexibilidade**: `adrBooking: null`,
+  nota com **"sem tarifa flexível"**.
+- **Estadia mínima > 1 noite** para a data pedida: usar a tabela de
+  "Datas alternativas" da própria página para uma janela de 1 noite
+  adjacente, registar esse valor como `adrBooking` e explicar a
+  substituição na nota (ver exemplo real no `__main__` de
+  `competition_gen.py`).
+
+**Site oficial**: se o alojamento não publica tarifário (comum nas
+propriedades mais pequenas/boutique), `adrSite: null` e nota a explicar
+("site oficial não publica tarifário"); quando publica só um valor
+indicativo ("desde X€"), guardar esse valor e assinalar na nota que é
+indicativo.
+
+**Regeneração da secção estática da página pública**: usar
+`scripts/competition_gen.py`'s `render_competition_section(rows)` — uma
+lista de `{'nome', 'adr_site', 'adr_booking', 'notas'}` na mesma ordem dos
+documentos da coleção (alfabética por `doc_id` é suficiente) — e substituir
+`<section id="competition">...</section>` em `index.html`. O gráfico de
+barras usa, por alojamento, a menor tarifa entre as duas fontes; um
+alojamento sem nenhuma tarifa disponível (ambas `null`) fica fora do
+gráfico mas continua na tabela, com "—" e tooltip em ambas as colunas.
 
 ## OTB — Receita Total & Mix
 
