@@ -2374,29 +2374,29 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Receita total do ano (2026)</span>
-        <span class="kpi-value mono">2.197.240€</span>
-        <span class="kpi-note">Quartos + F&amp;B + Outros, a partir do OTB de 19.10.2026</span>
+        <span class="kpi-value mono">2.266.157€</span>
+        <span class="kpi-note">Quartos + F&amp;B + Outros, a partir do OTB de 22.10.2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita extra (não-quartos)</span>
-        <span class="kpi-value mono">527.004€</span>
-        <span class="kpi-note">24,0% da receita total do ano</span>
+        <span class="kpi-value mono">542.652€</span>
+        <span class="kpi-note">23,9% da receita total do ano</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita F&amp;B no ano</span>
-        <span class="kpi-value mono">518.583€</span>
+        <span class="kpi-value mono">534.210€</span>
         <span class="kpi-note">Restaurante e bar, acumulado 2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita Outros/SPA no ano</span>
-        <span class="kpi-value mono">8.420€</span>
+        <span class="kpi-value mono">8.442€</span>
         <span class="kpi-note">SPA ainda sem receita registada nesta fonte</span>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>Receita por origem — 2026</h3>
-      <p class="chart-sub">Quartos, F&amp;B e Outros/SPA, mês a mês (fonte: OTB de 19.10.2026).</p>
+      <p class="chart-sub">Quartos, F&amp;B e Outros/SPA, mês a mês (fonte: OTB de 22.10.2026).</p>
       <div class="legend-row">
         <span class="legend-item"><span class="legend-swatch swatch-1"></span>Quartos</span>
         <span class="legend-item"><span class="legend-swatch swatch-2"></span>F&amp;B</span>
@@ -2406,7 +2406,7 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 154336, 21710, 24006]}, {"slot": 2, "label": "F&B", "values": [14063, 18736, 25949, 51580, 63624, 57127, 81678, 114946, 55406, 30569, 1608, 3297]}, {"slot": 3, "label": "Outros + SPA", "values": [196, 124, 882, 148, 366, 1782, 812, 656, 2447, 993, 15, 0]}]};
+      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 155813, 70265, 27243]}, {"slot": 2, "label": "F&B", "values": [14063, 18736, 25949, 51580, 63624, 57127, 81678, 114946, 55406, 32249, 14952, 3899]}, {"slot": 3, "label": "Outros + SPA", "values": [196, 124, 882, 148, 366, 1782, 812, 656, 2447, 1015, 15, 0]}]};
       function fmt(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; }
       window.CraveiralCharts.lineChart(document.getElementById('otb-chart'), {
         categories: data.categories,
@@ -2423,12 +2423,12 @@ window.CraveiralCharts = (function(){
           <tr><th>Mês</th><th>Receita Quartos</th><th>Receita F&amp;B</th><th>Receita Outros + SPA</th><th>Receita Total</th><th>% Receita Extra</th></tr>
         </thead>
         <tbody>
-          <tr><td>Janeiro</td><td class="mono">34.737€</td><td class="mono">14.063€</td><td class="mono">196€</td><td class="mono">48.995€</td><td class="mono">29,1%</td></tr><tr><td>Fevereiro</td><td class="mono">36.531€</td><td class="mono">18.736€</td><td class="mono">124€</td><td class="mono">55.391€</td><td class="mono">34,0%</td></tr><tr><td>Março</td><td class="mono">58.853€</td><td class="mono">25.949€</td><td class="mono">882€</td><td class="mono">85.684€</td><td class="mono">31,3%</td></tr><tr><td>Abril</td><td class="mono">138.549€</td><td class="mono">51.580€</td><td class="mono">148€</td><td class="mono">190.277€</td><td class="mono">27,2%</td></tr><tr><td>Maio</td><td class="mono">113.288€</td><td class="mono">63.624€</td><td class="mono">366€</td><td class="mono">177.278€</td><td class="mono">36,1%</td></tr><tr><td>Junho</td><td class="mono">166.893€</td><td class="mono">57.127€</td><td class="mono">1.782€</td><td class="mono">225.802€</td><td class="mono">26,1%</td></tr><tr><td>Julho</td><td class="mono">294.733€</td><td class="mono">81.678€</td><td class="mono">812€</td><td class="mono">377.223€</td><td class="mono">21,9%</td></tr><tr><td>Agosto</td><td class="mono">430.294€</td><td class="mono">114.946€</td><td class="mono">656€</td><td class="mono">545.896€</td><td class="mono">21,2%</td></tr><tr><td>Setembro</td><td class="mono">196.306€</td><td class="mono">55.406€</td><td class="mono">2.447€</td><td class="mono">254.159€</td><td class="mono">22,8%</td></tr><tr><td>Outubro</td><td class="mono">154.336€</td><td class="mono">30.569€</td><td class="mono">993€</td><td class="mono">185.897€</td><td class="mono">17,0%</td></tr><tr><td>Novembro</td><td class="mono">21.710€</td><td class="mono">1.608€</td><td class="mono">15€</td><td class="mono">23.334€</td><td class="mono">7,0%</td></tr><tr><td>Dezembro</td><td class="mono">24.006€</td><td class="mono">3.297€</td><td class="mono">0€</td><td class="mono">27.303€</td><td class="mono">12,1%</td></tr>
+          <tr><td>Janeiro</td><td class="mono">34.737€</td><td class="mono">14.063€</td><td class="mono">196€</td><td class="mono">48.995€</td><td class="mono">29,1%</td></tr><tr><td>Fevereiro</td><td class="mono">36.531€</td><td class="mono">18.736€</td><td class="mono">124€</td><td class="mono">55.391€</td><td class="mono">34,0%</td></tr><tr><td>Março</td><td class="mono">58.853€</td><td class="mono">25.949€</td><td class="mono">882€</td><td class="mono">85.684€</td><td class="mono">31,3%</td></tr><tr><td>Abril</td><td class="mono">138.549€</td><td class="mono">51.580€</td><td class="mono">148€</td><td class="mono">190.277€</td><td class="mono">27,2%</td></tr><tr><td>Maio</td><td class="mono">113.288€</td><td class="mono">63.624€</td><td class="mono">366€</td><td class="mono">177.278€</td><td class="mono">36,1%</td></tr><tr><td>Junho</td><td class="mono">166.893€</td><td class="mono">57.127€</td><td class="mono">1.782€</td><td class="mono">225.802€</td><td class="mono">26,1%</td></tr><tr><td>Julho</td><td class="mono">294.733€</td><td class="mono">81.678€</td><td class="mono">812€</td><td class="mono">377.223€</td><td class="mono">21,9%</td></tr><tr><td>Agosto</td><td class="mono">430.294€</td><td class="mono">114.946€</td><td class="mono">656€</td><td class="mono">545.896€</td><td class="mono">21,2%</td></tr><tr><td>Setembro</td><td class="mono">196.306€</td><td class="mono">55.406€</td><td class="mono">2.447€</td><td class="mono">254.159€</td><td class="mono">22,8%</td></tr><tr><td>Outubro</td><td class="mono">155.813€</td><td class="mono">32.249€</td><td class="mono">1.015€</td><td class="mono">189.076€</td><td class="mono">17,6%</td></tr><tr><td>Novembro</td><td class="mono">70.265€</td><td class="mono">14.952€</td><td class="mono">15€</td><td class="mono">85.233€</td><td class="mono">17,6%</td></tr><tr><td>Dezembro</td><td class="mono">27.243€</td><td class="mono">3.899€</td><td class="mono">0€</td><td class="mono">31.142€</td><td class="mono">12,5%</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p class="footnote">Fonte: workbook "OTB_Craveiral" na pasta do Google Drive "OTB e RELATÓRIOS DIÁRIOS / OTB", ficheiro mais recente (19.10.2026), tabela "ON THE BOOKS vs SAME DATE LAST YEAR". Room nights e ocupação já constam da secção Pick-up (mesma fonte PMS) — esta secção foca-se na receita por departamento. Atualizado sempre que surge um ficheiro novo na pasta (tipicamente 2x por semana), não diariamente.</p>
+    <p class="footnote">Fonte: workbook "OTB_Craveiral" na pasta do Google Drive "OTB e RELATÓRIOS DIÁRIOS / OTB", ficheiro mais recente (22.10.2026), tabela "ON THE BOOKS vs SAME DATE LAST YEAR". Room nights e ocupação já constam da secção Pick-up (mesma fonte PMS) — esta secção foca-se na receita por departamento. Atualizado sempre que surge um ficheiro novo na pasta (tipicamente 2x por semana), não diariamente.</p>
   </section>
   <section id="revenue">
     <div class="section-head">
