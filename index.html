@@ -424,7 +424,7 @@ window.CraveiralCharts = (function(){
       <h1>Painel de Evolução Comercial</h1>
     </div>
     <div class="meta">
-      Fotografia gerada em 21 de outubro de 2026<br>
+      Fotografia gerada em 22 de outubro de 2026<br>
       Contexto de mercado: INE / Turismo de Portugal (TravelBI)
     </div>
   </header>
@@ -828,46 +828,46 @@ window.CraveiralCharts = (function(){
     <div class="section-head">
       <div>
         <h2>Competition set</h2>
-        <p class="sub">Alojamentos comparáveis na região. Tarifas recolhidas diretamente no site oficial e no Booking.com de cada alojamento (1 noite, 2 adultos, 3 datas de referência por época — baixa/média/alta).</p>
+        <p class="sub">Alojamentos comparáveis na região. Tarifas mais recentes (ver data em cada nota), 1 noite / 2 pax, recolhidas diretamente no site oficial e no Booking.com de cada alojamento.</p>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>ADR por alojamento</h3>
-      <p class="chart-sub">Menor tarifa publicada por alojamento, entre as 3 datas de referência por época e as duas fontes (site oficial ou Booking.com); alojamentos sem nenhuma tarifa disponível não aparecem no gráfico.</p>
+      <p class="chart-sub">Menor tarifa publicada por alojamento (site oficial ou Booking.com, a que for mais barata); alojamentos sem nenhuma tarifa disponível não aparecem no gráfico.</p>
       <div id="competition-chart"></div>
     </div>
     <script>
-(function(){
-  window.CraveiralCharts.barChart(document.getElementById('competition-chart'), {
-    items: [{"label": "Sublime Comporta", "value": 1221}, {"label": "São Lourenço do Barrocal", "value": 788}, {"label": "Praia do Canal Nature Retreat - SLH", "value": 632}, {"label": "Areias do Seixo Villas", "value": 413}, {"label": "Spatia Comporta, a Member of Design Hotels", "value": 402}, {"label": "Herdade da Malhadinha Nova - Relais & Châteaux", "value": 400}, {"label": "Quinta Da Comporta - Wellness Boutique Resort", "value": 263}, {"label": "Rio do Prado", "value": 163}, {"label": "Herdade da Matinha Country House & Restaurant", "value": 151}],
-    formatValue: function(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; },
-    ariaLabel: 'ADR por alojamento do competition set (menor tarifa entre as 3 datas de referência e as duas fontes)',
-    labelWidth: 210
-  });
-})();
-</script>
+    (function(){
+      window.CraveiralCharts.barChart(document.getElementById('competition-chart'), {
+        items: [{"label": "São Lourenço do Barrocal", "value": 525}, {"label": "Herdade da Malhadinha Nova - Relais & Châteaux", "value": 400}, {"label": "Sublime Comporta", "value": 358}, {"label": "Quinta Da Comporta - Wellness Boutique Resort", "value": 336}, {"label": "Praia do Canal Nature Retreat - SLH", "value": 207}, {"label": "Spatia Comporta, a Member of Design Hotels", "value": 200}, {"label": "Rio do Prado", "value": 163}, {"label": "Herdade do Amarelo Nature & Spa", "value": 150}, {"label": "Herdade da Matinha Country House & Restaurant", "value": 148}, {"label": "Herdade Do Touril", "value": 132}],
+        formatValue: function(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; },
+        ariaLabel: 'ADR por alojamento do competition set (menor tarifa entre site oficial e Booking.com)',
+        labelWidth: 210
+      });
+    })();
+    </script>
 
     <div class="table-wrap">
       <table class="data-table">
         <thead>
-          <tr><th>Alojamento</th><th>Baixa (15/01)</th><th>Média (15/05)</th><th>Alta (15/08)</th><th>Notas</th></tr>
+          <tr><th>Alojamento</th><th>Site oficial (€)</th><th>Booking.com (€)</th><th>Notas</th></tr>
         </thead>
         <tbody>
-<tr><td>Areias do Seixo Villas</td><td><span class="footnote" style="display:block;">Booking: <span class="mono">413€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">523€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">655€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>195 km · Site oficial não publica tarifário de reservas.</td></tr>
-<tr><td>Herdade do Amarelo Nature &amp; Spa</td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Sem listagem / não vende no Booking.com">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Sem listagem / não vende no Booking.com">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Sem listagem / não vende no Booking.com">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span></td><td>25 km · Página do hotel no Booking.com redireciona para pesquisa genérica (não vende via Booking.com atualmente). Site oficial: Esgotado nas 3 datas de referência — o calendário do motor mostra quase todo janeiro de 2027 esgotado. Tarifa indicativa anterior (não reverificável): desde 150€/noite.</td></tr>
-<tr><td>Herdade Do Touril</td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Não verificado com segurança nesta ronda">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Não verificado com segurança nesta ronda">—<sup>*</sup></span></span></td><td>13 km · Site oficial: baixa confirmado Indisponível; média/alta não verificáveis nesta ronda (motor de reservas instável ao navegar para datas distantes). Última tarifa confirmada: Quarto Duplo/Twin Vista Piscina, 140€/noite (13/10/2026).</td></tr>
-<tr><td>Herdade da Malhadinha Nova - Relais &amp; Châteaux</td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="mono">400€</span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="mono">500€</span></span></td><td>71 km · Só vende via site próprio — esgotado no Booking.com nas 3 datas. Tarifário do site é fixo por época (não por data), e não publica época baixa separadamente.</td></tr>
-<tr><td>Herdade da Matinha Country House &amp; Restaurant</td><td><span class="footnote" style="display:block;">Booking: <span class="mono">151€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">184€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Estadia mínima superior a 1 noite nesta época">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>36 km · Alta época exige estadia mínima de 3 noites (1 noite não comparável). Site oficial não publica tarifário.</td></tr>
-<tr><td>Praia do Canal Nature Retreat - SLH</td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">632€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>29 km · Site oficial não publica tarifário.</td></tr>
-<tr><td>Quinta Da Comporta - Wellness Boutique Resort</td><td><span class="footnote" style="display:block;">Booking: <span class="mono">263€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>Site oficial não publica tarifário.</td></tr>
-<tr><td>Rio do Prado</td><td><span class="footnote" style="display:block;">Booking: <span class="mono">163€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">200€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>216 km · Site oficial não publica tarifário.</td></tr>
-<tr><td>São Lourenço do Barrocal</td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">788€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>153 km · Site oficial não publica tarifário.</td></tr>
-<tr><td>Spatia Comporta, a Member of Design Hotels</td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">402€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>87 km · Site oficial não publica tarifário.</td></tr>
-<tr><td>Sublime Comporta</td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="empty-note" title="Esgotado nesta data">—<sup>*</sup></span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td><span class="footnote" style="display:block;">Booking: <span class="mono">1221€</span></span><span class="footnote" style="display:block;margin-top:2px;">Site: <span class="empty-note" title="Site oficial não publica tarifário para esta época">—<sup>*</sup></span></span></td><td>88 km · Site oficial não publica tarifário de quarto base.</td></tr>
+<tr><td>Areias do Seixo Villas</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td>195 km · Esgotado no Booking.com (não aceita reservas no momento, verificado 07-08/11/2026, 1 noite/2 pax); tarifa de site oficial não disponível</td></tr>
+<tr><td>Herdade do Amarelo Nature &amp; Spa</td><td class="mono">150€</td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td>25 km · Esgotado no Booking.com (07-08/11/2026, 1 noite/2 pax); site oficial: desde 150€/noite</td></tr>
+<tr><td>Herdade Do Touril</td><td class="mono">140€</td><td class="mono">132€</td><td>13 km · Estadia mínima de 2 noites para 07-08/11/2026; tarifa de 1 noite mais próxima (06-07 ou 08-09/11/2026, 2 pax): 132€. Site oficial: Quarto Duplo/Twin Vista Piscina, 140€/noite (13/10/2026)</td></tr>
+<tr><td>Herdade da Malhadinha Nova - Relais &amp; Châteaux</td><td class="mono">400€</td><td class="mono"><span class="empty-note" title="Sem tarifa: alojamento esgotado no dia consultado (ver Notas).">—<sup>*</sup></span></td><td>71 km · Esgotado no Booking.com (07-08/11/2026, 1 noite/2 pax); site oficial: Quarto Duplo desde 400€/noite (época média)</td></tr>
+<tr><td>Herdade da Matinha Country House &amp; Restaurant</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">148€</td><td>36 km · Tarifa 07-08/11/2026, Booking.com, 1 noite/2 pax (Quarto Duplo); site oficial não publica tarifário</td></tr>
+<tr><td>Praia do Canal Nature Retreat - SLH</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">207€</td><td>29 km · Tarifa 07-08/11/2026, Booking.com, 1 noite/2 pax, com desconto (Quarto Duplo Premium com Varanda e Vista Parque); site oficial não publica tarifário</td></tr>
+<tr><td>Quinta Da Comporta - Wellness Boutique Resort</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">336€</td><td>Tarifa 07-08/11/2026, Booking.com, 1 noite/2 pax (Quarto Deluxe); site oficial não publica tarifário</td></tr>
+<tr><td>Rio do Prado</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">163€</td><td>216 km · Tarifa 07-08/11/2026, Booking.com, 1 noite/2 pax (Suite Superior); site oficial não publica tarifário</td></tr>
+<tr><td>São Lourenço do Barrocal</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">525€</td><td>153 km · Tarifa 07-08/11/2026, Booking.com, 1 noite/2 pax (Quarto Duplo ou Twin - Adega); site oficial não publica tarifário</td></tr>
+<tr><td>Spatia Comporta, a Member of Design Hotels</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">200€</td><td>87 km · Tarifa 07-08/11/2026, Booking.com, 1 noite/2 pax (Quarto Deluxe com Pátio Exterior); site oficial não publica tarifário</td></tr>
+<tr><td>Sublime Comporta</td><td class="mono"><span class="empty-note" title="Tarifa não publicada (ou não encontrada) no site oficial.">—<sup>*</sup></span></td><td class="mono">358€</td><td>88 km · Tarifa 07-08/11/2026, Booking.com, 1 noite/2 pax (Villa Room Standard - Terracota Wing); site oficial não publica tarifário de quarto base</td></tr>
         </tbody>
       </table>
-      <p class="footnote table-legend">* Passe o cursor sobre o valor para ver o motivo. Tarifas de 1 noite, 2 adultos, recolhidas diretamente no site oficial e no Booking.com de cada alojamento, em 3 datas de referência por época (baixa 15/01/2027, média 15/05/2027, alta 15/08/2027 — ver detalhe em cada nota); quando esgotado, sem listagem no Booking.com, ou com estadia mínima superior a 1 noite, isso fica assinalado na nota. Verificado em 22/10/2026.</p>
+      <p class="footnote table-legend">* Passe o cursor sobre o valor para ver o motivo. Tarifas de 1 noite, 2 adultos, recolhidas diretamente no site oficial e no Booking.com de cada alojamento para a mesma data de referência (ver Notas em cada linha); quando o site oficial publica apenas um tarifário indicativo ("desde X€"), isso fica assinalado na nota.</p>
     </div>
   </section>
 
@@ -883,33 +883,33 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Room Nights no ano (2026)</span>
-        <span class="kpi-value mono">6.201</span>
-        <span class="kpi-note">2025 (fechado): 6.553 · Δ -352</span>
+        <span class="kpi-value mono">6.175</span>
+        <span class="kpi-note">2025 (fechado): 6.553 · Δ -378</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita no ano (2026)</span>
-        <span class="kpi-value mono">1.677.252€</span>
-        <span class="kpi-note">2025 (fechado): 1.669.945€ · Δ +7.308€</span>
+        <span class="kpi-value mono">1.723.505€</span>
+        <span class="kpi-note">2025 (fechado): 1.669.945€ · Δ +53.560€</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">ADR médio no ano</span>
-        <span class="kpi-value mono">270,48€</span>
+        <span class="kpi-value mono">279,11€</span>
         <span class="kpi-note">2025 (fechado): 254,84€</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Pick-up desde ontem</span>
-        <span class="kpi-value mono">+166 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
-        <span class="kpi-note">+3.234€ de receita adicionada</span>
+        <span class="kpi-value mono">-26 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
+        <span class="kpi-note">+46.252€ de receita adicionada</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Vs. 2025 (ano fechado)</span>
-        <span class="kpi-value mono">-352 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
-        <span class="kpi-note">+7.308€ de receita</span>
+        <span class="kpi-value mono">-378 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
+        <span class="kpi-note">+53.560€ de receita</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Vs. mesmo dia do ano passado</span>
-        <span class="kpi-value mono">+182 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
-        <span class="kpi-note">+116.519€ de receita · leitura de 21/10/2025</span>
+        <span class="kpi-value mono">+151 <span style="font-size:0.95rem;font-weight:500;">RN</span></span>
+        <span class="kpi-note">+161.686€ de receita · leitura de 22/10/2025</span>
       </div>
     </div>
 
@@ -930,7 +930,7 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"granularities": {"monthly": {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 625, 617, 335, 117], "prior": [163, 207, 417, 591, 608, 584, 795, 1049, 684, 729, 356, 370]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 155759, 24066, 27243], "prior": [28450, 33429, 55335, 128106, 151052, 141417, 262725, 428605, 178231, 132979, 48457, 81160]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 55.6, 53.6, 29.4, 13.1], "prior": [15.7, 20.4, 37.7, 55.0, 52.1, 51.8, 68.6, 89.5, 60.8, 62.2, 31.5, 34.9]}}}, "weekly": {"categories": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27", "S28", "S29", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37", "S38", "S39", "S40", "S41", "S42", "S43", "S44", "S45", "S46", "S47", "S48", "S49", "S50", "S51", "S52", "S53"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [61, 29, 28, 47, 48, 63, 65, 96, 78, 56, 101, 69, 88, 224, 185, 74, 130, 172, 155, 123, 157, 120, 163, 148, 88, 171, 103, 154, 161, 223, 219, 245, 247, 248, 158, 147, 173, 130, 151, 147, 201, 135, 103, 73, 62, 97, 152, 15, 9, 11, 22, 33, 43], "prior": [70, 40, 19, 16, 30, 54, 60, 48, 55, 134, 95, 115, 42, 83, 94, 167, 195, 151, 120, 111, 124, 163, 84, 171, 158, 147, 89, 153, 189, 235, 219, 260, 253, 249, 206, 222, 143, 170, 129, 116, 181, 188, 179, 127, 104, 50, 69, 72, 92, 76, 19, 95, 122]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [16247, 1976, 4682, 5774, 7330, 4074, 10365, 13176, 8130, 7348, 11541, 11397, 15588, 55101, 43687, 14505, 21169, 35212, 23484, 27858, 20195, 23121, 45324, 37663, 21554, 57326, 35726, 50448, 62408, 85664, 94174, 104839, 111585, 106045, 73919, 53763, 58819, 36294, 45036, 33506, 60808, 30324, 24162, 15815, 10988, 5706, 4087, 1825, 707, 1818, 3174, 8377, 13410], "prior": [15488, 7067, 2197, 1583, 4135, 8023, 8881, 7793, 11832, 25878, 8084, 7044, 7988, 10919, 16790, 44392, 44146, 38045, 23033, 40087, 40704, 22261, 21327, 37801, 37964, 38118, 23112, 46193, 59575, 84858, 83096, 113825, 102602, 95832, 81963, 65496, 37888, 41825, 32614, 20196, 30774, 33425, 35830, 23231, 9523, 7203, 9979, 14812, 12271, 12730, 3230, 21362, 34919]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [43.8, 10.9, 10.5, 19.2, 19.0, 25.0, 24.9, 38.1, 31.3, 21.1, 38.6, 26.0, 33.1, 84.5, 72.8, 28.2, 48.9, 64.7, 58.3, 47.0, 60.1, 45.1, 61.3, 55.6, 36.9, 66.1, 38.9, 57.9, 60.9, 83.8, 84.3, 92.8, 92.9, 93.9, 60.7, 56.8, 65.5, 49.7, 57.5, 55.9, 76.0, 55.1, 38.7, 27.4, 23.3, 36.5, 57.1, 5.6, 3.4, 4.1, 8.3, 26.3, 28.3], "prior": [59.1, 15.4, 7.3, 6.2, 11.9, 21.8, 23.9, 18.4, 21.6, 56.1, 37.8, 44.2, 16.1, 34.8, 37.8, 67.4, 76.5, 57.7, 45.9, 41.7, 46.6, 61.6, 31.9, 65.6, 59.4, 55.9, 34.5, 59.4, 71.4, 89.7, 83.6, 98.1, 95.9, 93.6, 77.4, 83.5, 56.9, 64.0, 48.5, 45.1, 68.0, 70.7, 67.3, 47.7, 39.1, 18.8, 25.9, 27.5, 35.8, 28.9, 20.8, 35.7, 82.0]}}}, "daily": {"categories": ["21/09", "22/09", "23/09", "24/09", "25/09", "26/09", "27/09", "28/09", "29/09", "30/09", "01/10", "02/10", "03/10", "04/10", "05/10", "06/10", "07/10", "08/10", "09/10", "10/10", "11/10", "12/10", "13/10", "14/10", "15/10", "16/10", "17/10", "18/10", "19/10", "20/10", "21/10", "22/10", "23/10", "24/10", "25/10", "26/10", "27/10", "28/10", "29/10", "30/10", "31/10", "01/11", "02/11", "03/11", "04/11", "05/11", "06/11", "07/11", "08/11", "09/11", "10/11", "11/11", "12/11", "13/11", "14/11", "15/11", "16/11", "17/11", "18/11", "19/11", "20/11"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [21, 23, 25, 22, 24, 19, 17, 13, 11, 10, 15, 30, 33, 35, 34, 32, 30, 34, 25, 27, 19, 13, 17, 23, 22, 29, 21, 10, 12, 10, 11, 16, 17, 23, 14, 16, 9, 8, 7, 10, 15, 8, 9, 11, 12, 10, 10, 5, 5, 5, 3, 31, 23, 3, 3, 29, 31, 30, 28, 28, 30], "prior": [23, 21, 20, 13, 15, 15, 22, 12, 11, 12, 9, 12, 28, 32, 5, 24, 26, 19, 38, 37, 32, 18, 23, 29, 27, 22, 34, 35, 21, 21, 30, 26, 18, 26, 37, 15, 12, 12, 16, 19, 26, 27, 14, 13, 11, 10, 12, 16, 28, 10, 3, 3, 4, 4, 8, 18, 5, 5, 7, 10, 11]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [6897, 7184, 7767, 6891, 7397, 4675, 4224, 3110, 2397, 2132, 2154, 6106, 7619, 9988, 9586, 10774, 9795, 12292, 6049, 7070, 5240, 3244, 4115, 6156, 5579, 4537, 4174, 2519, 2116, 2338, 2094, 3336, 4481, 6408, 3389, 3638, 2288, 1696, 1696, 2234, 3048, 1216, 1766, 1888, 2293, 1754, 1491, 766, 1030, 1030, 612, 1852, 470, 700, 518, 523, 949, 949, 426, 426, 780], "prior": [6317, 5350, 4484, 3025, 2994, 4282, 6161, 2322, 1987, 2580, 1490, 1683, 4195, 5939, 196, 2965, 3975, 2481, 9867, 7384, 3906, 2913, 3306, 4671, 5529, 4191, 6600, 6215, 4118, 4047, 5384, 5040, 4137, 5190, 7913, 3104, 2871, 2687, 3415, 3855, 3712, 3588, 1554, 1058, 1335, 619, 694, 1003, 3259, 1517, 320, 484, 229, 603, 1514, 2536, 1080, 241, 797, 392, 1340]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [55.3, 62.2, 67.6, 59.5, 63.2, 50.0, 44.7, 34.2, 28.9, 26.3, 39.5, 81.1, 89.2, 92.1, 89.5, 84.2, 79.0, 89.5, 65.8, 71.0, 52.8, 36.1, 47.2, 67.7, 64.7, 85.3, 58.3, 26.3, 31.6, 26.3, 28.9, 42.1, 44.7, 60.5, 36.8, 42.1, 23.7, 21.1, 18.4, 26.3, 39.5, 21.1, 23.7, 28.9, 31.6, 26.3, 26.3, 13.2, 13.2, 13.2, 7.9, 81.6, 60.5, 7.9, 7.9, 76.3, 81.6, 79.0, 73.7, 73.7, 79.0], "prior": [60.5, 55.3, 52.6, 34.2, 39.5, 39.5, 57.9, 31.6, 28.9, 31.6, 23.7, 33.3, 77.8, 88.9, 13.2, 63.2, 68.4, 50.0, 100.0, 97.4, 84.2, 47.4, 60.5, 76.3, 71.0, 57.9, 89.5, 92.1, 55.3, 55.3, 79.0, 68.4, 47.4, 68.4, 97.4, 39.5, 31.6, 31.6, 42.1, 50.0, 68.4, 71.0, 36.8, 34.2, 28.9, 26.3, 31.6, 42.1, 73.7, 26.3, 7.9, 7.9, 10.5, 10.5, 21.1, 47.4, 13.2, 13.2, 18.4, 26.3, 28.9]}}}}, "granLabels": {"monthly": "Evolução mensal", "weekly": "Evolução semanal (por semana ISO)", "daily": "Evolução diária (últimos 61 dias à volta de hoje)"}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
+      var data = {"granularities": {"monthly": {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [202, 308, 371, 647, 641, 590, 774, 974, 625, 617, 309, 117], "prior": [163, 207, 417, 591, 608, 584, 795, 1049, 684, 729, 356, 370]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 155813, 70265, 27243], "prior": [28450, 33429, 55335, 128106, 151052, 141417, 262725, 428605, 178231, 132979, 48457, 81160]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [18.1, 30.4, 31.7, 57.6, 54.8, 53.1, 65.9, 83.7, 55.6, 53.6, 27.1, 13.1], "prior": [15.7, 20.4, 37.7, 55.0, 52.1, 51.8, 68.6, 89.5, 60.8, 62.2, 31.5, 34.9]}}}, "weekly": {"categories": ["S01", "S02", "S03", "S04", "S05", "S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25", "S26", "S27", "S28", "S29", "S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37", "S38", "S39", "S40", "S41", "S42", "S43", "S44", "S45", "S46", "S47", "S48", "S49", "S50", "S51", "S52", "S53"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [61, 29, 28, 47, 48, 63, 65, 96, 78, 56, 101, 69, 88, 224, 185, 74, 130, 172, 155, 123, 157, 120, 163, 148, 88, 171, 103, 154, 161, 223, 219, 245, 247, 248, 158, 147, 173, 130, 151, 147, 201, 135, 103, 73, 62, 80, 143, 15, 9, 11, 22, 33, 43], "prior": [70, 40, 19, 16, 30, 54, 60, 48, 55, 134, 95, 115, 42, 83, 94, 167, 195, 151, 120, 111, 124, 163, 84, 171, 158, 147, 89, 153, 189, 235, 219, 260, 253, 249, 206, 222, 143, 170, 129, 116, 181, 188, 179, 127, 104, 50, 69, 72, 92, 76, 19, 95, 122]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [16247, 1976, 4682, 5774, 7330, 4074, 10365, 13176, 8130, 7348, 11541, 11397, 15588, 55101, 43687, 14505, 21169, 35212, 23484, 27858, 20195, 23121, 45324, 37663, 21554, 57326, 35726, 50448, 62408, 85664, 94174, 104839, 111585, 106045, 73919, 53763, 58819, 36294, 45036, 33506, 60808, 30324, 24215, 15815, 10988, 8886, 47107, 1825, 707, 1818, 3174, 8377, 13410], "prior": [15488, 7067, 2197, 1583, 4135, 8023, 8881, 7793, 11832, 25878, 8084, 7044, 7988, 10919, 16790, 44392, 44146, 38045, 23033, 40087, 40704, 22261, 21327, 37801, 37964, 38118, 23112, 46193, 59575, 84858, 83096, 113825, 102602, 95832, 81963, 65496, 37888, 41825, 32614, 20196, 30774, 33425, 35830, 23231, 9523, 7203, 9979, 14812, 12271, 12730, 3230, 21362, 34919]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [43.8, 10.9, 10.5, 19.2, 19.0, 25.0, 24.9, 38.1, 31.3, 21.1, 38.6, 26.0, 33.1, 84.5, 72.8, 28.2, 48.9, 64.7, 58.3, 47.0, 60.1, 45.1, 61.3, 55.6, 36.9, 66.1, 38.9, 57.9, 60.9, 83.8, 84.3, 92.8, 92.9, 93.9, 60.7, 56.8, 65.5, 49.7, 57.5, 55.9, 76.0, 55.1, 38.7, 27.4, 23.3, 30.1, 53.8, 5.6, 3.4, 4.1, 8.3, 26.3, 28.3], "prior": [59.1, 15.4, 7.3, 6.2, 11.9, 21.8, 23.9, 18.4, 21.6, 56.1, 37.8, 44.2, 16.1, 34.8, 37.8, 67.4, 76.5, 57.7, 45.9, 41.7, 46.6, 61.6, 31.9, 65.6, 59.4, 55.9, 34.5, 59.4, 71.4, 89.7, 83.6, 98.1, 95.9, 93.6, 77.4, 83.5, 56.9, 64.0, 48.5, 45.1, 68.0, 70.7, 67.3, 47.7, 39.1, 18.8, 25.9, 27.5, 35.8, 28.9, 20.8, 35.7, 82.0]}}}, "daily": {"categories": ["22/09", "23/09", "24/09", "25/09", "26/09", "27/09", "28/09", "29/09", "30/09", "01/10", "02/10", "03/10", "04/10", "05/10", "06/10", "07/10", "08/10", "09/10", "10/10", "11/10", "12/10", "13/10", "14/10", "15/10", "16/10", "17/10", "18/10", "19/10", "20/10", "21/10", "22/10", "23/10", "24/10", "25/10", "26/10", "27/10", "28/10", "29/10", "30/10", "31/10", "01/11", "02/11", "03/11", "04/11", "05/11", "06/11", "07/11", "08/11", "09/11", "10/11", "11/11", "12/11", "13/11", "14/11", "15/11", "16/11", "17/11", "18/11", "19/11", "20/11", "21/11"], "metrics": {"rn": {"label": "Room Nights", "suffix": "", "hoje": [23, 25, 22, 24, 19, 17, 13, 11, 10, 15, 30, 33, 35, 34, 32, 30, 34, 25, 27, 19, 13, 17, 23, 22, 29, 21, 10, 12, 10, 11, 17, 17, 22, 14, 16, 9, 8, 7, 10, 15, 8, 9, 11, 12, 10, 10, 5, 5, 5, 3, 31, 23, 3, 3, 12, 32, 31, 29, 29, 17, 4], "prior": [21, 20, 13, 15, 15, 22, 12, 11, 12, 9, 12, 28, 32, 5, 24, 26, 19, 38, 37, 32, 18, 23, 29, 27, 22, 34, 35, 21, 21, 30, 26, 18, 26, 37, 15, 12, 12, 16, 19, 26, 27, 14, 13, 11, 10, 12, 16, 28, 10, 3, 3, 4, 4, 8, 18, 5, 5, 7, 10, 11, 15]}, "receita": {"label": "Receita", "suffix": "€", "hoje": [7184, 7767, 6891, 7397, 4675, 4224, 3110, 2397, 2132, 2154, 6106, 7619, 9988, 9586, 10774, 9795, 12292, 6049, 7070, 5240, 3244, 4115, 6156, 5579, 4537, 4174, 2519, 2116, 2338, 2128, 3686, 4491, 6068, 3389, 3638, 2288, 1696, 1696, 2234, 3048, 1216, 1766, 1888, 2293, 1754, 1491, 766, 1030, 1030, 612, 1852, 470, 700, 518, 3703, 10600, 10600, 10077, 10077, 5195, 556], "prior": [5350, 4484, 3025, 2994, 4282, 6161, 2322, 1987, 2580, 1490, 1683, 4195, 5939, 196, 2965, 3975, 2481, 9867, 7384, 3906, 2913, 3306, 4671, 5529, 4191, 6600, 6215, 4118, 4047, 5384, 5040, 4137, 5190, 7913, 3104, 2871, 2687, 3415, 3855, 3712, 3588, 1554, 1058, 1335, 619, 694, 1003, 3259, 1517, 320, 484, 229, 603, 1514, 2536, 1080, 241, 797, 392, 1340, 3278]}, "pct": {"label": "Ocupação", "suffix": "%", "hoje": [62.2, 67.6, 59.5, 63.2, 50.0, 44.7, 34.2, 28.9, 26.3, 39.5, 81.1, 89.2, 92.1, 89.5, 84.2, 79.0, 89.5, 65.8, 71.0, 52.8, 36.1, 47.2, 67.7, 64.7, 85.3, 58.3, 26.3, 31.6, 26.3, 28.9, 44.7, 44.7, 57.9, 36.8, 42.1, 23.7, 21.1, 18.4, 26.3, 39.5, 21.1, 23.7, 28.9, 31.6, 26.3, 26.3, 13.2, 13.2, 13.2, 7.9, 81.6, 60.5, 7.9, 7.9, 31.6, 84.2, 81.6, 76.3, 76.3, 44.7, 10.5], "prior": [55.3, 52.6, 34.2, 39.5, 39.5, 57.9, 31.6, 28.9, 31.6, 23.7, 33.3, 77.8, 88.9, 13.2, 63.2, 68.4, 50.0, 100.0, 97.4, 84.2, 47.4, 60.5, 76.3, 71.0, 57.9, 89.5, 92.1, 55.3, 55.3, 79.0, 68.4, 47.4, 68.4, 97.4, 39.5, 31.6, 31.6, 42.1, 50.0, 68.4, 71.0, 36.8, 34.2, 28.9, 26.3, 31.6, 42.1, 73.7, 26.3, 7.9, 7.9, 10.5, 10.5, 21.1, 47.4, 13.2, 13.2, 18.4, 26.3, 28.9, 39.5]}}}}, "granLabels": {"monthly": "Evolução mensal", "weekly": "Evolução semanal (por semana ISO)", "daily": "Evolução diária (últimos 61 dias à volta de hoje)"}, "labelHoje": "2026", "labelPrior": "2025 (fechado)"};
       var granTitles = {monthly:'Evolução mensal', weekly:'Evolução semanal (por semana ISO)', daily:'Evolução diária (à volta de hoje)'};
       var curGran = 'monthly';
       function fmt(suffix){
@@ -1071,26 +1071,26 @@ window.CraveiralCharts = (function(){
 <td class="mono">178.231€</td>
 <td class="mono">-59</td>
 <td class="mono">+18.074€</td></tr><tr><td>Outubro</td>
-<td class="mono">613</td>
 <td class="mono">617</td>
-<td class="mono">+4</td>
+<td class="mono">617</td>
+<td class="mono">0</td>
 <td class="mono">53,6%</td>
-<td class="mono">155.759€</td>
-<td class="mono">252,45€</td>
+<td class="mono">155.813€</td>
+<td class="mono">252,53€</td>
 <td class="mono">729</td>
 <td class="mono">132.979€</td>
 <td class="mono">-112</td>
-<td class="mono">+22.780€</td></tr><tr><td>Novembro</td>
-<td class="mono">173</td>
+<td class="mono">+22.834€</td></tr><tr><td>Novembro</td>
 <td class="mono">335</td>
-<td class="mono">+162</td>
-<td class="mono">29,4%</td>
-<td class="mono">24.066€</td>
-<td class="mono">71,84€</td>
+<td class="mono">309</td>
+<td class="mono">-26</td>
+<td class="mono">27,1%</td>
+<td class="mono">70.265€</td>
+<td class="mono">227,39€</td>
 <td class="mono">356</td>
 <td class="mono">48.457€</td>
-<td class="mono">-21</td>
-<td class="mono">-24.391€</td></tr><tr><td>Dezembro</td>
+<td class="mono">-47</td>
+<td class="mono">+21.808€</td></tr><tr><td>Dezembro</td>
 <td class="mono">117</td>
 <td class="mono">117</td>
 <td class="mono">0</td>
@@ -2110,27 +2110,27 @@ window.CraveiralCharts = (function(){
 <td class="mono">12</td><td class="mono">32%</td><td class="mono">2.116€</td>
 <td class="mono">12</td><td class="mono">32%</td><td class="mono">2.116€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">20/10</td><td>ter</td>
-<td class="mono">10</td><td class="mono">26%</td><td class="mono">1.983€</td>
 <td class="mono">10</td><td class="mono">26%</td><td class="mono">2.338€</td>
-<td class="mono">0</td><td class="mono">+354€</td></tr><tr><td class="mono">21/10</td><td>qua</td>
-<td class="mono">11</td><td class="mono">29%</td><td class="mono">2.524€</td>
+<td class="mono">10</td><td class="mono">26%</td><td class="mono">2.338€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">21/10</td><td>qua</td>
 <td class="mono">11</td><td class="mono">29%</td><td class="mono">2.094€</td>
-<td class="mono">0</td><td class="mono">-430€</td></tr><tr><td class="mono">22/10</td><td>qui</td>
-<td class="mono">14</td><td class="mono">37%</td><td class="mono">2.905€</td>
+<td class="mono">11</td><td class="mono">29%</td><td class="mono">2.128€</td>
+<td class="mono">0</td><td class="mono">+34€</td></tr><tr><td class="mono">22/10</td><td>qui</td>
 <td class="mono">16</td><td class="mono">42%</td><td class="mono">3.336€</td>
-<td class="mono">+2</td><td class="mono">+430€</td></tr><tr><td class="mono">23/10</td><td>sex</td>
-<td class="mono">16</td><td class="mono">42%</td><td class="mono">3.713€</td>
+<td class="mono">17</td><td class="mono">45%</td><td class="mono">3.686€</td>
+<td class="mono">+1</td><td class="mono">+350€</td></tr><tr><td class="mono">23/10</td><td>sex</td>
 <td class="mono">17</td><td class="mono">45%</td><td class="mono">4.481€</td>
-<td class="mono">+1</td><td class="mono">+768€</td></tr><tr><td class="mono">24/10</td><td>sáb</td>
-<td class="mono">22</td><td class="mono">58%</td><td class="mono">5.640€</td>
+<td class="mono">17</td><td class="mono">45%</td><td class="mono">4.491€</td>
+<td class="mono">0</td><td class="mono">+10€</td></tr><tr><td class="mono">24/10</td><td>sáb</td>
 <td class="mono">23</td><td class="mono">61%</td><td class="mono">6.408€</td>
-<td class="mono">+1</td><td class="mono">+768€</td></tr><tr><td class="mono">25/10</td><td>dom</td>
+<td class="mono">22</td><td class="mono">58%</td><td class="mono">6.068€</td>
+<td class="mono">-1</td><td class="mono">-340€</td></tr><tr><td class="mono">25/10</td><td>dom</td>
 <td class="mono">14</td><td class="mono">37%</td><td class="mono">3.389€</td>
 <td class="mono">14</td><td class="mono">37%</td><td class="mono">3.389€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">26/10</td><td>seg</td>
-<td class="mono">16</td><td class="mono">42%</td><td class="mono">3.614€</td>
 <td class="mono">16</td><td class="mono">42%</td><td class="mono">3.638€</td>
-<td class="mono">0</td><td class="mono">+24€</td></tr><tr><td class="mono">27/10</td><td>ter</td>
+<td class="mono">16</td><td class="mono">42%</td><td class="mono">3.638€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">27/10</td><td>ter</td>
 <td class="mono">9</td><td class="mono">24%</td><td class="mono">2.288€</td>
 <td class="mono">9</td><td class="mono">24%</td><td class="mono">2.288€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">28/10</td><td>qua</td>
@@ -2180,12 +2180,12 @@ window.CraveiralCharts = (function(){
 <td class="mono">5</td><td class="mono">13%</td><td class="mono">766€</td>
 <td class="mono">5</td><td class="mono">13%</td><td class="mono">766€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">08/11</td><td>dom</td>
-<td class="mono">4</td><td class="mono">11%</td><td class="mono">888€</td>
 <td class="mono">5</td><td class="mono">13%</td><td class="mono">1.030€</td>
-<td class="mono">+1</td><td class="mono">+142€</td></tr><tr><td class="mono">09/11</td><td>seg</td>
-<td class="mono">4</td><td class="mono">11%</td><td class="mono">888€</td>
 <td class="mono">5</td><td class="mono">13%</td><td class="mono">1.030€</td>
-<td class="mono">+1</td><td class="mono">+142€</td></tr><tr><td class="mono">10/11</td><td>ter</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">09/11</td><td>seg</td>
+<td class="mono">5</td><td class="mono">13%</td><td class="mono">1.030€</td>
+<td class="mono">5</td><td class="mono">13%</td><td class="mono">1.030€</td>
+<td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">10/11</td><td>ter</td>
 <td class="mono">3</td><td class="mono">8%</td><td class="mono">612€</td>
 <td class="mono">3</td><td class="mono">8%</td><td class="mono">612€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">11/11</td><td>qua</td>
@@ -2201,24 +2201,24 @@ window.CraveiralCharts = (function(){
 <td class="mono">3</td><td class="mono">8%</td><td class="mono">518€</td>
 <td class="mono">3</td><td class="mono">8%</td><td class="mono">518€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">15/11</td><td>dom</td>
-<td class="mono">3</td><td class="mono">8%</td><td class="mono">528€</td>
 <td class="mono">29</td><td class="mono">76%</td><td class="mono">523€</td>
-<td class="mono">+26</td><td class="mono">-5€</td></tr><tr><td class="mono">16/11</td><td>seg</td>
-<td class="mono">4</td><td class="mono">11%</td><td class="mono">748€</td>
+<td class="mono">12</td><td class="mono">32%</td><td class="mono">3.703€</td>
+<td class="mono">-17</td><td class="mono">+3.179€</td></tr><tr><td class="mono">16/11</td><td>seg</td>
 <td class="mono">31</td><td class="mono">82%</td><td class="mono">949€</td>
-<td class="mono">+27</td><td class="mono">+202€</td></tr><tr><td class="mono">17/11</td><td>ter</td>
-<td class="mono">3</td><td class="mono">8%</td><td class="mono">748€</td>
+<td class="mono">32</td><td class="mono">84%</td><td class="mono">10.600€</td>
+<td class="mono">+1</td><td class="mono">+9.651€</td></tr><tr><td class="mono">17/11</td><td>ter</td>
 <td class="mono">30</td><td class="mono">79%</td><td class="mono">949€</td>
-<td class="mono">+27</td><td class="mono">+202€</td></tr><tr><td class="mono">18/11</td><td>qua</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">220€</td>
+<td class="mono">31</td><td class="mono">82%</td><td class="mono">10.600€</td>
+<td class="mono">+1</td><td class="mono">+9.651€</td></tr><tr><td class="mono">18/11</td><td>qua</td>
 <td class="mono">28</td><td class="mono">74%</td><td class="mono">426€</td>
-<td class="mono">+27</td><td class="mono">+206€</td></tr><tr><td class="mono">19/11</td><td>qui</td>
-<td class="mono">1</td><td class="mono">3%</td><td class="mono">220€</td>
+<td class="mono">29</td><td class="mono">76%</td><td class="mono">10.077€</td>
+<td class="mono">+1</td><td class="mono">+9.651€</td></tr><tr><td class="mono">19/11</td><td>qui</td>
 <td class="mono">28</td><td class="mono">74%</td><td class="mono">426€</td>
-<td class="mono">+27</td><td class="mono">+206€</td></tr><tr><td class="mono">20/11</td><td>sex</td>
-<td class="mono">4</td><td class="mono">11%</td><td class="mono">556€</td>
+<td class="mono">29</td><td class="mono">76%</td><td class="mono">10.077€</td>
+<td class="mono">+1</td><td class="mono">+9.651€</td></tr><tr><td class="mono">20/11</td><td>sex</td>
 <td class="mono">30</td><td class="mono">79%</td><td class="mono">780€</td>
-<td class="mono">+26</td><td class="mono">+224€</td></tr><tr><td class="mono">21/11</td><td>sáb</td>
+<td class="mono">17</td><td class="mono">45%</td><td class="mono">5.195€</td>
+<td class="mono">-13</td><td class="mono">+4.415€</td></tr><tr><td class="mono">21/11</td><td>sáb</td>
 <td class="mono">4</td><td class="mono">11%</td><td class="mono">556€</td>
 <td class="mono">4</td><td class="mono">11%</td><td class="mono">556€</td>
 <td class="mono">0</td><td class="mono">0€</td></tr><tr><td class="mono">22/11</td><td>dom</td>
@@ -2360,7 +2360,7 @@ window.CraveiralCharts = (function(){
           </div>
         </details>
 
-    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (726 leituras). Ontem = leitura de 19/10/2026, Hoje = leitura de 21/10/2026. Esta secção é atualizada automaticamente todos os dias.</p>
+    <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (727 leituras). Ontem = leitura de 21/10/2026, Hoje = leitura de 22/10/2026. Esta secção é atualizada automaticamente todos os dias.</p>
   </section>
 
   <section id="otb">
@@ -2374,29 +2374,29 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Receita total do ano (2026)</span>
-        <span class="kpi-value mono">2.197.240€</span>
-        <span class="kpi-note">Quartos + F&amp;B + Outros, a partir do OTB de 19.10.2026</span>
+        <span class="kpi-value mono">2.266.157€</span>
+        <span class="kpi-note">Quartos + F&amp;B + Outros, a partir do OTB de 22.10.2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita extra (não-quartos)</span>
-        <span class="kpi-value mono">527.004€</span>
-        <span class="kpi-note">24,0% da receita total do ano</span>
+        <span class="kpi-value mono">542.652€</span>
+        <span class="kpi-note">23,9% da receita total do ano</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita F&amp;B no ano</span>
-        <span class="kpi-value mono">518.583€</span>
+        <span class="kpi-value mono">534.210€</span>
         <span class="kpi-note">Restaurante e bar, acumulado 2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita Outros/SPA no ano</span>
-        <span class="kpi-value mono">8.420€</span>
+        <span class="kpi-value mono">8.442€</span>
         <span class="kpi-note">SPA ainda sem receita registada nesta fonte</span>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>Receita por origem — 2026</h3>
-      <p class="chart-sub">Quartos, F&amp;B e Outros/SPA, mês a mês (fonte: OTB de 19.10.2026).</p>
+      <p class="chart-sub">Quartos, F&amp;B e Outros/SPA, mês a mês (fonte: OTB de 22.10.2026).</p>
       <div class="legend-row">
         <span class="legend-item"><span class="legend-swatch swatch-1"></span>Quartos</span>
         <span class="legend-item"><span class="legend-swatch swatch-2"></span>F&amp;B</span>
@@ -2406,7 +2406,7 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 154336, 21710, 24006]}, {"slot": 2, "label": "F&B", "values": [14063, 18736, 25949, 51580, 63624, 57127, 81678, 114946, 55406, 30569, 1608, 3297]}, {"slot": 3, "label": "Outros + SPA", "values": [196, 124, 882, 148, 366, 1782, 812, 656, 2447, 993, 15, 0]}]};
+      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 155813, 70265, 27243]}, {"slot": 2, "label": "F&B", "values": [14063, 18736, 25949, 51580, 63624, 57127, 81678, 114946, 55406, 32249, 14952, 3899]}, {"slot": 3, "label": "Outros + SPA", "values": [196, 124, 882, 148, 366, 1782, 812, 656, 2447, 1015, 15, 0]}]};
       function fmt(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; }
       window.CraveiralCharts.lineChart(document.getElementById('otb-chart'), {
         categories: data.categories,
@@ -2423,12 +2423,12 @@ window.CraveiralCharts = (function(){
           <tr><th>Mês</th><th>Receita Quartos</th><th>Receita F&amp;B</th><th>Receita Outros + SPA</th><th>Receita Total</th><th>% Receita Extra</th></tr>
         </thead>
         <tbody>
-          <tr><td>Janeiro</td><td class="mono">34.737€</td><td class="mono">14.063€</td><td class="mono">196€</td><td class="mono">48.995€</td><td class="mono">29,1%</td></tr><tr><td>Fevereiro</td><td class="mono">36.531€</td><td class="mono">18.736€</td><td class="mono">124€</td><td class="mono">55.391€</td><td class="mono">34,0%</td></tr><tr><td>Março</td><td class="mono">58.853€</td><td class="mono">25.949€</td><td class="mono">882€</td><td class="mono">85.684€</td><td class="mono">31,3%</td></tr><tr><td>Abril</td><td class="mono">138.549€</td><td class="mono">51.580€</td><td class="mono">148€</td><td class="mono">190.277€</td><td class="mono">27,2%</td></tr><tr><td>Maio</td><td class="mono">113.288€</td><td class="mono">63.624€</td><td class="mono">366€</td><td class="mono">177.278€</td><td class="mono">36,1%</td></tr><tr><td>Junho</td><td class="mono">166.893€</td><td class="mono">57.127€</td><td class="mono">1.782€</td><td class="mono">225.802€</td><td class="mono">26,1%</td></tr><tr><td>Julho</td><td class="mono">294.733€</td><td class="mono">81.678€</td><td class="mono">812€</td><td class="mono">377.223€</td><td class="mono">21,9%</td></tr><tr><td>Agosto</td><td class="mono">430.294€</td><td class="mono">114.946€</td><td class="mono">656€</td><td class="mono">545.896€</td><td class="mono">21,2%</td></tr><tr><td>Setembro</td><td class="mono">196.306€</td><td class="mono">55.406€</td><td class="mono">2.447€</td><td class="mono">254.159€</td><td class="mono">22,8%</td></tr><tr><td>Outubro</td><td class="mono">154.336€</td><td class="mono">30.569€</td><td class="mono">993€</td><td class="mono">185.897€</td><td class="mono">17,0%</td></tr><tr><td>Novembro</td><td class="mono">21.710€</td><td class="mono">1.608€</td><td class="mono">15€</td><td class="mono">23.334€</td><td class="mono">7,0%</td></tr><tr><td>Dezembro</td><td class="mono">24.006€</td><td class="mono">3.297€</td><td class="mono">0€</td><td class="mono">27.303€</td><td class="mono">12,1%</td></tr>
+          <tr><td>Janeiro</td><td class="mono">34.737€</td><td class="mono">14.063€</td><td class="mono">196€</td><td class="mono">48.995€</td><td class="mono">29,1%</td></tr><tr><td>Fevereiro</td><td class="mono">36.531€</td><td class="mono">18.736€</td><td class="mono">124€</td><td class="mono">55.391€</td><td class="mono">34,0%</td></tr><tr><td>Março</td><td class="mono">58.853€</td><td class="mono">25.949€</td><td class="mono">882€</td><td class="mono">85.684€</td><td class="mono">31,3%</td></tr><tr><td>Abril</td><td class="mono">138.549€</td><td class="mono">51.580€</td><td class="mono">148€</td><td class="mono">190.277€</td><td class="mono">27,2%</td></tr><tr><td>Maio</td><td class="mono">113.288€</td><td class="mono">63.624€</td><td class="mono">366€</td><td class="mono">177.278€</td><td class="mono">36,1%</td></tr><tr><td>Junho</td><td class="mono">166.893€</td><td class="mono">57.127€</td><td class="mono">1.782€</td><td class="mono">225.802€</td><td class="mono">26,1%</td></tr><tr><td>Julho</td><td class="mono">294.733€</td><td class="mono">81.678€</td><td class="mono">812€</td><td class="mono">377.223€</td><td class="mono">21,9%</td></tr><tr><td>Agosto</td><td class="mono">430.294€</td><td class="mono">114.946€</td><td class="mono">656€</td><td class="mono">545.896€</td><td class="mono">21,2%</td></tr><tr><td>Setembro</td><td class="mono">196.306€</td><td class="mono">55.406€</td><td class="mono">2.447€</td><td class="mono">254.159€</td><td class="mono">22,8%</td></tr><tr><td>Outubro</td><td class="mono">155.813€</td><td class="mono">32.249€</td><td class="mono">1.015€</td><td class="mono">189.076€</td><td class="mono">17,6%</td></tr><tr><td>Novembro</td><td class="mono">70.265€</td><td class="mono">14.952€</td><td class="mono">15€</td><td class="mono">85.233€</td><td class="mono">17,6%</td></tr><tr><td>Dezembro</td><td class="mono">27.243€</td><td class="mono">3.899€</td><td class="mono">0€</td><td class="mono">31.142€</td><td class="mono">12,5%</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p class="footnote">Fonte: workbook "OTB_Craveiral" na pasta do Google Drive "OTB e RELATÓRIOS DIÁRIOS / OTB", ficheiro mais recente (19.10.2026), tabela "ON THE BOOKS vs SAME DATE LAST YEAR". Room nights e ocupação já constam da secção Pick-up (mesma fonte PMS) — esta secção foca-se na receita por departamento. Atualizado sempre que surge um ficheiro novo na pasta (tipicamente 2x por semana), não diariamente.</p>
+    <p class="footnote">Fonte: workbook "OTB_Craveiral" na pasta do Google Drive "OTB e RELATÓRIOS DIÁRIOS / OTB", ficheiro mais recente (22.10.2026), tabela "ON THE BOOKS vs SAME DATE LAST YEAR". Room nights e ocupação já constam da secção Pick-up (mesma fonte PMS) — esta secção foca-se na receita por departamento. Atualizado sempre que surge um ficheiro novo na pasta (tipicamente 2x por semana), não diariamente.</p>
   </section>
   <section id="revenue">
     <div class="section-head">
