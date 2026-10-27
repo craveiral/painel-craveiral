@@ -131,6 +131,7 @@
   table.heat-table thead th{ font-weight:600; color:var(--ink-2); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; text-align:center; }
   table.heat-table td.heat-cell{ font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; }
   table.heat-table td.heat-total{ font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; color:var(--ink-2); border-left:2px solid var(--border); }
+  table.heat-table tr.heat-row-domestic th, table.heat-table tr.heat-row-domestic td{ border-bottom:2px solid var(--accent); }
   .footnote{ font-size:0.76rem; color:var(--ink-mute); }
   .empty-note{ cursor:help; border-bottom:1px dotted var(--ink-mute); white-space:nowrap; }
   .empty-note sup{ font-size:0.72em; color:var(--ink-mute); }
@@ -164,6 +165,12 @@
   .line-series-outros{ stroke:var(--ink-mute); stroke-dasharray:5 3; }
   .dot-series-outros{ fill:var(--ink-mute); }
   .tooltip-key-outros{ background:var(--ink-mute); }
+  /* single-market view (Nacionalidade): one line at a time, so no identity
+     collision is possible -- always the same highlight color, whichever
+     market is picked (the control itself already says which one). */
+  .line-series-single{ stroke:var(--accent-line); }
+  .dot-series-single{ fill:var(--accent-line); }
+  .tooltip-key-single{ background:var(--accent-line); }
   .chart-tooltip{ position:absolute; z-index:5; background:var(--ink); color:var(--bg); font-size:0.76rem; line-height:1.5; padding:8px 10px; border-radius:8px; box-shadow:var(--shadow); pointer-events:none; max-width:230px; }
   .chart-tooltip-head{ font-family:"IBM Plex Mono",monospace; font-size:0.66rem; opacity:0.7; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; }
   .chart-tooltip-row{ display:flex; align-items:baseline; gap:7px; white-space:nowrap; }
@@ -171,6 +178,8 @@
   .chart-tooltip-value{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums; }
   .chart-tooltip-label{ opacity:0.82; }
   .chart-crosshair{ stroke:var(--ink-mute); stroke-width:1; stroke-dasharray:3 3; pointer-events:none; }
+  .chart-zero-line{ stroke:var(--ink-mute); stroke-width:1.5; }
+  .bar-good{ fill:var(--good); } .bar-bad{ fill:var(--bad); }
   .chart-overlay{ cursor:crosshair; }
   .metric-toggle{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
   .metric-toggle button{ appearance:none; border:1px solid var(--border); background:var(--surface); color:var(--ink-2); border-radius:999px; padding:5px 13px; font:inherit; font-size:0.76rem; font-weight:500; cursor:pointer; }
@@ -445,7 +454,92 @@ window.CraveiralCharts = (function(){
     container.appendChild(tooltip);
   }
 
-  return { lineChart: lineChart, barChart: barChart };
+  // ---- Diverging horizontal bar chart: one signed value per row (e.g. %
+  // growth), bars extend right of a center zero-line for positive values
+  // and left for negative -- added for the Nacionalidade section's
+  // year-over-year growth view. Uses the status palette (--good/--bad),
+  // not a categorical slot: growth/decline is a good/bad signal, not a
+  // series identity (dataviz skill's status-color rule). ----
+  function divergingBarChart(container, opts){
+    var items = opts.items || [];
+    var formatValue = opts.formatValue || function(v){ return (v >= 0 ? '+' : '') + Math.round(v) + '%'; };
+    var barH = 20, gap = 12, mT = 4, mB = 4, mR = 50;
+    var labelW = opts.labelWidth || 168;
+    var rowH = barH + gap;
+    var width = 560;
+    var height = mT + mB + Math.max(items.length, 1) * rowH;
+    var plotW = width - labelW - mR;
+    var maxAbs = Math.max.apply(null, items.map(function(d){ return Math.abs(d.value); }).concat([1])) * 1.15;
+    var zeroX = labelW + plotW / 2;
+    var scale = (plotW / 2) / maxAbs;
+
+    container.innerHTML = '';
+    container.style.position = 'relative';
+    var svg = el('svg', { viewBox: '0 0 ' + width + ' ' + height, class: 'chart-svg', role: 'img', 'aria-label': opts.ariaLabel || '' });
+    var tooltip = document.createElement('div');
+    tooltip.className = 'chart-tooltip'; tooltip.hidden = true;
+
+    var maxChars = Math.max(6, Math.floor((labelW - 10) / 6));
+    function truncateLabel(s){
+      s = s || '';
+      return s.length > maxChars ? s.slice(0, maxChars - 1) + '…' : s;
+    }
+
+    svg.appendChild(el('line', { class: 'chart-zero-line', x1: zeroX, x2: zeroX, y1: mT, y2: height - mB }));
+
+    items.forEach(function(d, i){
+      var y = mT + i * rowH;
+      var w = Math.max(Math.abs(d.value) * scale, d.value === 0 ? 0 : 2);
+      var x = d.value >= 0 ? zeroX : zeroX - w;
+      var cls = d.value >= 0 ? 'bar-good' : 'bar-bad';
+      var label = el('text', { class: 'chart-cat-label', x: labelW - 10, y: y + barH/2 + 4, 'text-anchor': 'end' });
+      label.textContent = truncateLabel(d.label);
+      if ((d.label||'').length > maxChars){
+        var titleEl = document.createElementNS(svgNS, 'title');
+        titleEl.textContent = d.label;
+        label.appendChild(titleEl);
+      }
+      svg.appendChild(label);
+
+      var g = el('g', { class: 'chart-bar-row', tabindex: '0' });
+      g.appendChild(el('rect', { x: labelW, y: y - 3, width: plotW, height: barH + 6, fill: 'transparent' }));
+      g.appendChild(el('rect', { class: 'chart-bar-fill ' + cls, x: x, y: y, width: w, height: barH, rx: 4 }));
+      var vlabel = el('text', {
+        class: 'chart-value-label',
+        x: d.value >= 0 ? x + w + 7 : x - 7,
+        y: y + barH/2 + 4,
+        'text-anchor': d.value >= 0 ? 'start' : 'end'
+      });
+      vlabel.textContent = formatValue(d.value);
+      g.appendChild(vlabel);
+
+      function show(ev){
+        tooltip.innerHTML = '';
+        var row = document.createElement('div'); row.className = 'chart-tooltip-row';
+        var val = document.createElement('span'); val.className = 'chart-tooltip-value'; val.textContent = formatValue(d.value);
+        var lab = document.createElement('span'); lab.className = 'chart-tooltip-label'; lab.textContent = d.label || '';
+        row.appendChild(val); row.appendChild(lab);
+        tooltip.appendChild(row);
+        tooltip.hidden = false;
+        var r = svg.getBoundingClientRect();
+        var scaleR = r.width / width;
+        var clientX = ev && ev.clientX != null ? ev.clientX : r.left + zeroX * scaleR;
+        var clientY = ev && ev.clientY != null ? ev.clientY : r.top + y * scaleR;
+        positionTooltip(container, tooltip, clientX, clientY);
+      }
+      g.addEventListener('pointermove', show);
+      g.addEventListener('pointerenter', show);
+      g.addEventListener('focus', show);
+      g.addEventListener('pointerleave', function(){ tooltip.hidden = true; });
+      g.addEventListener('blur', function(){ tooltip.hidden = true; });
+      svg.appendChild(g);
+    });
+
+    container.appendChild(svg);
+    container.appendChild(tooltip);
+  }
+
+  return { lineChart: lineChart, barChart: barChart, divergingBarChart: divergingBarChart };
 })();
 </script>
 
@@ -659,13 +753,13 @@ window.CraveiralCharts = (function(){
     <div class="section-head">
       <div>
         <h2>Nacionalidade dos hóspedes — sazonalidade por mercado</h2>
-        <p class="sub">Dormidas médias por mês civil, por mercado de origem dos hóspedes estrangeiros (2024–2026), a partir dos relatórios mensais do INE "151. INE". Ajuda a perceber em que meses vale a pena reforçar a comunicação e a distribuição para cada mercado.</p>
+        <p class="sub">Dormidas por mês, por mercado de origem dos hóspedes (estrangeiros e Portugal), a partir dos relatórios mensais do INE "151. INE" (2024–2026). Escolha um ano ou veja a média, filtre por um único mercado, e compare o crescimento ano após ano em cada país.</p>
       </div>
     </div>
 
     <div class="kpi-grid">
       <div class="kpi-tile">
-        <span class="kpi-label">Mercado principal</span>
+        <span class="kpi-label">Maior mercado internacional</span>
         <span class="kpi-value mono">Alemanha</span>
         <span class="kpi-note">1.362 dormidas/ano em média — picos em outubro (278) e agosto (218)</span>
       </div>
@@ -680,18 +774,57 @@ window.CraveiralCharts = (function(){
         <span class="kpi-note">mercados com pico anual neste mês: Reino Unido, França, Espanha</span>
       </div>
       <div class="kpi-tile">
-        <span class="kpi-label">Cobertura da análise</span>
-        <span class="kpi-value mono">79 mercados</span>
-        <span class="kpi-note">8 mercados principais + 71 mercados menores ("Outros") — 33 meses de relatórios INE, jan/2024–set/2026</span>
+        <span class="kpi-label">Peso do mercado doméstico</span>
+        <span class="kpi-value mono">55,3%</span>
+        <span class="kpi-note">Portugal representa 55,3% de todas as dormidas destes relatórios (nacionais + estrangeiras) — por isso aparece à parte no gráfico principal, mas está disponível no seletor de mercado único, no heatmap e no crescimento anual.</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Maior crescimento (jan–set 26 vs. 25)</span>
+        <span class="kpi-value mono">Irlanda</span>
+        <span class="kpi-note">+66,2% em dormidas (jan–set) face ao mesmo período de 2025</span>
       </div>
     </div>
 
     <div class="chart-card">
-      <h3>Dormidas médias por mês — principais mercados</h3>
-      <p class="chart-sub">Média de dormidas de cada mês civil ao longo de 2024, 2025 e 2026 (até ao mês mais recente disponível em 2026), por mercado de origem. "Outros" agrega os restantes 71 mercados menores.</p>
+      <h3>Dormidas por mês — por mercado</h3>
+      <p class="chart-sub">"Mercados internacionais principais" mostra os 8 maiores + Outros; escolha um mercado específico (incluindo Portugal) para o ver sozinho. "Outros" agrega os restantes 71 mercados menores.</p>
+      <div class="chart-controls" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;align-items:end;">
+        <div class="field" style="max-width:270px;flex:1 1 220px;">
+          <label for="nac-market-select">Mercado</label>
+          <select id="nac-market-select">
+              <option value="__principais__">Mercados internacionais principais (8)</option>
+              <option value="Portugal">Portugal (mercado doméstico)</option>
+              <option value="Alemanha (DE)">Alemanha</option>
+              <option value="Reino Unido (GB)">Reino Unido</option>
+              <option value="Países Baixos (NL)">Países Baixos</option>
+              <option value="Estados Unidos (US)">Estados Unidos</option>
+              <option value="Bélgica (BE)">Bélgica</option>
+              <option value="França (FR)">França</option>
+              <option value="Dinamarca (DK)">Dinamarca</option>
+              <option value="Espanha (ES)">Espanha</option>
+              <option value="Itália (IT)">Itália</option>
+              <option value="Canadá (CA)">Canadá</option>
+              <option value="Áustria (AT)">Áustria</option>
+              <option value="Irlanda (IE)">Irlanda</option>
+              <option value="Suíça (CH)">Suíça</option>
+              <option value="Brasil (BR)">Brasil</option>
+              <option value="Suécia (SE)">Suécia</option>
+              <option value="__outros__">Outros (71 mercados)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:0.7rem;color:var(--ink-mute);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px;">Ano</label>
+          <div class="metric-toggle" id="nac-year-toggle">
+            <button type="button" data-year="media" aria-pressed="true">Média 2024–2026</button>
+            <button type="button" data-year="2024" aria-pressed="false">2024</button>
+            <button type="button" data-year="2025" aria-pressed="false">2025</button>
+            <button type="button" data-year="2026" aria-pressed="false">2026</button>
+          </div>
+        </div>
+      </div>
       <div id="nacionalidade-chart"></div>
       <details class="table-toggle">
-        <summary>Ver tabela de dados (dormidas médias por mês, arredondadas)</summary>
+        <summary>Ver tabela de dados (médias por mês, arredondadas)</summary>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
@@ -706,7 +839,8 @@ window.CraveiralCharts = (function(){
               <tr><td>França</td><td class="mono">17</td><td class="mono">4</td><td class="mono">12</td><td class="mono">60</td><td class="mono">15</td><td class="mono">15</td><td class="mono">58</td><td class="mono">162</td><td class="mono">19</td><td class="mono">26</td><td class="mono">6</td><td class="mono">14</td><td class="mono">407</td></tr>
               <tr><td>Dinamarca</td><td class="mono">0</td><td class="mono">0</td><td class="mono">5</td><td class="mono">30</td><td class="mono">1</td><td class="mono">3</td><td class="mono">169</td><td class="mono">10</td><td class="mono">27</td><td class="mono">126</td><td class="mono">2</td><td class="mono">0</td><td class="mono">373</td></tr>
               <tr><td>Espanha</td><td class="mono">9</td><td class="mono">4</td><td class="mono">16</td><td class="mono">30</td><td class="mono">15</td><td class="mono">9</td><td class="mono">39</td><td class="mono">119</td><td class="mono">6</td><td class="mono">20</td><td class="mono">3</td><td class="mono">22</td><td class="mono">291</td></tr>
-              <tr><td>Outros (71 mercados)</td><td class="mono">24</td><td class="mono">42</td><td class="mono">27</td><td class="mono">53</td><td class="mono">88</td><td class="mono">70</td><td class="mono">84</td><td class="mono">58</td><td class="mono">59</td><td class="mono">48</td><td class="mono">16</td><td class="mono">32</td><td class="mono">601</td></tr>
+              <tr><td>Outros (71 mercados)</td><td class="mono">23</td><td class="mono">42</td><td class="mono">27</td><td class="mono">53</td><td class="mono">88</td><td class="mono">70</td><td class="mono">84</td><td class="mono">58</td><td class="mono">59</td><td class="mono">48</td><td class="mono">16</td><td class="mono">32</td><td class="mono">600</td></tr>
+              <tr><td>Portugal (doméstico)</td><td class="mono">317</td><td class="mono">423</td><td class="mono">564</td><td class="mono">767</td><td class="mono">734</td><td class="mono">738</td><td class="mono">1.111</td><td class="mono">2.039</td><td class="mono">752</td><td class="mono">591</td><td class="mono">698</td><td class="mono">772</td><td class="mono">9.505</td></tr>
             </tbody>
           </table>
         </div>
@@ -714,60 +848,122 @@ window.CraveiralCharts = (function(){
     </div>
 
     <div class="chart-card">
-      <h3>Heatmap de sazonalidade — top 15 mercados</h3>
+      <h3>Heatmap de sazonalidade — Portugal + top 15 mercados internacionais</h3>
       <p class="chart-sub">Cor normalizada por mercado (cada linha vai do seu próprio mínimo ao máximo), para destacar o pico sazonal de cada mercado independentemente do seu volume absoluto. Os números apresentados são sempre o valor real de dormidas médias.</p>
       <div class="table-wrap">
         <div id="nacionalidade-heatmap"></div>
       </div>
     </div>
 
+    <div class="chart-card">
+      <h3>Crescimento ano após ano, por mercado</h3>
+      <p class="chart-sub">Variação % de dormidas face ao ano anterior, no mesmo conjunto de meses em ambos os anos (nunca um ano completo contra um ano parcial). Inclui Portugal e todos os mercados internacionais seguidos nesta secção.</p>
+      <div class="metric-toggle" id="nac-growth-toggle" style="margin-bottom:10px;">
+        <button type="button" data-pair="new" aria-pressed="true">2026 vs. 2025 (jan–set)</button>
+        <button type="button" data-pair="old" aria-pressed="false">2025 vs. 2024 (ano completo)</button>
+      </div>
+      <div id="nacionalidade-growth"></div>
+    </div>
+
     <script>
     (function(){
       var MONTHS3 = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
       function fmtNoites(v){ return Math.round(v).toLocaleString('pt-PT'); }
+      function fmtPct(v){ return (v >= 0 ? '+' : '') + v.toLocaleString('pt-PT', {maximumFractionDigits:1}) + '%'; }
 
-      var MARKETS = [
-        { slot: 4, label: 'Alemanha', values: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0] },
-        { slot: 5, label: 'Reino Unido', values: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0] },
-        { slot: 6, label: 'Países Baixos', values: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5] },
-        { slot: 7, label: 'Estados Unidos', values: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5] },
-        { slot: 8, label: 'Bélgica', values: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0] },
-        { slot: 9, label: 'França', values: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5] },
-        { slot: 10, label: 'Dinamarca', values: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0] },
-        { slot: 11, label: 'Espanha', values: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0] },
-        { slot: 'outros', label: 'Outros (71 mercados)', values: [23.5,41.6,26.6,52.9,88.3,70.0,84.0,58.1,59.2,48.0,16.5,32.0] }
-      ];
+      var PRINCIPAIS_KEYS = ["Alemanha (DE)","Reino Unido (GB)","Países Baixos (NL)","Estados Unidos (US)","Bélgica (BE)","França (FR)","Dinamarca (DK)","Espanha (ES)"];
+      var PRINCIPAIS_SLOTS = [4,5,6,7,8,9,10,11];
+      var OUTROS_KEY = "Outros (71 mercados)";
+      var PRINCIPAIS_VALUE = "__principais__";
+      var OUTROS_VALUE = "__outros__";
 
-      window.CraveiralCharts.lineChart(document.getElementById('nacionalidade-chart'), {
-        categories: MONTHS3,
-        series: MARKETS,
-        formatValue: fmtNoites,
-        endLabels: false,
-        ariaLabel: 'Dormidas médias por mês civil (2024 a 2026), por mercado de origem dos hóspedes estrangeiros do Craveiral'
+      var ALL_SERIES = {
+      "Alemanha (DE)": { base: "Alemanha", media: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0], '2024': [86.0,12.0,5.0,49.0,77.0,27.0,84.0,88.0,117.0,133.0,122.0,86.0], '2025': [5.0,22.0,91.0,190.0,38.0,156.0,206.0,297.0,223.0,422.0,66.0,26.0], '2026': [11.0,44.0,47.0,118.0,77.0,148.0,236.0,269.0,80.0,null,null,null] },
+      "Reino Unido (GB)": { base: "Reino Unido", media: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0], '2024': [36.0,13.0,26.0,189.0,267.0,161.0,134.0,149.0,39.0,129.0,10.0,20.0], '2025': [9.0,1.0,21.0,149.0,143.0,90.0,243.0,269.0,159.0,150.0,19.0,72.0], '2026': [5.0,5.0,77.0,79.0,151.0,50.0,128.0,219.0,122.0,null,null,null] },
+      "Países Baixos (NL)": { base: "Países Baixos", media: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5], '2024': [24.0,2.0,15.0,33.0,82.0,111.0,87.0,48.0,49.0,28.0,18.0,24.0], '2025': [31.0,48.0,114.0,81.0,60.0,91.0,158.0,126.0,99.0,78.0,21.0,83.0], '2026': [16.0,53.0,103.0,124.0,123.0,129.0,257.0,93.0,95.0,null,null,null] },
+      "Estados Unidos (US)": { base: "Estados Unidos", media: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5], '2024': [16.0,33.0,23.0,64.0,65.0,85.0,94.0,55.0,62.0,96.0,17.0,0.0], '2025': [4.0,0.0,59.0,38.0,137.0,34.0,93.0,93.0,33.0,99.0,34.0,19.0], '2026': [10.0,22.0,34.0,72.0,74.0,180.0,146.0,70.0,147.0,null,null,null] },
+      "Bélgica (BE)": { base: "Bélgica", media: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0], '2024': [20.0,8.0,13.0,14.0,55.0,60.0,39.0,108.0,6.0,152.0,17.0,40.0], '2025': [0.0,10.0,35.0,114.0,18.0,86.0,285.0,160.0,8.0,145.0,16.0,0.0], '2026': [5.0,15.0,6.0,85.0,51.0,41.0,89.0,142.0,91.0,null,null,null] },
+      "França (FR)": { base: "França", media: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5], '2024': [38.0,2.0,13.0,39.0,14.0,13.0,77.0,111.0,11.0,10.0,10.0,22.0], '2025': [8.0,7.0,6.0,72.0,12.0,25.0,47.0,145.0,16.0,41.0,2.0,7.0], '2026': [4.0,2.0,18.0,69.0,18.0,8.0,50.0,229.0,29.0,null,null,null] },
+      "Dinamarca (DK)": { base: "Dinamarca", media: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0], '2024': [0.0,0.0,0.0,1.0,2.0,0.0,197.0,6.0,22.0,121.0,4.0,0.0], '2025': [0.0,0.0,0.0,48.0,0.0,0.0,147.0,15.0,12.0,131.0,0.0,0.0], '2026': [0.0,0.0,14.0,42.0,0.0,10.0,162.0,9.0,48.0,null,null,null] },
+      "Espanha (ES)": { base: "Espanha", media: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0], '2024': [2.0,0.0,20.0,6.0,17.0,3.0,47.0,122.0,2.0,17.0,4.0,6.0], '2025': [1.0,2.0,2.0,55.0,7.0,19.0,33.0,155.0,6.0,23.0,2.0,38.0], '2026': [24.0,9.0,25.0,29.0,20.0,4.0,38.0,80.0,11.0,null,null,null] },
+      "Itália (IT)": { base: "Itália", media: [3.0,1.0,9.0,19.3,11.0,23.3,11.3,67.3,8.0,10.0,2.5,3.5], '2024': [3.0,3.0,20.0,0.0,7.0,5.0,13.0,37.0,4.0,1.0,0.0,7.0], '2025': [0.0,0.0,0.0,29.0,14.0,52.0,15.0,26.0,4.0,19.0,5.0,0.0], '2026': [6.0,0.0,7.0,29.0,12.0,13.0,6.0,139.0,16.0,null,null,null] },
+      "Canadá (CA)": { base: "Canadá", media: [3.3,0.7,13.3,35.3,9.0,11.0,21.0,8.0,3.7,7.0,14.5,1.5], '2024': [8.0,2.0,0.0,9.0,21.0,6.0,9.0,23.0,0.0,0.0,25.0,2.0], '2025': [0.0,0.0,30.0,46.0,6.0,23.0,18.0,1.0,0.0,14.0,4.0,1.0], '2026': [2.0,0.0,10.0,51.0,0.0,4.0,36.0,0.0,11.0,null,null,null] },
+      "Áustria (AT)": { base: "Áustria", media: [16.0,1.0,2.3,12.0,9.0,6.3,26.7,23.0,16.3,5.0,2.0,4.0], '2024': [24.0,0.0,1.0,2.0,3.0,9.0,32.0,16.0,3.0,6.0,4.0,8.0], '2025': [24.0,3.0,0.0,18.0,3.0,10.0,0.0,41.0,33.0,4.0,0.0,0.0], '2026': [0.0,0.0,6.0,16.0,21.0,0.0,48.0,12.0,13.0,null,null,null] },
+      "Irlanda (IE)": { base: "Irlanda", media: [0.7,1.3,3.3,19.7,14.3,26.0,11.0,22.0,8.3,14.0,1.0,0.0], '2024': [2.0,2.0,0.0,12.0,25.0,65.0,0.0,17.0,0.0,16.0,0.0,0.0], '2025': [0.0,2.0,0.0,3.0,11.0,0.0,6.0,34.0,18.0,12.0,2.0,0.0], '2026': [0.0,0.0,10.0,44.0,7.0,13.0,27.0,15.0,7.0,null,null,null] },
+      "Suíça (CH)": { base: "Suíça", media: [0.0,0.0,6.0,6.3,19.7,49.7,0.0,0.0,11.3,0.0,2.0,12.0], '2024': [0.0,0.0,0.0,0.0,4.0,45.0,0.0,0.0,0.0,0.0,4.0,24.0], '2025': [0.0,0.0,0.0,19.0,0.0,88.0,0.0,0.0,18.0,0.0,0.0,0.0], '2026': [0.0,0.0,18.0,0.0,55.0,16.0,0.0,0.0,16.0,null,null,null] },
+      "Brasil (BR)": { base: "Brasil", media: [5.3,9.3,2.3,4.7,5.3,6.0,20.3,11.0,2.3,6.5,3.0,9.0], '2024': [0.0,17.0,5.0,2.0,4.0,1.0,18.0,16.0,0.0,8.0,3.0,8.0], '2025': [0.0,9.0,0.0,12.0,6.0,13.0,13.0,4.0,1.0,5.0,3.0,10.0], '2026': [16.0,2.0,2.0,0.0,6.0,4.0,30.0,13.0,6.0,null,null,null] },
+      "Suécia (SE)": { base: "Suécia", media: [0.3,1.3,0.0,0.0,23.0,15.7,28.0,5.0,1.3,8.5,1.0,0.0], '2024': [0.0,4.0,0.0,0.0,6.0,3.0,27.0,12.0,0.0,3.0,2.0,0.0], '2025': [0.0,0.0,0.0,0.0,49.0,27.0,22.0,0.0,4.0,14.0,0.0,0.0], '2026': [1.0,0.0,0.0,0.0,14.0,17.0,35.0,3.0,0.0,null,null,null] },
+      "Portugal": { base: "Portugal", media: [316.7,423.3,564.3,766.7,733.7,738.3,1110.7,2038.7,752.3,591.0,697.5,772.0], '2024': [302.0,511.0,628.0,713.0,602.0,518.0,1123.0,2030.0,550.0,541.0,691.0,713.0], '2025': [309.0,297.0,534.0,555.0,730.0,870.0,1146.0,2091.0,1072.0,641.0,704.0,831.0], '2026': [339.0,462.0,531.0,1032.0,869.0,827.0,1063.0,1995.0,635.0,null,null,null] },
+      "Outros (71 mercados)": { base: "Outros (71 mercados)", media: [23.3,41.7,26.7,52.7,88.3,70.0,84.0,58.0,59.3,48.0,16.5,32.0], '2024': [7.0,39.0,20.0,33.0,125.0,112.0,100.0,59.0,17.0,33.0,32.0,8.0], '2025': [52.0,66.0,38.0,48.0,99.0,54.0,46.0,25.0,83.0,63.0,1.0,56.0], '2026': [11.0,20.0,22.0,77.0,41.0,44.0,106.0,90.0,78.0,null,null,null] }
+      };
+
+      function seriesForYear(key, year){
+        var d = ALL_SERIES[key];
+        return d ? (d[year] || d.media) : [];
+      }
+
+      var marketSelect = document.getElementById('nac-market-select');
+      var yearToggle = document.getElementById('nac-year-toggle');
+      var state = { market: PRINCIPAIS_VALUE, year: 'media' };
+
+      function renderChart1(){
+        var series, ariaLabel;
+        if (state.market === PRINCIPAIS_VALUE){
+          series = PRINCIPAIS_KEYS.map(function(key, idx){
+            return { slot: PRINCIPAIS_SLOTS[idx], label: ALL_SERIES[key].base, values: seriesForYear(key, state.year) };
+          });
+          series.push({ slot: 'outros', label: ALL_SERIES[OUTROS_KEY].base, values: seriesForYear(OUTROS_KEY, state.year) });
+          ariaLabel = 'Dormidas por mês dos mercados internacionais principais, ano ' + state.year;
+        } else {
+          var key = state.market === OUTROS_VALUE ? OUTROS_KEY : state.market;
+          var d = ALL_SERIES[key];
+          series = [{ slot: 'single', label: d.base, values: seriesForYear(key, state.year) }];
+          ariaLabel = 'Dormidas por mês do mercado ' + d.base + ', ano ' + state.year;
+        }
+        window.CraveiralCharts.lineChart(document.getElementById('nacionalidade-chart'), {
+          categories: MONTHS3,
+          series: series,
+          formatValue: fmtNoites,
+          endLabels: series.length <= 4,
+          ariaLabel: ariaLabel
+        });
+      }
+
+      marketSelect.addEventListener('change', function(){
+        state.market = marketSelect.value;
+        renderChart1();
       });
+      yearToggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button'); if (!btn) return;
+        yearToggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        state.year = btn.dataset.year;
+        renderChart1();
+      });
+      renderChart1();
 
-      // Heatmap: top mercados + Outros, cor normalizada por linha (mín-máx
-      // do próprio mercado) para destacar o pico sazonal de cada um
+      // Heatmap: Portugal + top mercados + Outros, cor normalizada por linha
+      // (mín-máx do próprio mercado) para destacar o pico sazonal de cada um
       // independentemente do seu volume absoluto. As cores vêm do ramp
       // sequencial --accent-soft -> --accent já usado no resto do painel
       // (lido em runtime, para que o dark mode "funcione sozinho").
       var HEATMAP_ROWS = [
-        { label: 'Alemanha (DE)', total: 1361.8, porMes: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0] },
-        { label: 'Reino Unido (GB)', total: 1177.9, porMes: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0] },
-        { label: 'Países Baixos (NL)', total: 876.5, porMes: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5] },
-        { label: 'Estados Unidos (US)', total: 713.6, porMes: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5] },
-        { label: 'Bélgica (BE)', total: 706.3, porMes: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0] },
-        { label: 'França (FR)', total: 407.1, porMes: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5] },
-        { label: 'Dinamarca (DK)', total: 373.0, porMes: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0] },
-        { label: 'Espanha (ES)', total: 291.4, porMes: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0] },
-        { label: 'Itália (IT)', total: 169.2, porMes: [3.0,1.0,9.0,19.3,11.0,23.3,11.3,67.3,8.0,10.0,2.5,3.5] },
-        { label: 'Canadá (CA)', total: 128.3, porMes: [3.3,0.7,13.3,35.3,9.0,11.0,21.0,8.0,3.7,7.0,14.5,1.5] },
-        { label: 'Áustria (AT)', total: 123.6, porMes: [16.0,1.0,2.3,12.0,9.0,6.3,26.7,23.0,16.3,5.0,2.0,4.0] },
-        { label: 'Irlanda (IE)', total: 121.6, porMes: [0.7,1.3,3.3,19.7,14.3,26.0,11.0,22.0,8.3,14.0,1.0,0.0] },
-        { label: 'Suíça (CH)', total: 107.0, porMes: [0.0,0.0,6.0,6.3,19.7,49.7,0.0,0.0,11.3,0.0,2.0,12.0] },
-        { label: 'Brasil (BR)', total: 85.0, porMes: [5.3,9.3,2.3,4.7,5.3,6.0,20.3,11.0,2.3,6.5,3.0,9.0] },
-        { label: 'Suécia (SE)', total: 84.1, porMes: [0.3,1.3,0.0,0.0,23.0,15.7,28.0,5.0,1.3,8.5,1.0,0.0] },
-        { label: 'Outros (71 mercados)', total: 600.7, porMes: [23.5,41.6,26.6,52.9,88.3,70.0,84.0,58.1,59.2,48.0,16.5,32.0] }
+        { label: 'Portugal (doméstico)', total: 9505.2, porMes: [316.7,423.3,564.3,766.7,733.7,738.3,1110.7,2038.7,752.3,591.0,697.5,772.0], cls: 'heat-row-domestic' },
+        { label: "Alemanha (DE)", total: 1361.8, porMes: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0] },
+        { label: "Reino Unido (GB)", total: 1177.9, porMes: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0] },
+        { label: "Países Baixos (NL)", total: 876.5, porMes: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5] },
+        { label: "Estados Unidos (US)", total: 713.6, porMes: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5] },
+        { label: "Bélgica (BE)", total: 706.3, porMes: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0] },
+        { label: "França (FR)", total: 407.1, porMes: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5] },
+        { label: "Dinamarca (DK)", total: 373.0, porMes: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0] },
+        { label: "Espanha (ES)", total: 291.4, porMes: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0] },
+        { label: "Itália (IT)", total: 169.2, porMes: [3.0,1.0,9.0,19.3,11.0,23.3,11.3,67.3,8.0,10.0,2.5,3.5] },
+        { label: "Canadá (CA)", total: 128.3, porMes: [3.3,0.7,13.3,35.3,9.0,11.0,21.0,8.0,3.7,7.0,14.5,1.5] },
+        { label: "Áustria (AT)", total: 123.6, porMes: [16.0,1.0,2.3,12.0,9.0,6.3,26.7,23.0,16.3,5.0,2.0,4.0] },
+        { label: "Irlanda (IE)", total: 121.6, porMes: [0.7,1.3,3.3,19.7,14.3,26.0,11.0,22.0,8.3,14.0,1.0,0.0] },
+        { label: "Suíça (CH)", total: 107.0, porMes: [0.0,0.0,6.0,6.3,19.7,49.7,0.0,0.0,11.3,0.0,2.0,12.0] },
+        { label: "Brasil (BR)", total: 85.0, porMes: [5.3,9.3,2.3,4.7,5.3,6.0,20.3,11.0,2.3,6.5,3.0,9.0] },
+        { label: "Suécia (SE)", total: 84.1, porMes: [0.3,1.3,0.0,0.0,23.0,15.7,28.0,5.0,1.3,8.5,1.0,0.0] },
+        { label: "Outros (71 mercados)", total: 600.5, porMes: [23.3,41.7,26.7,52.7,88.3,70.0,84.0,58.0,59.3,48.0,16.5,32.0] }
       ];
 
       function hexToRgb(hex){
@@ -794,8 +990,9 @@ window.CraveiralCharts = (function(){
         html += '<th>Total/ano</th></tr></thead><tbody>';
         rows.forEach(function(row){
           var max = Math.max.apply(null, row.porMes.concat([1]));
-          html += '<tr><th scope="row" class="heat-row-label">' + row.label + '</th>';
+          html += '<tr' + (row.cls ? ' class="' + row.cls + '"' : '') + '><th scope="row" class="heat-row-label">' + row.label + '</th>';
           row.porMes.forEach(function(v){
+            if (v == null){ html += '<td class="heat-cell">—</td>'; return; }
             var t = max ? (v / max) : 0;
             var bg = mixHex(lo, hi, t);
             var color = t > 0.55 ? inkHi : inkLo;
@@ -807,10 +1004,54 @@ window.CraveiralCharts = (function(){
         container.innerHTML = html;
       }
       renderHeatmap(document.getElementById('nacionalidade-heatmap'), HEATMAP_ROWS, MONTHS3);
+
+      // Year-over-year growth: a diverging bar per market, toggled between
+      // the two available comparisons. Always the overlapping months only
+      // (see nationality_aggregate.py's _overlap_growth / por_ano), so a
+      // partial year (2026) is never compared to a full year.
+      var GROWTH_ROWS = [
+        { label: "Alemanha", gOld: 96.6, gNew: -16.1 },
+        { label: "Reino Unido", gOld: 13.0, gNew: -22.9 },
+        { label: "Países Baixos", gOld: 90.0, gNew: 22.9 },
+        { label: "Estados Unidos", gOld: 5.4, gNew: 53.8 },
+        { label: "Bélgica", gOld: 64.8, gNew: -26.7 },
+        { label: "França", gOld: 7.8, gNew: 26.3 },
+        { label: "Dinamarca", gOld: 0.0, gNew: 28.4 },
+        { label: "Espanha", gOld: 39.4, gNew: -14.3 },
+        { label: "Itália", gOld: 64.0, gNew: 62.9 },
+        { label: "Canadá", gOld: 36.2, gNew: -8.1 },
+        { label: "Áustria", gOld: 25.9, gNew: -12.1 },
+        { label: "Irlanda", gOld: -36.7, gNew: 66.2 },
+        { label: "Suíça", gOld: 62.3, gNew: -16.0 },
+        { label: "Brasil", gOld: -7.3, gNew: 36.2 },
+        { label: "Suécia", gOld: 103.5, gNew: -31.4 },
+        { label: "Portugal", gOld: 9.6, gNew: 2.0 },
+        { label: "Outros (71 mercados)", gOld: 7.9, gNew: -4.3 }
+      ];
+      var growthToggle = document.getElementById('nac-growth-toggle');
+      function renderGrowth(pair){
+        var field = pair === 'old' ? 'gOld' : 'gNew';
+        var items = GROWTH_ROWS
+          .filter(function(r){ return r[field] != null; })
+          .map(function(r){ return { label: r.label, value: r[field] }; })
+          .sort(function(a, b){ return b.value - a.value; });
+        window.CraveiralCharts.divergingBarChart(document.getElementById('nacionalidade-growth'), {
+          items: items,
+          formatValue: fmtPct,
+          labelWidth: 170,
+          ariaLabel: 'Crescimento percentual de dormidas por mercado, ' + (pair === 'old' ? '2025 vs 2024' : '2026 vs 2025')
+        });
+      }
+      growthToggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button'); if (!btn) return;
+        growthToggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        renderGrowth(btn.dataset.pair);
+      });
+      renderGrowth('new');
     })();
     </script>
 
-    <p class="footnote">Fonte: relatórios mensais do INE "151. INE" (Inquérito à Permanência de Hóspedes), pasta do Google Drive partilhada, 33 meses de janeiro de 2024 a setembro de 2026. Para cada mês civil, mostra-se a média de dormidas desse mês ao longo dos anos disponíveis. Devido a limitações da extração de texto dos PDFs originais, em mercados com poucos hóspedes por vezes só são capturadas 1–2 das 3 colunas do relatório (entraram/dormiram/dormidas); assume-se sempre o último número como "dormidas". A soma por mercado fica tipicamente 2–6% abaixo do total oficial do INE nos meses de maior volume (julho/agosto) — diferença aceitável para identificar padrões de sazonalidade, mas não para fins de reporte estatístico oficial. Valores arredondados às unidades nas tabelas; o heatmap normaliza a cor por mercado (mínimo ao máximo da própria linha), mas mostra sempre o valor real de dormidas. Atualize esta secção quando surgirem novos relatórios mensais do INE na pasta do Drive.</p>
+    <p class="footnote">Fonte: relatórios mensais do INE "151. INE" (Inquérito à Permanência de Hóspedes), pasta do Google Drive partilhada, 33 meses de janeiro de 2024 a setembro de 2026. A vista "Média" mostra, para cada mês civil, a média de dormidas desse mês ao longo dos anos disponíveis; as vistas por ano (2024/2025/2026) mostram os valores reais recolhidos nesse ano. Devido a limitações da extração de texto dos PDFs originais, em mercados com poucos hóspedes por vezes só são capturadas 1–2 das 3 colunas do relatório (entraram/dormiram/dormidas); assume-se sempre o último número como "dormidas". A soma por mercado fica tipicamente 2–6% abaixo do total oficial do INE nos meses de maior volume (julho/agosto) — diferença aceitável para identificar padrões de sazonalidade, mas não para fins de reporte estatístico oficial. O crescimento ano após ano compara sempre o mesmo conjunto de meses em ambos os anos (nunca um ano completo contra um ano parcial). Valores arredondados às unidades nas tabelas; o heatmap normaliza a cor por mercado (mínimo ao máximo da própria linha), mas mostra sempre o valor real de dormidas. Atualize esta secção quando surgirem novos relatórios mensais do INE na pasta do Drive.</p>
   </section>
 
 
