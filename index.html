@@ -757,7 +757,7 @@ window.CraveiralCharts = (function(){
     <p class="footnote">Fontes: Instituto Nacional de Estatística — destaques mensais e trimestrais do alojamento turístico (julho e agosto de 2026) — e Turismo de Portugal — TravelBI, "Turismo em Números". Dados recolhidos em 05/10/2026; a região "Alentejo" no INE/TravelBI inclui a Lezíria do Tejo. Os indicadores regionais do Alentejo (RevPAR, estada média, proveitos) mantêm a leitura de julho por não existir, até à data, um detalhe regional mais recente nestes indicadores específicos — os indicadores nacionais acima já refletem agosto. Nota: em agosto, o Norte ultrapassou o Alentejo como região com maior crescimento homólogo de dormidas, pela primeira vez em 2026. Atualize esta secção quando saírem novos destaques mensais.</p>
   </section>
 
-    <section id="nacionalidade">
+      <section id="nacionalidade">
     <div class="section-head">
       <div>
         <h2>Nacionalidade dos hóspedes — sazonalidade por mercado</h2>
@@ -885,7 +885,13 @@ window.CraveiralCharts = (function(){
 
     <div class="chart-card">
       <h3>Heatmap de sazonalidade — Portugal + top 15 mercados internacionais</h3>
-      <p class="chart-sub">Cor normalizada por mercado (cada linha vai do seu próprio mínimo ao máximo), para destacar o pico sazonal de cada mercado independentemente do seu volume absoluto. Os números apresentados são sempre o valor real de dormidas médias.</p>
+      <p class="chart-sub">Cor normalizada por mercado (cada linha vai do seu próprio mínimo ao máximo), para destacar o pico sazonal de cada mercado independentemente do seu volume absoluto. Escolha um ano ou veja a média — os números apresentados são sempre o valor real de dormidas.</p>
+      <div class="metric-toggle" id="nac-heatmap-year-toggle" style="margin-bottom:10px;">
+        <button type="button" data-year="media" aria-pressed="true">Média 2024–2026</button>
+        <button type="button" data-year="2024" aria-pressed="false">2024</button>
+        <button type="button" data-year="2025" aria-pressed="false">2025</button>
+        <button type="button" data-year="2026" aria-pressed="false">2026</button>
+      </div>
       <div class="table-wrap">
         <div id="nacionalidade-heatmap"></div>
       </div>
@@ -1020,23 +1026,23 @@ window.CraveiralCharts = (function(){
       // sequencial --accent-soft -> --accent já usado no resto do painel
       // (lido em runtime, para que o dark mode "funcione sozinho").
       var HEATMAP_ROWS = [
-        { label: 'Portugal (doméstico)', total: 9505.2, porMes: [316.7,423.3,564.3,766.7,733.7,738.3,1110.7,2038.7,752.3,591.0,697.5,772.0], cls: 'heat-row-domestic' },
-        { label: "Alemanha (DE)", total: 1361.8, porMes: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0] },
-        { label: "Reino Unido (GB)", total: 1177.9, porMes: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0] },
-        { label: "Países Baixos (NL)", total: 876.5, porMes: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5] },
-        { label: "Estados Unidos (US)", total: 713.6, porMes: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5] },
-        { label: "Bélgica (BE)", total: 706.3, porMes: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0] },
-        { label: "França (FR)", total: 407.1, porMes: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5] },
-        { label: "Dinamarca (DK)", total: 373.0, porMes: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0] },
-        { label: "Espanha (ES)", total: 291.4, porMes: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0] },
-        { label: "Itália (IT)", total: 169.2, porMes: [3.0,1.0,9.0,19.3,11.0,23.3,11.3,67.3,8.0,10.0,2.5,3.5] },
-        { label: "Canadá (CA)", total: 128.3, porMes: [3.3,0.7,13.3,35.3,9.0,11.0,21.0,8.0,3.7,7.0,14.5,1.5] },
-        { label: "Áustria (AT)", total: 123.6, porMes: [16.0,1.0,2.3,12.0,9.0,6.3,26.7,23.0,16.3,5.0,2.0,4.0] },
-        { label: "Irlanda (IE)", total: 121.6, porMes: [0.7,1.3,3.3,19.7,14.3,26.0,11.0,22.0,8.3,14.0,1.0,0.0] },
-        { label: "Suíça (CH)", total: 107.0, porMes: [0.0,0.0,6.0,6.3,19.7,49.7,0.0,0.0,11.3,0.0,2.0,12.0] },
-        { label: "Brasil (BR)", total: 85.0, porMes: [5.3,9.3,2.3,4.7,5.3,6.0,20.3,11.0,2.3,6.5,3.0,9.0] },
-        { label: "Suécia (SE)", total: 84.1, porMes: [0.3,1.3,0.0,0.0,23.0,15.7,28.0,5.0,1.3,8.5,1.0,0.0] },
-        { label: "Outros (71 mercados)", total: 600.5, porMes: [23.3,41.7,26.7,52.7,88.3,70.0,84.0,58.0,59.3,48.0,16.5,32.0] }
+        { label: 'Portugal (doméstico)', total: 9505.2, porMes: [316.7,423.3,564.3,766.7,733.7,738.3,1110.7,2038.7,752.3,591.0,697.5,772.0], porAno: {'2024':[302.0,511.0,628.0,713.0,602.0,518.0,1123.0,2030.0,550.0,541.0,691.0,713.0],'2025':[309.0,297.0,534.0,555.0,730.0,870.0,1146.0,2091.0,1072.0,641.0,704.0,831.0],'2026':[339.0,462.0,531.0,1032.0,869.0,827.0,1063.0,1995.0,635.0,null,null,null]}, cls: 'heat-row-domestic' },
+        { label: "Alemanha (DE)", total: 1361.8, porMes: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0], porAno: {'2024':[86.0,12.0,5.0,49.0,77.0,27.0,84.0,88.0,117.0,133.0,122.0,86.0],'2025':[5.0,22.0,91.0,190.0,38.0,156.0,206.0,297.0,223.0,422.0,66.0,26.0],'2026':[11.0,44.0,47.0,118.0,77.0,148.0,236.0,269.0,80.0,null,null,null]} },
+        { label: "Reino Unido (GB)", total: 1177.9, porMes: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0], porAno: {'2024':[36.0,13.0,26.0,189.0,267.0,161.0,134.0,149.0,39.0,129.0,10.0,20.0],'2025':[9.0,1.0,21.0,149.0,143.0,90.0,243.0,269.0,159.0,150.0,19.0,72.0],'2026':[5.0,5.0,77.0,79.0,151.0,50.0,128.0,219.0,122.0,null,null,null]} },
+        { label: "Países Baixos (NL)", total: 876.5, porMes: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5], porAno: {'2024':[24.0,2.0,15.0,33.0,82.0,111.0,87.0,48.0,49.0,28.0,18.0,24.0],'2025':[31.0,48.0,114.0,81.0,60.0,91.0,158.0,126.0,99.0,78.0,21.0,83.0],'2026':[16.0,53.0,103.0,124.0,123.0,129.0,257.0,93.0,95.0,null,null,null]} },
+        { label: "Estados Unidos (US)", total: 713.6, porMes: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5], porAno: {'2024':[16.0,33.0,23.0,64.0,65.0,85.0,94.0,55.0,62.0,96.0,17.0,0.0],'2025':[4.0,0.0,59.0,38.0,137.0,34.0,93.0,93.0,33.0,99.0,34.0,19.0],'2026':[10.0,22.0,34.0,72.0,74.0,180.0,146.0,70.0,147.0,null,null,null]} },
+        { label: "Bélgica (BE)", total: 706.3, porMes: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0], porAno: {'2024':[20.0,8.0,13.0,14.0,55.0,60.0,39.0,108.0,6.0,152.0,17.0,40.0],'2025':[0.0,10.0,35.0,114.0,18.0,86.0,285.0,160.0,8.0,145.0,16.0,0.0],'2026':[5.0,15.0,6.0,85.0,51.0,41.0,89.0,142.0,91.0,null,null,null]} },
+        { label: "França (FR)", total: 407.1, porMes: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5], porAno: {'2024':[38.0,2.0,13.0,39.0,14.0,13.0,77.0,111.0,11.0,10.0,10.0,22.0],'2025':[8.0,7.0,6.0,72.0,12.0,25.0,47.0,145.0,16.0,41.0,2.0,7.0],'2026':[4.0,2.0,18.0,69.0,18.0,8.0,50.0,229.0,29.0,null,null,null]} },
+        { label: "Dinamarca (DK)", total: 373.0, porMes: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0], porAno: {'2024':[0.0,0.0,0.0,1.0,2.0,0.0,197.0,6.0,22.0,121.0,4.0,0.0],'2025':[0.0,0.0,0.0,48.0,0.0,0.0,147.0,15.0,12.0,131.0,0.0,0.0],'2026':[0.0,0.0,14.0,42.0,0.0,10.0,162.0,9.0,48.0,null,null,null]} },
+        { label: "Espanha (ES)", total: 291.4, porMes: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0], porAno: {'2024':[2.0,0.0,20.0,6.0,17.0,3.0,47.0,122.0,2.0,17.0,4.0,6.0],'2025':[1.0,2.0,2.0,55.0,7.0,19.0,33.0,155.0,6.0,23.0,2.0,38.0],'2026':[24.0,9.0,25.0,29.0,20.0,4.0,38.0,80.0,11.0,null,null,null]} },
+        { label: "Itália (IT)", total: 169.2, porMes: [3.0,1.0,9.0,19.3,11.0,23.3,11.3,67.3,8.0,10.0,2.5,3.5], porAno: {'2024':[3.0,3.0,20.0,0.0,7.0,5.0,13.0,37.0,4.0,1.0,0.0,7.0],'2025':[0.0,0.0,0.0,29.0,14.0,52.0,15.0,26.0,4.0,19.0,5.0,0.0],'2026':[6.0,0.0,7.0,29.0,12.0,13.0,6.0,139.0,16.0,null,null,null]} },
+        { label: "Canadá (CA)", total: 128.3, porMes: [3.3,0.7,13.3,35.3,9.0,11.0,21.0,8.0,3.7,7.0,14.5,1.5], porAno: {'2024':[8.0,2.0,0.0,9.0,21.0,6.0,9.0,23.0,0.0,0.0,25.0,2.0],'2025':[0.0,0.0,30.0,46.0,6.0,23.0,18.0,1.0,0.0,14.0,4.0,1.0],'2026':[2.0,0.0,10.0,51.0,0.0,4.0,36.0,0.0,11.0,null,null,null]} },
+        { label: "Áustria (AT)", total: 123.6, porMes: [16.0,1.0,2.3,12.0,9.0,6.3,26.7,23.0,16.3,5.0,2.0,4.0], porAno: {'2024':[24.0,0.0,1.0,2.0,3.0,9.0,32.0,16.0,3.0,6.0,4.0,8.0],'2025':[24.0,3.0,0.0,18.0,3.0,10.0,0.0,41.0,33.0,4.0,0.0,0.0],'2026':[0.0,0.0,6.0,16.0,21.0,0.0,48.0,12.0,13.0,null,null,null]} },
+        { label: "Irlanda (IE)", total: 121.6, porMes: [0.7,1.3,3.3,19.7,14.3,26.0,11.0,22.0,8.3,14.0,1.0,0.0], porAno: {'2024':[2.0,2.0,0.0,12.0,25.0,65.0,0.0,17.0,0.0,16.0,0.0,0.0],'2025':[0.0,2.0,0.0,3.0,11.0,0.0,6.0,34.0,18.0,12.0,2.0,0.0],'2026':[0.0,0.0,10.0,44.0,7.0,13.0,27.0,15.0,7.0,null,null,null]} },
+        { label: "Suíça (CH)", total: 107.0, porMes: [0.0,0.0,6.0,6.3,19.7,49.7,0.0,0.0,11.3,0.0,2.0,12.0], porAno: {'2024':[0.0,0.0,0.0,0.0,4.0,45.0,0.0,0.0,0.0,0.0,4.0,24.0],'2025':[0.0,0.0,0.0,19.0,0.0,88.0,0.0,0.0,18.0,0.0,0.0,0.0],'2026':[0.0,0.0,18.0,0.0,55.0,16.0,0.0,0.0,16.0,null,null,null]} },
+        { label: "Brasil (BR)", total: 85.0, porMes: [5.3,9.3,2.3,4.7,5.3,6.0,20.3,11.0,2.3,6.5,3.0,9.0], porAno: {'2024':[0.0,17.0,5.0,2.0,4.0,1.0,18.0,16.0,0.0,8.0,3.0,8.0],'2025':[0.0,9.0,0.0,12.0,6.0,13.0,13.0,4.0,1.0,5.0,3.0,10.0],'2026':[16.0,2.0,2.0,0.0,6.0,4.0,30.0,13.0,6.0,null,null,null]} },
+        { label: "Suécia (SE)", total: 84.1, porMes: [0.3,1.3,0.0,0.0,23.0,15.7,28.0,5.0,1.3,8.5,1.0,0.0], porAno: {'2024':[0.0,4.0,0.0,0.0,6.0,3.0,27.0,12.0,0.0,3.0,2.0,0.0],'2025':[0.0,0.0,0.0,0.0,49.0,27.0,22.0,0.0,4.0,14.0,0.0,0.0],'2026':[1.0,0.0,0.0,0.0,14.0,17.0,35.0,3.0,0.0,null,null,null]} },
+        { label: "Outros (71 mercados)", total: 600.5, porMes: [23.3,41.7,26.7,52.7,88.3,70.0,84.0,58.0,59.3,48.0,16.5,32.0], porAno: {'2024':[7.0,39.0,20.0,33.0,125.0,112.0,100.0,59.0,17.0,33.0,32.0,8.0],'2025':[52.0,66.0,38.0,48.0,99.0,54.0,46.0,25.0,83.0,63.0,1.0,56.0],'2026':[11.0,20.0,22.0,77.0,41.0,44.0,106.0,90.0,78.0,null,null,null]} }
       ];
 
       function hexToRgb(hex){
@@ -1052,7 +1058,20 @@ window.CraveiralCharts = (function(){
         var b = Math.round(lo[2] + (hi[2] - lo[2]) * t);
         return 'rgb(' + r + ',' + g + ',' + b + ')';
       }
-      function renderHeatmap(container, rows, months){
+      // "Média" shows the calendar-month average (row.porMes); any other
+      // button shows that year's actual monthly values (row.porAno[year]) --
+      // a not-yet-occurred 2026 month stays null (shown as "—"), same
+      // convention as chart 1 and the trend view's year series.
+      function heatValsForYear(row, year){
+        return year === 'media' ? row.porMes : (row.porAno[year] || new Array(12).fill(null));
+      }
+      function heatTotalForYear(row, year){
+        if (year === 'media') return row.total;
+        var s = 0;
+        (row.porAno[year] || []).forEach(function(v){ if (v != null) s += v; });
+        return s;
+      }
+      function renderHeatmap(container, rows, months, year){
         var cs = getComputedStyle(document.documentElement);
         var lo = cs.getPropertyValue('--accent-soft').trim() || '#DCEAE6';
         var hi = cs.getPropertyValue('--accent').trim() || '#1B4B4A';
@@ -1062,21 +1081,35 @@ window.CraveiralCharts = (function(){
         months.forEach(function(m){ html += '<th>' + m + '</th>'; });
         html += '<th>Total/ano</th></tr></thead><tbody>';
         rows.forEach(function(row){
-          var max = Math.max.apply(null, row.porMes.concat([1]));
+          var vals = heatValsForYear(row, year);
+          var nonNull = vals.filter(function(v){ return v != null; });
+          var max = Math.max.apply(null, nonNull.concat([1]));
           html += '<tr' + (row.cls ? ' class="' + row.cls + '"' : '') + '><th scope="row" class="heat-row-label">' + row.label + '</th>';
-          row.porMes.forEach(function(v){
+          vals.forEach(function(v){
             if (v == null){ html += '<td class="heat-cell">—</td>'; return; }
             var t = max ? (v / max) : 0;
             var bg = mixHex(lo, hi, t);
             var color = t > 0.55 ? inkHi : inkLo;
             html += '<td class="heat-cell" style="background:' + bg + ';color:' + color + ';">' + Math.round(v) + '</td>';
           });
-          html += '<td class="heat-total">' + row.total.toLocaleString('pt-PT', { maximumFractionDigits: 0 }) + '</td></tr>';
+          html += '<td class="heat-total">' + heatTotalForYear(row, year).toLocaleString('pt-PT', { maximumFractionDigits: 0 }) + '</td></tr>';
         });
         html += '</tbody></table>';
         container.innerHTML = html;
       }
-      renderHeatmap(document.getElementById('nacionalidade-heatmap'), HEATMAP_ROWS, MONTHS3);
+
+      var heatmapYearToggle = document.getElementById('nac-heatmap-year-toggle');
+      var heatmapState = { year: 'media' };
+      function doRenderHeatmap(){
+        renderHeatmap(document.getElementById('nacionalidade-heatmap'), HEATMAP_ROWS, MONTHS3, heatmapState.year);
+      }
+      heatmapYearToggle.addEventListener('click', function(ev){
+        var btn = ev.target.closest('button'); if (!btn) return;
+        heatmapYearToggle.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn)); });
+        heatmapState.year = btn.dataset.year;
+        doRenderHeatmap();
+      });
+      doRenderHeatmap();
 
       // Year-over-year growth: a diverging bar per market, toggled between
       // the two available comparisons. Always the overlapping months only
