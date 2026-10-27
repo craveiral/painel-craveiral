@@ -477,7 +477,14 @@ window.CraveiralCharts = (function(){
     var width = 560;
     var height = mT + mB + Math.max(items.length, 1) * rowH;
     var plotW = width - labelW - mR;
-    var maxAbs = Math.max.apply(null, items.map(function(d){ return Math.abs(d.value); }).concat([1])) * 1.15;
+    // headroom: extra margin beyond the largest |value|, as a multiplier.
+    // Default 1.15 matches the original (many-row) usage; a short list (2-4
+    // rows) with long value labels needs more breathing room so a
+    // near-max-magnitude negative bar's outside label doesn't run into the
+    // row-label column -- opts.headroom lets a call site ask for that
+    // without changing any existing chart (optional, backward-compatible).
+    var headroom = opts.headroom || 1.15;
+    var maxAbs = Math.max.apply(null, items.map(function(d){ return Math.abs(d.value); }).concat([1])) * headroom;
     var zeroX = labelW + plotW / 2;
     var scale = (plotW / 2) / maxAbs;
 
@@ -1298,6 +1305,91 @@ window.CraveiralCharts = (function(){
       </table>
     </div>
     <p class="footnote">Valores entre parêntesis: mesmo mês do ano anterior (2025), a partir do Climber RMS (relatório Pickup Year over Year).</p>
+  </section>
+
+  <section id="regiao">
+    <div class="section-head">
+      <div>
+        <h2>Craveiral vs. Alentejo — face à região</h2>
+        <p class="sub">Compara o crescimento homólogo do Craveiral com o crescimento homólogo da região Alentejo, indicador a indicador, sempre no mesmo período. Objetivo: estar sempre acima da média da região.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-tile">
+        <span class="kpi-label">Indicadores acima da região</span>
+        <span class="kpi-value mono">1 de 5</span>
+        <span class="kpi-note">dos pares indicador/período comparados abaixo — objetivo é estar acima da região em todos</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Ponto forte</span>
+        <span class="kpi-value mono">Dormidas · Jan–Mai</span>
+        <span class="kpi-note">Craveiral +10,3% vs. Alentejo +6,6% — único indicador acima da região</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Maior risco</span>
+        <span class="kpi-value mono">RevPAR</span>
+        <span class="kpi-note">abaixo da região nos dois períodos — Jan–Mai: -4,3% vs. +9,4%; Julho: +8,1% vs. +14,6%</span>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <h3>Jan–Mai 2026</h3>
+        <p class="chart-sub">Diferença face ao crescimento da região, em pontos percentuais. Acima de zero = Craveiral a crescer mais do que o Alentejo.</p>
+        <div id="regiao-gap-chart-janmai"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Julho 2026</h3>
+        <p class="chart-sub">Diferença face ao crescimento da região, em pontos percentuais. Acima de zero = Craveiral a crescer mais do que o Alentejo.</p>
+        <div id="regiao-gap-chart-julho"></div>
+      </div>
+    </div>
+
+    <details class="table-toggle">
+      <summary>Ver tabela de dados</summary>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Indicador</th><th>Período</th><th>Craveiral</th><th>Alentejo</th><th>Diferença</th></tr></thead>
+          <tbody>
+            <tr><td>Dormidas (room nights)</td><td>Jan–Mai 2026</td><td class="mono">+10,3%</td><td class="mono">+6,6%</td><td class="mono">+3,7 p.p.</td></tr>
+            <tr><td>Receita / proveitos</td><td>Jan–Mai 2026</td><td class="mono">-4,0%</td><td class="mono">+12,6%</td><td class="mono">-16,6 p.p.</td></tr>
+            <tr><td>RevPAR</td><td>Jan–Mai 2026</td><td class="mono">-4,3%</td><td class="mono">+9,4%</td><td class="mono">-13,7 p.p.</td></tr>
+            <tr><td>Dormidas (room nights)</td><td>Julho 2026</td><td class="mono">-2,6%</td><td class="mono">+7,7%</td><td class="mono">-10,3 p.p.</td></tr>
+            <tr><td>RevPAR</td><td>Julho 2026</td><td class="mono">+8,1%</td><td class="mono">+14,6%</td><td class="mono">-6,5 p.p.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <script>
+    (function(){
+      function fmtPP(v){ return (v >= 0 ? '+' : '') + v.toLocaleString('pt-PT', {maximumFractionDigits:1}) + 'pp'; }
+      window.CraveiralCharts.divergingBarChart(document.getElementById('regiao-gap-chart-janmai'), {
+        items: [
+          { label: 'Dormidas', value: 3.7 },
+          { label: 'Receita', value: -16.6 },
+          { label: 'RevPAR', value: -13.7 }
+        ],
+        formatValue: fmtPP,
+        labelWidth: 140,
+        headroom: 1.6,
+        ariaLabel: 'Diferença, em pontos percentuais, entre o crescimento do Craveiral e o crescimento da região Alentejo, Jan–Mai 2026'
+      });
+      window.CraveiralCharts.divergingBarChart(document.getElementById('regiao-gap-chart-julho'), {
+        items: [
+          { label: 'Dormidas', value: -10.3 },
+          { label: 'RevPAR', value: -6.5 }
+        ],
+        formatValue: fmtPP,
+        labelWidth: 140,
+        headroom: 1.6,
+        ariaLabel: 'Diferença, em pontos percentuais, entre o crescimento do Craveiral e o crescimento da região Alentejo, Julho 2026'
+      });
+    })();
+    </script>
+
+    <p class="footnote">Craveiral: Climber RMS, secção "Evolução comercial" acima — Receita e RevPAR calculados sobre o período acumulado (RevPAR = receita acumulada ÷ room-nights disponíveis no período, não a média simples das variações mensais), mesma metodologia do agregado regional. Alentejo: INE / Turismo de Portugal — TravelBI, secção "Contexto de mercado" acima, dados recolhidos em 05/10/2026. Jan–Mai e Julho são os períodos em que a região publica estes indicadores com o detalhe necessário à data desta fotografia (27/10/2026); "Receita / proveitos" compara a variação de proveitos globais do Craveiral com a variação de proveitos globais do Alentejo (TravelBI) — não a mesma base absoluta, apenas a mesma métrica de crescimento. Atualize esta secção sempre que a "Evolução comercial" ou o "Contexto de mercado" forem atualizados.</p>
   </section>
 
   <section id="reservas2027">
