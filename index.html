@@ -14,6 +14,8 @@
     --secondary:#8F5420; --secondary-soft:#F0E1CC;
     --good:#1F7A1F; --bad:#A23F35;
     --series-1:#1baf7a; --series-2:#eda100; --series-3:#c65d3b;
+    --series-4:#2a78d6; --series-5:#eb6834; --series-6:#1baf7a; --series-7:#eda100;
+    --series-8:#e87ba4; --series-9:#008300; --series-10:#6250d6; --series-11:#e34948;
     --shadow: 0 1px 2px rgba(33,36,29,0.06), 0 6px 20px -8px rgba(33,36,29,0.18);
     color-scheme: light;
   }
@@ -25,6 +27,8 @@
       --secondary:#D8A768; --secondary-soft:#3A2C18;
       --good:#3FA648; --bad:#E2776B;
       --series-1:#199e70; --series-2:#c98500; --series-3:#e0794f;
+      --series-4:#3987e5; --series-5:#d95926; --series-6:#199e70; --series-7:#c98500;
+      --series-8:#d55181; --series-9:#008300; --series-10:#9085e9; --series-11:#e66767;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 26px -10px rgba(0,0,0,0.55);
       color-scheme: dark;
     }
@@ -36,6 +40,8 @@
     --secondary:#D8A768; --secondary-soft:#3A2C18;
     --good:#3FA648; --bad:#E2776B;
     --series-1:#199e70; --series-2:#c98500; --series-3:#e0794f;
+    --series-4:#3987e5; --series-5:#d95926; --series-6:#199e70; --series-7:#c98500;
+    --series-8:#d55181; --series-9:#008300; --series-10:#9085e9; --series-11:#e66767;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 26px -10px rgba(0,0,0,0.55);
     color-scheme: dark;
   }
@@ -97,6 +103,9 @@
   .legend-item{ display:flex; align-items:center; gap:6px; font-size:0.8rem; color:var(--ink-2); }
   .legend-swatch{ width:11px; height:11px; border-radius:3px; display:inline-block; }
   .swatch-1{ background:var(--series-1); } .swatch-2{ background:var(--series-2); } .swatch-3{ background:var(--series-3); }
+  .swatch-4{ background:var(--series-4); } .swatch-5{ background:var(--series-5); } .swatch-6{ background:var(--series-6); } .swatch-7{ background:var(--series-7); }
+  .swatch-8{ background:var(--series-8); } .swatch-9{ background:var(--series-9); } .swatch-10{ background:var(--series-10); } .swatch-11{ background:var(--series-11); }
+  .swatch-outros{ background:var(--ink-mute); }
   svg.chart-svg{ width:100%; height:auto; display:block; }
   .chart-grid{ stroke:var(--border); stroke-width:1; }
   .chart-axis-label{ font-family:"IBM Plex Mono",monospace; font-size:9.5px; fill:var(--ink-mute); }
@@ -114,6 +123,14 @@
   table.data-table tbody tr:hover{ background:var(--surface-2); }
   .table-wrap{ overflow-x:auto; background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow); }
   .table-wrap table{ min-width:640px; }
+
+  /* heatmap (nationality section): plain table, background color set inline per cell */
+  table.heat-table{ width:100%; border-collapse:collapse; font-size:0.8rem; }
+  table.heat-table th, table.heat-table td{ padding:6px 9px; text-align:right; border-bottom:1px solid var(--border); white-space:nowrap; }
+  table.heat-table th.heat-row-label, table.heat-table td.heat-row-label{ text-align:left; font-weight:600; color:var(--ink-2); position:sticky; left:0; background:var(--surface); }
+  table.heat-table thead th{ font-weight:600; color:var(--ink-2); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; text-align:center; }
+  table.heat-table td.heat-cell{ font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; }
+  table.heat-table td.heat-total{ font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; color:var(--ink-2); border-left:2px solid var(--border); }
   .footnote{ font-size:0.76rem; color:var(--ink-mute); }
   .empty-note{ cursor:help; border-bottom:1px dotted var(--ink-mute); white-space:nowrap; }
   .empty-note sup{ font-size:0.72em; color:var(--ink-mute); }
@@ -136,6 +153,17 @@
   .line-series-1{ stroke:var(--series-1); } .line-series-2{ stroke:var(--series-2); } .line-series-3{ stroke:var(--series-3); }
   .dot-series-1{ fill:var(--series-1); } .dot-series-2{ fill:var(--series-2); } .dot-series-3{ fill:var(--series-3); }
   .tooltip-key-1{ background:var(--series-1); } .tooltip-key-2{ background:var(--series-2); } .tooltip-key-3{ background:var(--series-3); }
+  /* slots 4-11: added for the "Nacionalidade" section's 8 top markets (validated categorical palette, dataviz skill) */
+  .line-series-4{ stroke:var(--series-4); } .line-series-5{ stroke:var(--series-5); } .line-series-6{ stroke:var(--series-6); } .line-series-7{ stroke:var(--series-7); }
+  .line-series-8{ stroke:var(--series-8); } .line-series-9{ stroke:var(--series-9); } .line-series-10{ stroke:var(--series-10); } .line-series-11{ stroke:var(--series-11); }
+  .dot-series-4{ fill:var(--series-4); } .dot-series-5{ fill:var(--series-5); } .dot-series-6{ fill:var(--series-6); } .dot-series-7{ fill:var(--series-7); }
+  .dot-series-8{ fill:var(--series-8); } .dot-series-9{ fill:var(--series-9); } .dot-series-10{ fill:var(--series-10); } .dot-series-11{ fill:var(--series-11); }
+  .tooltip-key-4{ background:var(--series-4); } .tooltip-key-5{ background:var(--series-5); } .tooltip-key-6{ background:var(--series-6); } .tooltip-key-7{ background:var(--series-7); }
+  .tooltip-key-8{ background:var(--series-8); } .tooltip-key-9{ background:var(--series-9); } .tooltip-key-10{ background:var(--series-10); } .tooltip-key-11{ background:var(--series-11); }
+  /* "Outros" (long tail of smaller markets): muted ink, dashed, rather than a 9th hue */
+  .line-series-outros{ stroke:var(--ink-mute); stroke-dasharray:5 3; }
+  .dot-series-outros{ fill:var(--ink-mute); }
+  .tooltip-key-outros{ background:var(--ink-mute); }
   .chart-tooltip{ position:absolute; z-index:5; background:var(--ink); color:var(--bg); font-size:0.76rem; line-height:1.5; padding:8px 10px; border-radius:8px; box-shadow:var(--shadow); pointer-events:none; max-width:230px; }
   .chart-tooltip-head{ font-family:"IBM Plex Mono",monospace; font-size:0.66rem; opacity:0.7; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em; }
   .chart-tooltip-row{ display:flex; align-items:baseline; gap:7px; white-space:nowrap; }
@@ -248,15 +276,22 @@ window.CraveiralCharts = (function(){
         d += (d ? 'L' : 'M') + xAt(i) + ',' + yAt(v) + ' ';
       });
       svg.appendChild(el('path', { d: d.trim(), fill: 'none', class: 'line-series-' + slot, 'stroke-width': '2', 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
-      // direct end-label at the last known value
+      // direct end-label at the last known value -- an opt-out (opts.endLabels:
+      // false) keeps the endpoint dot but skips the text, for charts with many
+      // series where per-series end labels would overlap illegibly (dataviz
+      // skill: only <=4 series get direct labels; more rely on the legend +
+      // hover tooltip instead). Default stays "on" so existing 2-3 series
+      // callers (Pick-up, Evolucao comercial, OTB) render exactly as before.
       for (var i = (ser.values||[]).length - 1; i >= 0; i--){
         if (ser.values[i] == null) continue;
         var x = xAt(i), y = yAt(ser.values[i]);
         svg.appendChild(el('circle', { cx: x, cy: y, r: 6, fill: 'var(--surface)' }));
         svg.appendChild(el('circle', { cx: x, cy: y, r: 4, class: 'dot-series-' + slot }));
-        var lbl = el('text', { class: 'chart-value-label', x: Math.min(x + 7, width - mR), y: (y - 9 < mT + 8) ? y + 16 : y - 8, 'text-anchor': (x + 46 > width - mR) ? 'end' : 'start' });
-        lbl.textContent = formatValue(ser.values[i]);
-        svg.appendChild(lbl);
+        if (opts.endLabels !== false){
+          var lbl = el('text', { class: 'chart-value-label', x: Math.min(x + 7, width - mR), y: (y - 9 < mT + 8) ? y + 16 : y - 8, 'text-anchor': (x + 46 > width - mR) ? 'end' : 'start' });
+          lbl.textContent = formatValue(ser.values[i]);
+          svg.appendChild(lbl);
+        }
         break;
       }
     });
@@ -424,7 +459,7 @@ window.CraveiralCharts = (function(){
       <h1>Painel de Evolução Comercial</h1>
     </div>
     <div class="meta">
-      Fotografia gerada em 27 de outubro de 2026<br>
+      Fotografia gerada em 26 de outubro de 2026<br>
       Contexto de mercado: INE / Turismo de Portugal (TravelBI)
     </div>
   </header>
@@ -619,6 +654,165 @@ window.CraveiralCharts = (function(){
     </div>
     <p class="footnote">Fontes: Instituto Nacional de Estatística — destaques mensais e trimestrais do alojamento turístico (julho e agosto de 2026) — e Turismo de Portugal — TravelBI, "Turismo em Números". Dados recolhidos em 05/10/2026; a região "Alentejo" no INE/TravelBI inclui a Lezíria do Tejo. Os indicadores regionais do Alentejo (RevPAR, estada média, proveitos) mantêm a leitura de julho por não existir, até à data, um detalhe regional mais recente nestes indicadores específicos — os indicadores nacionais acima já refletem agosto. Nota: em agosto, o Norte ultrapassou o Alentejo como região com maior crescimento homólogo de dormidas, pela primeira vez em 2026. Atualize esta secção quando saírem novos destaques mensais.</p>
   </section>
+
+  <section id="nacionalidade">
+    <div class="section-head">
+      <div>
+        <h2>Nacionalidade dos hóspedes — sazonalidade por mercado</h2>
+        <p class="sub">Dormidas médias por mês civil, por mercado de origem dos hóspedes estrangeiros (2024–2026), a partir dos relatórios mensais do INE "151. INE". Ajuda a perceber em que meses vale a pena reforçar a comunicação e a distribuição para cada mercado.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-tile">
+        <span class="kpi-label">Mercado principal</span>
+        <span class="kpi-value mono">Alemanha</span>
+        <span class="kpi-note">1.362 dormidas/ano em média — picos em outubro (278) e agosto (218)</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Mercado mais concentrado</span>
+        <span class="kpi-value mono">Dinamarca</span>
+        <span class="kpi-note">quase toda a procura em julho (169) e outubro (126) — residual no resto do ano</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Mês de pico para mais mercados</span>
+        <span class="kpi-value mono">Agosto</span>
+        <span class="kpi-note">mercados com pico anual neste mês: Reino Unido, França, Espanha</span>
+      </div>
+      <div class="kpi-tile">
+        <span class="kpi-label">Cobertura da análise</span>
+        <span class="kpi-value mono">79 mercados</span>
+        <span class="kpi-note">8 mercados principais + 71 mercados menores ("Outros") — 33 meses de relatórios INE, jan/2024–set/2026</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Dormidas médias por mês — principais mercados</h3>
+      <p class="chart-sub">Média de dormidas de cada mês civil ao longo de 2024, 2025 e 2026 (até ao mês mais recente disponível em 2026), por mercado de origem. "Outros" agrega os restantes 71 mercados menores.</p>
+      <div id="nacionalidade-chart"></div>
+      <details class="table-toggle">
+        <summary>Ver tabela de dados (dormidas médias por mês, arredondadas)</summary>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Mercado</th><th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>Mai</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Set</th><th>Out</th><th>Nov</th><th>Dez</th><th>Total/ano</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Alemanha</td><td class="mono">34</td><td class="mono">26</td><td class="mono">48</td><td class="mono">119</td><td class="mono">64</td><td class="mono">110</td><td class="mono">175</td><td class="mono">218</td><td class="mono">140</td><td class="mono">278</td><td class="mono">94</td><td class="mono">56</td><td class="mono">1.362</td></tr>
+              <tr><td>Reino Unido</td><td class="mono">17</td><td class="mono">6</td><td class="mono">41</td><td class="mono">139</td><td class="mono">187</td><td class="mono">100</td><td class="mono">168</td><td class="mono">212</td><td class="mono">107</td><td class="mono">140</td><td class="mono">14</td><td class="mono">46</td><td class="mono">1.178</td></tr>
+              <tr><td>Países Baixos</td><td class="mono">24</td><td class="mono">34</td><td class="mono">77</td><td class="mono">79</td><td class="mono">88</td><td class="mono">110</td><td class="mono">167</td><td class="mono">89</td><td class="mono">81</td><td class="mono">53</td><td class="mono">20</td><td class="mono">54</td><td class="mono">876</td></tr>
+              <tr><td>Estados Unidos</td><td class="mono">10</td><td class="mono">18</td><td class="mono">39</td><td class="mono">58</td><td class="mono">92</td><td class="mono">100</td><td class="mono">111</td><td class="mono">73</td><td class="mono">81</td><td class="mono">98</td><td class="mono">26</td><td class="mono">10</td><td class="mono">714</td></tr>
+              <tr><td>Bélgica</td><td class="mono">8</td><td class="mono">11</td><td class="mono">18</td><td class="mono">71</td><td class="mono">41</td><td class="mono">62</td><td class="mono">138</td><td class="mono">137</td><td class="mono">35</td><td class="mono">148</td><td class="mono">16</td><td class="mono">20</td><td class="mono">706</td></tr>
+              <tr><td>França</td><td class="mono">17</td><td class="mono">4</td><td class="mono">12</td><td class="mono">60</td><td class="mono">15</td><td class="mono">15</td><td class="mono">58</td><td class="mono">162</td><td class="mono">19</td><td class="mono">26</td><td class="mono">6</td><td class="mono">14</td><td class="mono">407</td></tr>
+              <tr><td>Dinamarca</td><td class="mono">0</td><td class="mono">0</td><td class="mono">5</td><td class="mono">30</td><td class="mono">1</td><td class="mono">3</td><td class="mono">169</td><td class="mono">10</td><td class="mono">27</td><td class="mono">126</td><td class="mono">2</td><td class="mono">0</td><td class="mono">373</td></tr>
+              <tr><td>Espanha</td><td class="mono">9</td><td class="mono">4</td><td class="mono">16</td><td class="mono">30</td><td class="mono">15</td><td class="mono">9</td><td class="mono">39</td><td class="mono">119</td><td class="mono">6</td><td class="mono">20</td><td class="mono">3</td><td class="mono">22</td><td class="mono">291</td></tr>
+              <tr><td>Outros (71 mercados)</td><td class="mono">24</td><td class="mono">42</td><td class="mono">27</td><td class="mono">53</td><td class="mono">88</td><td class="mono">70</td><td class="mono">84</td><td class="mono">58</td><td class="mono">59</td><td class="mono">48</td><td class="mono">16</td><td class="mono">32</td><td class="mono">601</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <div class="chart-card">
+      <h3>Heatmap de sazonalidade — top 15 mercados</h3>
+      <p class="chart-sub">Cor normalizada por mercado (cada linha vai do seu próprio mínimo ao máximo), para destacar o pico sazonal de cada mercado independentemente do seu volume absoluto. Os números apresentados são sempre o valor real de dormidas médias.</p>
+      <div class="table-wrap">
+        <div id="nacionalidade-heatmap"></div>
+      </div>
+    </div>
+
+    <script>
+    (function(){
+      var MONTHS3 = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      function fmtNoites(v){ return Math.round(v).toLocaleString('pt-PT'); }
+
+      var MARKETS = [
+        { slot: 4, label: 'Alemanha', values: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0] },
+        { slot: 5, label: 'Reino Unido', values: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0] },
+        { slot: 6, label: 'Países Baixos', values: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5] },
+        { slot: 7, label: 'Estados Unidos', values: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5] },
+        { slot: 8, label: 'Bélgica', values: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0] },
+        { slot: 9, label: 'França', values: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5] },
+        { slot: 10, label: 'Dinamarca', values: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0] },
+        { slot: 11, label: 'Espanha', values: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0] },
+        { slot: 'outros', label: 'Outros (71 mercados)', values: [23.5,41.6,26.6,52.9,88.3,70.0,84.0,58.1,59.2,48.0,16.5,32.0] }
+      ];
+
+      window.CraveiralCharts.lineChart(document.getElementById('nacionalidade-chart'), {
+        categories: MONTHS3,
+        series: MARKETS,
+        formatValue: fmtNoites,
+        endLabels: false,
+        ariaLabel: 'Dormidas médias por mês civil (2024 a 2026), por mercado de origem dos hóspedes estrangeiros do Craveiral'
+      });
+
+      // Heatmap: top mercados + Outros, cor normalizada por linha (mín-máx
+      // do próprio mercado) para destacar o pico sazonal de cada um
+      // independentemente do seu volume absoluto. As cores vêm do ramp
+      // sequencial --accent-soft -> --accent já usado no resto do painel
+      // (lido em runtime, para que o dark mode "funcione sozinho").
+      var HEATMAP_ROWS = [
+        { label: 'Alemanha (DE)', total: 1361.8, porMes: [34.0,26.0,47.7,119.0,64.0,110.3,175.3,218.0,140.0,277.5,94.0,56.0] },
+        { label: 'Reino Unido (GB)', total: 1177.9, porMes: [16.7,6.3,41.3,139.0,187.0,100.3,168.3,212.3,106.7,139.5,14.5,46.0] },
+        { label: 'Países Baixos (NL)', total: 876.5, porMes: [23.7,34.3,77.3,79.3,88.3,110.3,167.3,89.0,81.0,53.0,19.5,53.5] },
+        { label: 'Estados Unidos (US)', total: 713.6, porMes: [10.0,18.3,38.7,58.0,92.0,99.7,111.0,72.7,80.7,97.5,25.5,9.5] },
+        { label: 'Bélgica (BE)', total: 706.3, porMes: [8.3,11.0,18.0,71.0,41.3,62.3,137.7,136.7,35.0,148.5,16.5,20.0] },
+        { label: 'França (FR)', total: 407.1, porMes: [16.7,3.7,12.3,60.0,14.7,15.3,58.0,161.7,18.7,25.5,6.0,14.5] },
+        { label: 'Dinamarca (DK)', total: 373.0, porMes: [0.0,0.0,4.7,30.3,0.7,3.3,168.7,10.0,27.3,126.0,2.0,0.0] },
+        { label: 'Espanha (ES)', total: 291.4, porMes: [9.0,3.7,15.7,30.0,14.7,8.7,39.3,119.0,6.3,20.0,3.0,22.0] },
+        { label: 'Itália (IT)', total: 169.2, porMes: [3.0,1.0,9.0,19.3,11.0,23.3,11.3,67.3,8.0,10.0,2.5,3.5] },
+        { label: 'Canadá (CA)', total: 128.3, porMes: [3.3,0.7,13.3,35.3,9.0,11.0,21.0,8.0,3.7,7.0,14.5,1.5] },
+        { label: 'Áustria (AT)', total: 123.6, porMes: [16.0,1.0,2.3,12.0,9.0,6.3,26.7,23.0,16.3,5.0,2.0,4.0] },
+        { label: 'Irlanda (IE)', total: 121.6, porMes: [0.7,1.3,3.3,19.7,14.3,26.0,11.0,22.0,8.3,14.0,1.0,0.0] },
+        { label: 'Suíça (CH)', total: 107.0, porMes: [0.0,0.0,6.0,6.3,19.7,49.7,0.0,0.0,11.3,0.0,2.0,12.0] },
+        { label: 'Brasil (BR)', total: 85.0, porMes: [5.3,9.3,2.3,4.7,5.3,6.0,20.3,11.0,2.3,6.5,3.0,9.0] },
+        { label: 'Suécia (SE)', total: 84.1, porMes: [0.3,1.3,0.0,0.0,23.0,15.7,28.0,5.0,1.3,8.5,1.0,0.0] },
+        { label: 'Outros (71 mercados)', total: 600.7, porMes: [23.5,41.6,26.6,52.9,88.3,70.0,84.0,58.1,59.2,48.0,16.5,32.0] }
+      ];
+
+      function hexToRgb(hex){
+        hex = (hex || '').trim().replace('#', '');
+        if (hex.length === 3) hex = hex.split('').map(function(c){ return c + c; }).join('');
+        var n = parseInt(hex, 16) || 0;
+        return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+      }
+      function mixHex(hexLo, hexHi, t){
+        var lo = hexToRgb(hexLo), hi = hexToRgb(hexHi);
+        var r = Math.round(lo[0] + (hi[0] - lo[0]) * t);
+        var g = Math.round(lo[1] + (hi[1] - lo[1]) * t);
+        var b = Math.round(lo[2] + (hi[2] - lo[2]) * t);
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
+      }
+      function renderHeatmap(container, rows, months){
+        var cs = getComputedStyle(document.documentElement);
+        var lo = cs.getPropertyValue('--accent-soft').trim() || '#DCEAE6';
+        var hi = cs.getPropertyValue('--accent').trim() || '#1B4B4A';
+        var inkLo = cs.getPropertyValue('--ink').trim() || '#21241D';
+        var inkHi = cs.getPropertyValue('--accent-ink').trim() || '#F3F7F5';
+        var html = '<table class="heat-table"><thead><tr><th class="heat-row-label">Mercado</th>';
+        months.forEach(function(m){ html += '<th>' + m + '</th>'; });
+        html += '<th>Total/ano</th></tr></thead><tbody>';
+        rows.forEach(function(row){
+          var max = Math.max.apply(null, row.porMes.concat([1]));
+          html += '<tr><th scope="row" class="heat-row-label">' + row.label + '</th>';
+          row.porMes.forEach(function(v){
+            var t = max ? (v / max) : 0;
+            var bg = mixHex(lo, hi, t);
+            var color = t > 0.55 ? inkHi : inkLo;
+            html += '<td class="heat-cell" style="background:' + bg + ';color:' + color + ';">' + Math.round(v) + '</td>';
+          });
+          html += '<td class="heat-total">' + row.total.toLocaleString('pt-PT', { maximumFractionDigits: 0 }) + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
+      }
+      renderHeatmap(document.getElementById('nacionalidade-heatmap'), HEATMAP_ROWS, MONTHS3);
+    })();
+    </script>
+
+    <p class="footnote">Fonte: relatórios mensais do INE "151. INE" (Inquérito à Permanência de Hóspedes), pasta do Google Drive partilhada, 33 meses de janeiro de 2024 a setembro de 2026. Para cada mês civil, mostra-se a média de dormidas desse mês ao longo dos anos disponíveis. Devido a limitações da extração de texto dos PDFs originais, em mercados com poucos hóspedes por vezes só são capturadas 1–2 das 3 colunas do relatório (entraram/dormiram/dormidas); assume-se sempre o último número como "dormidas". A soma por mercado fica tipicamente 2–6% abaixo do total oficial do INE nos meses de maior volume (julho/agosto) — diferença aceitável para identificar padrões de sazonalidade, mas não para fins de reporte estatístico oficial. Valores arredondados às unidades nas tabelas; o heatmap normaliza a cor por mercado (mínimo ao máximo da própria linha), mas mostra sempre o valor real de dormidas. Atualize esta secção quando surgirem novos relatórios mensais do INE na pasta do Drive.</p>
+  </section>
+
 
   <section id="comercial">
     <div class="section-head">
@@ -2363,7 +2557,7 @@ window.CraveiralCharts = (function(){
     <p class="footnote">Fonte: relatório "150. Histórico e Previsão" do PMS do Craveiral, recolhido diariamente do Google Drive da propriedade (pasta "RELATÓRIOS DIÁRIOS"). Histórico completo dia a dia desde Outubro de 2024 (732 leituras). Ontem = leitura de 26/10/2026, Hoje = leitura de 27/10/2026. Esta secção é atualizada automaticamente todos os dias.</p>
   </section>
 
-    <section id="otb">
+  <section id="otb">
     <div class="section-head">
       <div>
         <h2>Receita Total &amp; Mix — OTB</h2>
@@ -2374,29 +2568,29 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Receita total do ano (2026)</span>
-        <span class="kpi-value mono">2.281.053€</span>
-        <span class="kpi-note">Quartos + F&amp;B + Outros, a partir do OTB de 26.10.2026</span>
+        <span class="kpi-value mono">2.266.157€</span>
+        <span class="kpi-note">Quartos + F&amp;B + Outros, a partir do OTB de 22.10.2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita extra (não-quartos)</span>
-        <span class="kpi-value mono">549.921€</span>
-        <span class="kpi-note">24,1% da receita total do ano</span>
+        <span class="kpi-value mono">542.652€</span>
+        <span class="kpi-note">23,9% da receita total do ano</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita F&amp;B no ano</span>
-        <span class="kpi-value mono">541.461€</span>
+        <span class="kpi-value mono">534.210€</span>
         <span class="kpi-note">Restaurante e bar, acumulado 2026</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Receita Outros/SPA no ano</span>
-        <span class="kpi-value mono">8.460€</span>
+        <span class="kpi-value mono">8.442€</span>
         <span class="kpi-note">SPA ainda sem receita registada nesta fonte</span>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>Receita por origem — 2026</h3>
-      <p class="chart-sub">Quartos, F&amp;B e Outros/SPA, mês a mês (fonte: OTB de 26.10.2026).</p>
+      <p class="chart-sub">Quartos, F&amp;B e Outros/SPA, mês a mês (fonte: OTB de 22.10.2026).</p>
       <div class="legend-row">
         <span class="legend-item"><span class="legend-swatch swatch-1"></span>Quartos</span>
         <span class="legend-item"><span class="legend-swatch swatch-2"></span>F&amp;B</span>
@@ -2406,7 +2600,7 @@ window.CraveiralCharts = (function(){
     </div>
     <script>
     (function(){
-      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 158792, 74799, 27357]}, {"slot": 2, "label": "F&B", "values": [14063, 18736, 25949, 51580, 63624, 57127, 81678, 114946, 55406, 37377, 15330, 5645]}, {"slot": 3, "label": "Outros + SPA", "values": [196, 124, 882, 148, 366, 1782, 812, 656, 2447, 1032, 15, 0]}]};
+      var data = {"categories": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"], "series": [{"slot": 1, "label": "Quartos", "values": [34737, 36531, 58853, 138549, 113288, 166893, 294733, 430294, 196306, 155813, 70265, 27243]}, {"slot": 2, "label": "F&B", "values": [14063, 18736, 25949, 51580, 63624, 57127, 81678, 114946, 55406, 32249, 14952, 3899]}, {"slot": 3, "label": "Outros + SPA", "values": [196, 124, 882, 148, 366, 1782, 812, 656, 2447, 1015, 15, 0]}]};
       function fmt(v){ return Math.round(v).toLocaleString('pt-PT') + '€'; }
       window.CraveiralCharts.lineChart(document.getElementById('otb-chart'), {
         categories: data.categories,
@@ -2423,12 +2617,12 @@ window.CraveiralCharts = (function(){
           <tr><th>Mês</th><th>Receita Quartos</th><th>Receita F&amp;B</th><th>Receita Outros + SPA</th><th>Receita Total</th><th>% Receita Extra</th></tr>
         </thead>
         <tbody>
-          <tr><td>Janeiro</td><td class="mono">34.737€</td><td class="mono">14.063€</td><td class="mono">196€</td><td class="mono">48.995€</td><td class="mono">29,1%</td></tr><tr><td>Fevereiro</td><td class="mono">36.531€</td><td class="mono">18.736€</td><td class="mono">124€</td><td class="mono">55.391€</td><td class="mono">34,0%</td></tr><tr><td>Março</td><td class="mono">58.853€</td><td class="mono">25.949€</td><td class="mono">882€</td><td class="mono">85.684€</td><td class="mono">31,3%</td></tr><tr><td>Abril</td><td class="mono">138.549€</td><td class="mono">51.580€</td><td class="mono">148€</td><td class="mono">190.277€</td><td class="mono">27,2%</td></tr><tr><td>Maio</td><td class="mono">113.288€</td><td class="mono">63.624€</td><td class="mono">366€</td><td class="mono">177.278€</td><td class="mono">36,1%</td></tr><tr><td>Junho</td><td class="mono">166.893€</td><td class="mono">57.127€</td><td class="mono">1.782€</td><td class="mono">225.802€</td><td class="mono">26,1%</td></tr><tr><td>Julho</td><td class="mono">294.733€</td><td class="mono">81.678€</td><td class="mono">812€</td><td class="mono">377.223€</td><td class="mono">21,9%</td></tr><tr><td>Agosto</td><td class="mono">430.294€</td><td class="mono">114.946€</td><td class="mono">656€</td><td class="mono">545.896€</td><td class="mono">21,2%</td></tr><tr><td>Setembro</td><td class="mono">196.306€</td><td class="mono">55.406€</td><td class="mono">2.447€</td><td class="mono">254.159€</td><td class="mono">22,8%</td></tr><tr><td>Outubro</td><td class="mono">158.792€</td><td class="mono">37.377€</td><td class="mono">1.032€</td><td class="mono">197.201€</td><td class="mono">19,5%</td></tr><tr><td>Novembro</td><td class="mono">74.799€</td><td class="mono">15.330€</td><td class="mono">15€</td><td class="mono">90.144€</td><td class="mono">17,0%</td></tr><tr><td>Dezembro</td><td class="mono">27.357€</td><td class="mono">5.645€</td><td class="mono">0€</td><td class="mono">33.002€</td><td class="mono">17,1%</td></tr>
+          <tr><td>Janeiro</td><td class="mono">34.737€</td><td class="mono">14.063€</td><td class="mono">196€</td><td class="mono">48.995€</td><td class="mono">29,1%</td></tr><tr><td>Fevereiro</td><td class="mono">36.531€</td><td class="mono">18.736€</td><td class="mono">124€</td><td class="mono">55.391€</td><td class="mono">34,0%</td></tr><tr><td>Março</td><td class="mono">58.853€</td><td class="mono">25.949€</td><td class="mono">882€</td><td class="mono">85.684€</td><td class="mono">31,3%</td></tr><tr><td>Abril</td><td class="mono">138.549€</td><td class="mono">51.580€</td><td class="mono">148€</td><td class="mono">190.277€</td><td class="mono">27,2%</td></tr><tr><td>Maio</td><td class="mono">113.288€</td><td class="mono">63.624€</td><td class="mono">366€</td><td class="mono">177.278€</td><td class="mono">36,1%</td></tr><tr><td>Junho</td><td class="mono">166.893€</td><td class="mono">57.127€</td><td class="mono">1.782€</td><td class="mono">225.802€</td><td class="mono">26,1%</td></tr><tr><td>Julho</td><td class="mono">294.733€</td><td class="mono">81.678€</td><td class="mono">812€</td><td class="mono">377.223€</td><td class="mono">21,9%</td></tr><tr><td>Agosto</td><td class="mono">430.294€</td><td class="mono">114.946€</td><td class="mono">656€</td><td class="mono">545.896€</td><td class="mono">21,2%</td></tr><tr><td>Setembro</td><td class="mono">196.306€</td><td class="mono">55.406€</td><td class="mono">2.447€</td><td class="mono">254.159€</td><td class="mono">22,8%</td></tr><tr><td>Outubro</td><td class="mono">155.813€</td><td class="mono">32.249€</td><td class="mono">1.015€</td><td class="mono">189.076€</td><td class="mono">17,6%</td></tr><tr><td>Novembro</td><td class="mono">70.265€</td><td class="mono">14.952€</td><td class="mono">15€</td><td class="mono">85.233€</td><td class="mono">17,6%</td></tr><tr><td>Dezembro</td><td class="mono">27.243€</td><td class="mono">3.899€</td><td class="mono">0€</td><td class="mono">31.142€</td><td class="mono">12,5%</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p class="footnote">Fonte: workbook "OTB_Craveiral" na pasta do Google Drive "OTB e RELATÓRIOS DIÁRIOS / OTB", ficheiro mais recente (26.10.2026), tabela "ON THE BOOKS vs SAME DATE LAST YEAR". Room nights e ocupação já constam da secção Pick-up (mesma fonte PMS) — esta secção foca-se na receita por departamento. Atualizado sempre que surge um ficheiro novo na pasta (tipicamente 2x por semana), não diariamente.</p>
+    <p class="footnote">Fonte: workbook "OTB_Craveiral" na pasta do Google Drive "OTB e RELATÓRIOS DIÁRIOS / OTB", ficheiro mais recente (22.10.2026), tabela "ON THE BOOKS vs SAME DATE LAST YEAR". Room nights e ocupação já constam da secção Pick-up (mesma fonte PMS) — esta secção foca-se na receita por departamento. Atualizado sempre que surge um ficheiro novo na pasta (tipicamente 2x por semana), não diariamente.</p>
   </section>
   <section id="revenue">
     <div class="section-head">
