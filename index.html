@@ -3167,8 +3167,8 @@ window.CraveiralCharts = (function(){
     <div class="kpi-grid">
       <div class="kpi-tile">
         <span class="kpi-label">Pontuação Booking.com</span>
-        <span class="kpi-value mono">8,9<span style="font-size:0.95rem;font-weight:500;">/10</span></span>
-        <span class="kpi-note">191 comentários · Extranet de Parceiros</span>
+        <span class="kpi-value mono">9,0<span style="font-size:0.95rem;font-weight:500;">/10</span></span>
+        <span class="kpi-note">"Soberbo" · 189 comentários · perfil público do Booking.com</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Pontuação Google</span>
@@ -3176,32 +3176,33 @@ window.CraveiralCharts = (function(){
         <span class="kpi-note">406 avaliações · perfil público do Google Maps</span>
       </div>
       <div class="kpi-tile">
-        <span class="kpi-label">Categorias mais fortes (Booking)</span>
-        <span class="kpi-value mono">9,4</span>
-        <span class="kpi-note">Staff, Limpeza e Conforto — as três categorias com melhor nota</span>
+        <span class="kpi-label">Categoria mais forte (Booking)</span>
+        <span class="kpi-value mono">9,5</span>
+        <span class="kpi-note">Funcionários é a categoria com melhor nota — Limpeza e Conforto seguem-se, ambas com 9,4</span>
       </div>
       <div class="kpi-tile">
         <span class="kpi-label">Categoria a melhorar (Booking)</span>
-        <span class="kpi-value mono">8,2</span>
+        <span class="kpi-value mono">8,3</span>
         <span class="kpi-note">Relação qualidade/preço é a categoria com a nota mais baixa</span>
       </div>
     </div>
 
     <div class="chart-card">
       <h3>Booking.com — categorias básicas</h3>
-      <p class="chart-sub">Pontuação média por categoria (escala 0–10), com base nos 191 comentários registados na Extranet de Parceiros.</p>
+      <p class="chart-sub">Pontuação média por categoria (escala 0–10), com base nos 189 comentários do perfil público do Booking.com.</p>
       <div id="feedback-chart"></div>
     </div>
     <script>
     (function(){
       window.CraveiralCharts.barChart(document.getElementById('feedback-chart'), {
         items: [
-          { label: 'Staff', value: 9.4 },
+          { label: 'Funcionários', value: 9.5 },
           { label: 'Limpeza', value: 9.4 },
           { label: 'Conforto', value: 9.4 },
-          { label: 'Localização', value: 9.0 },
-          { label: 'Instalações', value: 8.9 },
-          { label: 'Relação qualidade/preço', value: 8.2 }
+          { label: 'Localização', value: 9.1 },
+          { label: 'Comodidades', value: 8.9 },
+          { label: 'Wi-Fi gratuito', value: 8.9 },
+          { label: 'Relação qualidade/preço', value: 8.3 }
         ],
         formatValue: function(v){ return v.toLocaleString('pt-PT', {minimumFractionDigits:1, maximumFractionDigits:1}); },
         ariaLabel: 'Pontuação média por categoria básica no Booking.com',
@@ -3211,7 +3212,7 @@ window.CraveiralCharts = (function(){
     </script>
 
     <details class="table-toggle">
-      <summary>Ver categorias adicionais do Booking.com (perguntas bónus)</summary>
+      <summary>Ver categorias adicionais do Booking.com (perguntas bónus, Extranet de Parceiros)</summary>
       <table class="data-table">
         <thead><tr><th>Categoria</th><th>Pontuação</th></tr></thead>
         <tbody>
@@ -3219,41 +3220,42 @@ window.CraveiralCharts = (function(){
           <tr><td>Café</td><td class="mono">7,5</td></tr>
           <tr><td>Cama</td><td class="mono">9,3</td></tr>
           <tr><td>Vista do quarto</td><td class="mono">8,3</td></tr>
-          <tr><td>Wi-Fi</td><td class="mono">8,8</td></tr>
           <tr><td>Pequeno-almoço</td><td class="mono">9,0</td></tr>
           <tr><td>Serviço de quarto</td><td class="mono">9,0</td></tr>
           <tr><td>Restaurante</td><td class="mono">8,3</td></tr>
         </tbody>
       </table>
-      <p class="footnote table-legend">Perguntas bónus feitas a alguns hóspedes; são independentes da pontuação geral.</p>
+      <p class="footnote table-legend">Perguntas bónus feitas a alguns hóspedes na Extranet de Parceiros, independentes da pontuação geral; só disponíveis com sessão iniciada, por isso continuam por reconfirmar desde 21/09/2026 (ver footnote da secção).</p>
     </details>
 
     <h3 style="font-size:1rem;">Comentários recentes</h3>
     <div class="review-grid">
       <div class="review-card">
         <div class="review-head">
-          <span class="review-who">Maria José · Portugal</span>
+          <span class="review-who">Anja · Alemanha</span>
           <span class="badge badge-lighthouse">Booking.com</span>
         </div>
-        <div class="review-meta">2 set 2026 · <span class="review-score">7,0/10</span></div>
-        <p class="review-text">Pontos fortes: o jantar e o ambiente noturno. A melhorar: a recusa de alteração de 1 dia de estadia.</p>
+        <div class="review-meta">17 out 2026 · <span class="review-score">10,0/10</span></div>
+        <p class="review-title">"Voltaremos em breve"</p>
+        <p class="review-text">Gostamos de quase tudo! Restaurante muito acolhedor para animais de estimação, bonito, limpo, sustentável e com uma equipe excelente! — O único pequeno incómodo foram as bicicletas espalhadas por vários lugares. Nada mais! <em>(traduzido do alemão pelo Google, via Booking.com)</em></p>
       </div>
       <div class="review-card">
         <div class="review-head">
-          <span class="review-who">Laurent · França</span>
+          <span class="review-who">Claeys · Bélgica</span>
           <span class="badge badge-lighthouse">Booking.com</span>
         </div>
-        <div class="review-meta">19 ago 2026 · <span class="review-score">7,0/10</span></div>
-        <p class="review-title">"A very nice place. Pay attention to the booking date"</p>
-        <p class="review-text">The setting is magnificent, surrounded by nature, with beautiful open spaces and contact with the elements, vegetation, and animals. In the month of August, the tranquil spirit transforms into holiday camps with screaming children, bikes bumping into you... in short, far from a calm and velvety spirit! <em>(traduzido do francês pelo Google)</em></p>
+        <div class="review-meta">17 out 2026 · <span class="review-score">10,0/10</span></div>
+        <p class="review-title">"Uma experiência muito agradável."</p>
+        <p class="review-text">Localização. — Muitas crianças. <em>(traduzido do neerlandês pelo Google, via Booking.com)</em></p>
       </div>
       <div class="review-card">
         <div class="review-head">
-          <span class="review-who">Cécile · França</span>
+          <span class="review-who">Edgar · Portugal</span>
           <span class="badge badge-lighthouse">Booking.com</span>
         </div>
-        <div class="review-meta">13 ago 2026 · <span class="review-score">8,0/10</span></div>
-        <p class="review-text">Environnement calme. Très beaux aménagements extérieurs avec une magnifique et immense piscine. Et très belle maisonnette. Le restaurant (petit déjeuner, déjeuner et dîner) est parfait pour un court séjour. — Les transats sont pris d'assaut dès le matin (il y avait beaucoup de familles avec des enfants en bas âge sur notre séjour)... et il n'y en a pas pour tout le monde si l'hôtel affiche complet.</p>
+        <div class="review-meta">8 out 2026 · <span class="review-score">10,0/10</span></div>
+        <p class="review-title">"Excecional"</p>
+        <p class="review-text">Simplesmente Maravilhoso, um local lindo, um projecto muito bem pensado, as casas fenomenais, os produtos, a comida, a qualidade e atenção que têm pelo cliente — um sítio para voltar vezes sem conta. — Teria de ficar aqui umas quantas horas a tentar identificar algo que não tivesse gostado, porque tudo o que estava menos bem era informado pelo alojamento. E são coisas insignificantes...</p>
       </div>
       <div class="review-card">
         <div class="review-head">
@@ -3305,7 +3307,7 @@ window.CraveiralCharts = (function(){
       </div>
     </div>
 
-    <p class="footnote">Fontes: Extranet de Parceiros da Booking.com (pontuação, categorias e comentários, recolhidos em 21/09/2026 — sessão da extranet continua indisponível neste browser, tentativa mais recente em 27/10/2026, sem sucesso) · Perfil público do Craveiral Farmhouse by Belong Staying &amp; Feeling no Google Maps (pontuação e nº de avaliações atualizados em 27/10/2026, ordenado por "Mais recentes"; esta conta não tem um Google Business Profile associado, pelo que os comentários são os disponíveis publicamente e não geríveis a partir de uma conta própria) · Documento interno "FEEDBACKS" preenchido diariamente pela equipa (separador do mês mais recente com registos, setembro de 2026, atualizado em 24/09/2026 — ainda por reconfirmar). Atualize esta secção quando houver novos destaques.</p>
+    <p class="footnote">Fontes: perfil público do Craveiral Farmhouse by Belong Staying &amp; Feeling no Booking.com (pontuação, categorias básicas e comentários, atualizados em 27/10/2026, ordenado por "Mais recentes primeiro"; a Extranet de Parceiros continua sem sessão disponível neste browser — tentativa mais recente em 27/10/2026, sem sucesso — por isso as "perguntas bónus", só visíveis com sessão iniciada, mantêm os valores de 21/09/2026, assinalados acima) · Perfil público do Craveiral Farmhouse by Belong Staying &amp; Feeling no Google Maps (pontuação e nº de avaliações atualizados em 27/10/2026, ordenado por "Mais recentes"; esta conta não tem um Google Business Profile associado, pelo que os comentários são os disponíveis publicamente e não geríveis a partir de uma conta própria) · Documento interno "FEEDBACKS" preenchido diariamente pela equipa (separador do mês mais recente com registos, setembro de 2026, atualizado em 24/09/2026 — ainda por reconfirmar). Atualize esta secção quando houver novos destaques.</p>
   </section>
 
   <footer>
