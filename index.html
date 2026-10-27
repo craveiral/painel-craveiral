@@ -227,7 +227,8 @@ window.CraveiralCharts = (function(){
     var categories = opts.categories || [];
     var series = opts.series || [];
     var formatValue = opts.formatValue || function(v){ return String(Math.round(v)); };
-    var width = Math.max(460, categories.length * 54);
+    var pointSpacing = opts.pointSpacing || 54;
+    var width = Math.max(460, categories.length * pointSpacing);
     var height = opts.height || 250;
     var mR = 14, mT = 16, mB = 28;
 
@@ -271,7 +272,14 @@ window.CraveiralCharts = (function(){
       t.textContent = axisLabels[s];
       svg.appendChild(t);
     }
-    categories.forEach(function(c, i){
+    // by default every category gets an axis label (unchanged behaviour for
+    // every existing caller); a chart with many points and few meaningful
+    // ticks (e.g. a multi-year continuous timeline) can pass a sparse list
+    // of indices instead, so labels never collide into illegible overlap.
+    var catLabelIdx = opts.catLabelIndices || categories.map(function(_, i){ return i; });
+    catLabelIdx.forEach(function(i){
+      var c = categories[i];
+      if (c == null) return;
       var t = el('text', { class: 'chart-cat-label', x: xAt(i), y: height - mB + 18, 'text-anchor': 'middle' });
       t.textContent = c;
       svg.appendChild(t);
@@ -749,11 +757,11 @@ window.CraveiralCharts = (function(){
     <p class="footnote">Fontes: Instituto Nacional de Estatística — destaques mensais e trimestrais do alojamento turístico (julho e agosto de 2026) — e Turismo de Portugal — TravelBI, "Turismo em Números". Dados recolhidos em 05/10/2026; a região "Alentejo" no INE/TravelBI inclui a Lezíria do Tejo. Os indicadores regionais do Alentejo (RevPAR, estada média, proveitos) mantêm a leitura de julho por não existir, até à data, um detalhe regional mais recente nestes indicadores específicos — os indicadores nacionais acima já refletem agosto. Nota: em agosto, o Norte ultrapassou o Alentejo como região com maior crescimento homólogo de dormidas, pela primeira vez em 2026. Atualize esta secção quando saírem novos destaques mensais.</p>
   </section>
 
-  <section id="nacionalidade">
+    <section id="nacionalidade">
     <div class="section-head">
       <div>
         <h2>Nacionalidade dos hóspedes — sazonalidade por mercado</h2>
-        <p class="sub">Dormidas por mês, por mercado de origem dos hóspedes (estrangeiros e Portugal), a partir dos relatórios mensais do INE "151. INE" (2024–2026). Escolha um ano ou veja a média, filtre por um único mercado, e compare o crescimento ano após ano em cada país.</p>
+        <p class="sub">Dormidas por mês, por mercado de origem dos hóspedes (estrangeiros e Portugal), a partir dos relatórios mensais do INE "151. INE" (2024–2026). Escolha um ano ou veja a média, filtre por um único mercado, acompanhe a evolução contínua de um mercado ao longo do tempo, e compare o crescimento ano após ano em cada país.</p>
       </div>
     </div>
 
@@ -845,6 +853,34 @@ window.CraveiralCharts = (function(){
           </table>
         </div>
       </details>
+    </div>
+
+    <div class="chart-card">
+      <h3>Evolução ao longo dos anos — por mercado</h3>
+      <p class="chart-sub">Dormidas mês a mês em sequência cronológica (sem dobrar por mês civil), para um mercado à escolha — mostra a tendência real ao longo do tempo, com a sazonalidade de cada ano incluída no mesmo traço.</p>
+      <div class="field" style="max-width:270px;margin-bottom:12px;">
+        <label for="nac-trend-market-select">Mercado</label>
+        <select id="nac-trend-market-select">
+            <option value="Portugal">Portugal (mercado doméstico)</option>
+              <option value="Alemanha (DE)" selected>Alemanha</option>
+              <option value="Reino Unido (GB)">Reino Unido</option>
+              <option value="Países Baixos (NL)">Países Baixos</option>
+              <option value="Estados Unidos (US)">Estados Unidos</option>
+              <option value="Bélgica (BE)">Bélgica</option>
+              <option value="França (FR)">França</option>
+              <option value="Dinamarca (DK)">Dinamarca</option>
+              <option value="Espanha (ES)">Espanha</option>
+              <option value="Itália (IT)">Itália</option>
+              <option value="Canadá (CA)">Canadá</option>
+              <option value="Áustria (AT)">Áustria</option>
+              <option value="Irlanda (IE)">Irlanda</option>
+              <option value="Suíça (CH)">Suíça</option>
+              <option value="Brasil (BR)">Brasil</option>
+              <option value="Suécia (SE)">Suécia</option>
+              <option value="__outros__">Outros (71 mercados)</option>
+        </select>
+      </div>
+      <div id="nacionalidade-trend"></div>
     </div>
 
     <div class="chart-card">
@@ -940,6 +976,43 @@ window.CraveiralCharts = (function(){
         renderChart1();
       });
       renderChart1();
+
+      // Evolução ao longo dos anos: uma única série contínua (do primeiro
+      // ao último mês disponível), para um mercado à escolha -- concatena
+      // os anos de ALL_SERIES[key] em vez de dobrá-los no mesmo eixo Jan-Dez
+      // (isso é o que o gráfico 1 já faz). Com ~3 anos x 12 meses de
+      // pontos, só os inícios de trimestre ficam rotulados no eixo
+      // (catLabelIndices) e o espaçamento por ponto é menor que o padrão
+      // (pointSpacing), para o texto não ficar minúsculo -- ambos os
+      // parâmetros são opcionais e não alteram nenhum gráfico existente.
+      var TREND_CATEGORIES = ["Jan/24","Fev/24","Mar/24","Abr/24","Mai/24","Jun/24","Jul/24","Ago/24","Set/24","Out/24","Nov/24","Dez/24","Jan/25","Fev/25","Mar/25","Abr/25","Mai/25","Jun/25","Jul/25","Ago/25","Set/25","Out/25","Nov/25","Dez/25","Jan/26","Fev/26","Mar/26","Abr/26","Mai/26","Jun/26","Jul/26","Ago/26","Set/26","Out/26","Nov/26","Dez/26"];
+      var TREND_LABEL_IDX = [0,3,6,9,12,15,18,21,24,27,30,33,35];
+      var TREND_YEARS = [2024,2025,2026];
+      var trendSelect = document.getElementById('nac-trend-market-select');
+
+      function continuousSeries(key){
+        var d = ALL_SERIES[key];
+        if (!d) return [];
+        var out = [];
+        TREND_YEARS.forEach(function(y){ out = out.concat(d[String(y)] || new Array(12).fill(null)); });
+        return out;
+      }
+
+      function renderTrend(){
+        var key = trendSelect.value === OUTROS_VALUE ? OUTROS_KEY : trendSelect.value;
+        var d = ALL_SERIES[key];
+        window.CraveiralCharts.lineChart(document.getElementById('nacionalidade-trend'), {
+          categories: TREND_CATEGORIES,
+          series: [{ slot: 'single', label: d.base, values: continuousSeries(key) }],
+          formatValue: fmtNoites,
+          endLabels: true,
+          catLabelIndices: TREND_LABEL_IDX,
+          pointSpacing: 30,
+          ariaLabel: 'Evolução de dormidas ao longo do tempo no mercado ' + d.base
+        });
+      }
+      trendSelect.addEventListener('change', renderTrend);
+      renderTrend();
 
       // Heatmap: Portugal + top mercados + Outros, cor normalizada por linha
       // (mín-máx do próprio mercado) para destacar o pico sazonal de cada um
