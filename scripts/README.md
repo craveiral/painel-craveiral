@@ -256,6 +256,62 @@ barras usa, por alojamento, a menor tarifa entre as duas fontes; um
 alojamento sem nenhuma tarifa disponível (ambas `null`) fica fora do
 gráfico mas continua na tabela, com "—" e tooltip em ambas as colunas.
 
+## Feedback de estadias — pontuações Booking.com e Google
+
+Secção `<section id="feedback">`, coleção `feedback` (um único documento,
+`doc_id` `"craveiral-<AAAA-MM-DD>"` da primeira vez que foi criado — não
+recriar um novo `doc_id` a cada ronda, só atualizar o mesmo documento).
+Fontes: perfil público do Craveiral Farmhouse by Belong Staying & Feeling
+no **Booking.com** (`https://www.booking.com/hotel/pt/craveiral-farmhouse.pt-pt.html`)
+e no **Google Maps** (pesquisar por nome em `https://www.google.com/maps/search/<nome>`
+— a URL com coordenadas fixas por vezes carrega a página sem o nome do
+local, dando um resultado vazio; a pesquisa por nome é mais fiável).
+
+**Schema do documento**: `{"booking": {"score": <0-10>, "scoreLabel":
+<str>, "reviewCount": <int>, "categories": {<nome da categoria>: <0-10>,
+...}, "topReviews": [{"who", "origem", "data" (AAAA-MM-DD), "score"
+(string "X,X/10"), "titulo", "texto"}, ...]}, "google": {"score": <0-5>,
+"reviewCount": <int>, "topReviews": [{"who", "dataRelativa", "score"
+(string "X,0/5"), "texto"}, ...]}, "fonte": "<texto livre>", "updatedAt":
+"<ISO>"}`. `topReviews` tem sempre os 3 comentários mais recentes de cada
+fonte (Booking.com ordenado por "Mais recentes primeiro", Google por
+"Mais recentes").
+
+**Atalho para rondas em que a pontuação e o nº de comentários não
+mudaram**: abrir a página principal do Booking.com (sem precisar de abrir
+o separador de comentários) e comparar a pontuação/categorias/nº de
+comentários com os valores já guardados — vêm todos na própria página
+principal, sem precisar de ordenar por "Mais recentes". Da mesma forma, a
+pesquisa no Google Maps por nome devolve a pontuação e o nº de avaliações
+do estabelecimento diretamente nos resultados de pesquisa, sem precisar
+de abrir a ficha. Se **ambos** os números (nº de comentários Booking.com e
+nº de avaliações Google) baterem com os já guardados, não houve
+comentários novos desde a última ronda — os 3 `topReviews` de cada fonte
+continuam a ser os mesmos, só é preciso atualizar `updatedAt` (e, na
+página pública/painel privado, a data "atualizados em" do rodapé da
+secção). Só vale a pena abrir o separador de comentários do Booking.com e
+ordenar por "Mais recentes primeiro" (processo mais caro, várias
+interações) quando o nº de comentários mudou.
+
+O documento interno "FEEDBACKS" (Google Sheets, preenchido pela equipa)
+que também aparece nesta secção **não** faz parte deste ciclo automático
+— é atualizado manualmente à parte; não mexer nesses 3 cartões de
+"Documento interno" nem na data do rodapé associada a essa fonte.
+
+**Regeneração da secção estática da página pública**: ao contrário do
+Competition set, não há `feedback_gen.py` — a secção
+`<section id="feedback">...</section>` do `index.html` é editada
+diretamente (os valores de pontuação/categorias/comentários aparecem em
+vários sítios: cartões KPI, dados do gráfico de barras, tabela de
+categorias adicionais, cartões de comentários, e a frase do rodapé com as
+datas "atualizados em"). Quando só a data muda (nenhum valor novo), basta
+substituir a data no rodapé (ocorre 2 vezes: Booking.com e Google) nos
+dois sítios onde a secção existe (página pública `index.html` e painel
+privado, o artifact publicado) — não precisa de tocar em mais nada. O
+painel privado tem exatamente a mesma secção estática (não é lida da
+`ArtifactData` ao contrário da secção Competition set, que no painel
+privado é 100% dinâmica via `db.collection('competitionset')`).
+
 ## OTB — Receita Total & Mix
 
 Nova secção (`<section id="otb">`, 26/09/2026), gerada por `otb_gen.py`.
